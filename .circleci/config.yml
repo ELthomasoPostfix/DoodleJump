@@ -17,7 +17,6 @@ jobs:
       - checkout
       - run: apt update
       - run: DEBIAN_FRONTEND=noninteractive TZ=Europe/Brussels apt install -y gcc g++ libsfml-dev cmake git
-      - run: cmake --version
       - run: mkdir -p build
       - run: cd build && cmake ..
       - run: cd build && make
