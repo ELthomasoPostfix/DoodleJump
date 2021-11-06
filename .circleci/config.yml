@@ -10,8 +10,7 @@ jobs:
     docker:
       - image: ubuntu:20.04
     steps:
-      - run: DEBIAN_FRONTEND=noninteractive TZ=Europe/Brussels
-      - run: apt update && apt install -y software-properties-common lsb-release && apt clean all
+      - run: apt update && DEBIAN_FRONTEND=noninteractive TZ=Europe/Brussels apt install -y software-properties-common lsb-release && apt clean all
       - run: wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null
       - run: sudo apt-add-repository "deb https://apt.kitware.com/ubuntu/ $(lsb_release -cs) main"
 
