@@ -5,15 +5,6 @@ version: 2.1
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  apt:
-    resource_class: small
-    docker:
-      - image: ubuntu:20.04
-    steps:
-      - run: apt update && DEBIAN_FRONTEND=noninteractive TZ=Europe/Brussels apt install -y software-properties-common lsb-release && apt clean all
-      - run: wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null
-      - run: apt-add-repository "deb https://apt.kitware.com/ubuntu/ $(lsb_release -cs) main"
-
   build:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
@@ -25,7 +16,7 @@ jobs:
     steps:
       - checkout
       - run: apt update
-      - run: DEBIAN_FRONTEND=noninteractive TZ=Europe/Brussels apt install -y gcc g++ libsfml-dev cmake git
+      - run: DEBIAN_FRONTEND=noninteractive TZ=Europe/Brussels apt install -y gcc g++ libsfml-dev cmake=3.20 git
       - run: cmake --version
       - run: mkdir -p build
       - run: cd build && cmake ..
@@ -36,8 +27,5 @@ jobs:
 workflows:
   build-workflow:
     jobs:
-      - apt
-      - build:
-          requires:
-            - apt
+      - build
 
