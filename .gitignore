@@ -1,6 +1,8 @@
-# stuff
+# Artifacts
 .idea
 cmake-build-debug
+html
+latex
 
 # Prerequisites
 *.d

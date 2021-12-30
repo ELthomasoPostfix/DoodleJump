@@ -1,5 +1,5 @@
 //
-// Created by elthomaso on 29/12/2021.
+// Created by Thomas Gueutal on 29/12/2021.
 //
 
 #include "Camera.h"
