@@ -15,7 +15,17 @@ add_executable(DoodleJump
         src/Utility/Camera.cpp
         src/Utility/Camera.h
         src/Utility/Random.cpp
-        src/Utility/Random.h)
+        src/Utility/Random.h
+
+        src/GameObject.cpp
+        src/GameObject.h
+        src/Collision/CollisionObject.cpp
+        src/Collision/CollisionObject.h
+        src/Entity/Entity.cpp
+        src/Entity/Entity.h
+
+        src/Utility/Utility.cpp
+        src/Utility/Utility.h)
 
 target_link_libraries(DoodleJump sfml-system sfml-window sfml-graphics sfml-audio)
 
