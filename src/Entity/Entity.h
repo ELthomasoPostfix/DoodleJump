@@ -9,8 +9,8 @@
 // TODO  #include "../Collision/PhysicsBody/PhysicsBody.h"
 
 //! The base class for all displayable objects.
-/*! The Entity class functions as an abstract base class for all objects that require
- * some form of view. It provides a display function that allows a different display
+/*! The ::Entity class functions as an abstract base class for all objects that require
+ * some form of view. It provides a display() method that allows a different display
  * implementation for different types of displayable objects.
  */
 class Entity : public GameObject {

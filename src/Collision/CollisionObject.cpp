@@ -15,9 +15,10 @@ CollisionObject::CollisionObject(const double positionX,
                                  const double positionY,
                                  Rect shape)
                                  : GameObject(positionX, positionY),
-                                 _collisionShape(shape) {}
+                                 _collisionShape(shape),
+                                 _updated(false) {}
 
-bool CollisionObject::checkCollision(CollisionObject& other) const {
+bool CollisionObject::checkCollision(CollisionObject& other) {
 
     // TODO Only rectangular shapes with sides either perpendicular to or parallel to the x-axis
     //  are used, so no slope different from 0 or +/- inf occur
@@ -26,7 +27,8 @@ bool CollisionObject::checkCollision(CollisionObject& other) const {
     auto colShape = getCollisionShape();
     auto otherColShape = other.getCollisionShape();
 
-    return hasPointsIn(colShape, otherColShape) || hasPointsIn(otherColShape, colShape);
+    return hasPointsInBounds(getBoundingBox(), otherColShape) ||
+    hasPointsInBounds(other.getBoundingBox(), colShape);
 }
 
 void CollisionObject::move(double destinationX, double destinationY) {
@@ -69,9 +71,6 @@ std::pair<double, double> CollisionObject::determineRelativeCenterOfMass(const R
             (y / static_cast<double>(shape.size())) - minY };
 }
 
-Rect CollisionObject::getCollisionShape() const {
-    return _collisionShape;
-}
 
 
 
@@ -79,30 +78,40 @@ Rect CollisionObject::getCollisionShape() const {
  *      PRIVATE methods
  */
 
+Rect CollisionObject::getCollisionShape() const {
+    return _collisionShape;
+}
+
+const std::array<double, 4> &CollisionObject::getBoundingBox() {
+    if (!_updated)
+        updateBoundingBox();
+    return _boundingBox;
+}
+
 void CollisionObject::setPoint(const unsigned int index, const double x, const double y) {
-    std::pair<double, double>& point = _collisionShape.at(index);
-    point.first = x;
-    point.second = y;
+    try {
+        _updated = false;
+        std::pair<double, double> &point = _collisionShape.at(index);
+        point.first = x;
+        point.second = y;
+    } catch (std::exception& e) {
+        throw;  // TODO  how do i handle exceptions ???
+    }
 }
 
 const std::pair<double, double> &CollisionObject::getPoint(const unsigned int index) {
     return _collisionShape.at(index);
 }
 
-bool CollisionObject::hasPointsIn(const Rect &contents, const Rect &container) {
-    double minX = std::numeric_limits<double>::infinity();
-    double maxX = - std::numeric_limits<double>::infinity();
-    double minY = std::numeric_limits<double>::infinity();
-    double maxY = - std::numeric_limits<double>::infinity();
+bool CollisionObject::hasPointsInBounds(const std::array<double, 4> &bounds, const Rect &shape) {
+    // create Aliases
+    const double& minX = bounds.at(0);
+    const double& maxX = bounds.at(1);
+    const double& minY = bounds.at(2);
+    const double& maxY = bounds.at(3);
 
-    for (const auto& point : contents) {
-        minX = std::min(minX, point.first);
-        maxX = std::max(maxX, point.first);
-        minY = std::min(minY, point.second);
-        maxY = std::max(maxY, point.second);
-    }
-
-    for (const auto& point : container) {
+    // Check collision of rectanglesZ
+    for (const auto& point : shape) {
         const double& x = point.first;
         const double& y = point.second;
 
@@ -111,6 +120,30 @@ bool CollisionObject::hasPointsIn(const Rect &contents, const Rect &container) {
     }
 
     return false;
+}
+
+void CollisionObject::updateBoundingBox() {
+    // Reset values
+    _boundingBox.at(0) = std::numeric_limits<double>::infinity();
+    _boundingBox.at(1) = - std::numeric_limits<double>::infinity();
+    _boundingBox.at(2) = std::numeric_limits<double>::infinity();
+    _boundingBox.at(3) = - std::numeric_limits<double>::infinity();
+
+    // Create aliases
+    double& minX = _boundingBox.at(0);
+    double& maxX = _boundingBox.at(1);
+    double& minY = _boundingBox.at(2);
+    double& maxY = _boundingBox.at(3);
+
+    // Update values
+    for (const auto& point : _collisionShape) {
+        minX = std::min(minX, point.first);
+        maxX = std::max(maxX, point.first);
+        minY = std::min(minY, point.second);
+        maxY = std::max(maxY, point.second);
+    }
+
+    _updated = true;
 }
 
 

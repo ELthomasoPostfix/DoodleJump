@@ -24,6 +24,9 @@ add_executable(DoodleJump
         src/Entity/Entity.cpp
         src/Entity/Entity.h
 
+        src/Entity/Player.cpp
+        src/Entity/Player.h
+
         src/Utility/Utility.cpp
         src/Utility/Utility.h)
 

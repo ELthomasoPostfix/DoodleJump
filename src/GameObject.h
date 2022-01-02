@@ -9,8 +9,8 @@
 #include <memory>
 
 //! The base class for all movable objects and for all subcomponents of movable objects.
-/*! The GameObject class functions as an abstract base class for all objects that require
- * some form of xy-position. It provides a move function that allows a different movement
+/*! The ::GameObject class functions as an abstract base class for all objects that require
+ * some form of xy-position. It provides a move() method that allows a different movement
  * implementation for different types of movable objects.
  */
 class GameObject {

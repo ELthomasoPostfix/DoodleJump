@@ -11,13 +11,13 @@
 
 namespace Utility {
 
-    //! Convert degrees to radians.
+    //! Convert \param degrees to radians.
     double toRadians(unsigned int degrees);
 
-    //! Reduce the degrees value to its equivalent within the range [0, 360[.
+    //! Reduce the \param degrees value to its equivalent within the discrete range [0, 360[.
     int reduceDegrees(int degrees);
 
-    //! Check whether the value is equal +inf or -inf.
+    //! Check whether \param value is equal to +inf or -inf.
     bool isInf(double value);
 };
 
