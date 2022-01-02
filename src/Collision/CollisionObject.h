@@ -37,7 +37,14 @@ class CollisionObject : public GameObject {
          * The points of the collision shape will be moved according to the same movement vector that
          * the position is moved along.
          */
-        void move(double destinationX, double destinationY) final;
+        void move(double destinationX, double destinationY) override;
+
+        //! Identical to ::CollisionObject::move(double,double).
+        void move(const std::pair<double, double>& destination);
+
+
+        //! get a copy of the collision shape.
+        Rect getCollisionShape() const;
 
         //! Check whether the caller's and \p other ::CollisionObject's collision shapes overlap.
         /*!
@@ -45,6 +52,34 @@ class CollisionObject : public GameObject {
          */
         bool checkCollision(CollisionObject &other);
 
+        // TODO  clean this code up, it's too long and can probably be generalized
+        //! Calculate the movement vector required for this ::CollisionObject to not collide with the container anymore.
+        /*!
+         * This function determines the vector with the opposite direction of the movement vector
+         * required for undoing the collision of the caller ::CollisionObject with the container
+         * ::CollisionObject. Once the push back vector is calculated, its magnitude can be additionally
+         * manipulated using the scale factor parameter. This factor is interpreted as a percent, such that 1.0
+         * corresponds to no adjustment, 1.1 corresponds to a 10% increase and .9 to a 10% decrease
+         * in the magnitude of the push back vector.
+         * It is possible to not require collision for the pushback calculation. In that case we extrapolate the
+         * moveDir in the opposite direction. If the collision shape collides with the container collision
+         * shape along this extrapolated "past" path, then this is handled as if such a "past" collision is
+         * currently occurring. This way, it is possible to compensate for missed collisions due to
+         * too large movements. In other words, this function does not predict missed collisions, that is up to
+         * the caller.
+         * \param moveDir The current movement direction of the collision object. It determines the direction
+         * of the push back vector.
+         * \param container The ::CollisionShape that supposedly collides with the caller.
+         * \param scaleFactor The adjustment factor to the magnitude of the resulting push back vector.
+         * \param requireCollision If true, it will surely return (0, 0) if the collision shape does
+         * not currently collide with the container collision shape. Else return the push back vector
+         * required to undo the collision. If false, extrapolate the moveDir into the opposite direction
+         * and treat a possible past collision as if it is happening now.
+         */
+        std::pair<double, double> determinePushback(const std::pair<double, double>& moveDir,
+                                                    CollisionObject& container,
+                                                    double scaleFactor = 1.0,
+                                                    bool requireCollision = true);
 
 
         //! The center of mass of the shape.
@@ -63,8 +98,6 @@ class CollisionObject : public GameObject {
          */
         static std::pair<double, double> determineRelativeCenterOfMass(const Rect& shape);
 
-        //! get a copy of the collision shape.
-        Rect getCollisionShape() const;
 
     private:
 
@@ -81,7 +114,10 @@ class CollisionObject : public GameObject {
         inline const std::pair<double, double>& getPoint(unsigned int index);
 
         //! Check whether any point part of the contents are located within the bounding box of the container.
-        static bool hasPointsInBounds(const std::array<double, 4> &bounds, const Rect& container);
+        static inline bool hasPointsInBounds(const std::array<double, 4> &bounds, const Rect& container);
+
+        //! Check whether the point is located withing the bounds.
+        static inline bool pointIsInBounds(const std::array<double, 4> &bounds, const std::pair<double, double>& point);
 
         //! update the boundingBox of the ::CollisionObject.
         void updateBoundingBox();
@@ -89,6 +125,8 @@ class CollisionObject : public GameObject {
     private:
         // TODO add a 'std::pair<double, double>& getPoint(index)' and give it graceful out of bounds index exception
         Rect _collisionShape;
+
+        //! The bounding box contains the bottom left point followed by the top right point.
         std::array<double, 4> _boundingBox;
         bool _updated;
 

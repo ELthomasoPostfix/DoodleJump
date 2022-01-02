@@ -7,6 +7,7 @@
 
 #include <cmath>
 #include <limits>
+#include <utility>
 
 
 namespace Utility {
@@ -19,6 +20,18 @@ namespace Utility {
 
     //! Check whether \param value is equal to +inf or -inf.
     bool isInf(double value);
+
+    //! Determine the slope of the line defined by the given line segment.
+    double determineSlope(double x1, double y1, double x2, double y2);
+
+    //! Return a static margin.
+    double epsilon();
+
+    //! Check whether the two values lie withing Utility::epsilon() of each other.
+    bool approximate(double value1, double value2);
+
+    //! Compute the dot product of two 2D vectors.
+    double dot2(const std::pair<double, double>& vec1, const std::pair<double, double>& vec2);
 };
 
 
