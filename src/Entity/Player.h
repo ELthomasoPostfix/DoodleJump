@@ -14,7 +14,7 @@ public:
 
     void processInput(int horizFactor = 0);
 
-    void move(double destinationX, double destinationY) override;
+    void process(double delta) final;
 
     void display() final;
 

@@ -12,11 +12,21 @@ void Player::processInput(int horizFactor) {
                this->getPosition().second);
 }
 
-void Player::move(double destinationX, double destinationY) {
-    double diffX = destinationX - this->getPosition().first;
-    double diffY = destinationY - this->getPosition().second;
-    setPosition(destinationX, destinationY);
-}
+// void Player::move(double moveX, double moveY) {
+//    adjustPosition(moveX, moveY);
+//}
+//
+// void Player::setPosition(double destinationX, double destinationY) {
+//    const double moveVec[2] = {destinationX - this->getPosition().first,
+//                               destinationY - this->getPosition().second};
+//
+//    adjustPosition(moveVec[0], moveVec[1]);
+//    // TODO also move CollisionObject related to Player
+//    // TODO generalize this to Entity? ==> generalize to the objects possessing
+//    //  a CollisionObject
+//}
+
+void Player::process(double delta) { GameObject::process(delta); }
 
 void Player::display() {
     // display view
