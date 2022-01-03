@@ -2,10 +2,13 @@
 // Created by Thomas Gueutal on 29/12/2021.
 //
 
-#include <chrono>
 
 #ifndef DOODLEJUMP_STOPWATCH_H
 #define DOODLEJUMP_STOPWATCH_H
+
+#include <chrono>
+
+
 
 // TODO inspiration from https://gist.github.com/mcleary/b0bf4fa88830ff7c882d
 //! A singleton class that uses the <a href="https://en.cppreference.com/w/cpp/chrono/steady_clock">std::chrono::steady_clock.</a> to simulate time intervals.

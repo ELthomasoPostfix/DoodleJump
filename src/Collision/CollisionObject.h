@@ -5,13 +5,12 @@
 #ifndef DOODLEJUMP_COLLISIONOBJECT_H
 #define DOODLEJUMP_COLLISIONOBJECT_H
 
-#include <utility>
-#include <limits>
-#include <functional>
+
 #include "../Utility/Utility.h"
 #include "../GameObject.h"
 
 using Rect = std::array<std::pair<double, double>, 4>;
+
 
 //! A class that provides collision functionality between ::CollisionObject s.
 /*!

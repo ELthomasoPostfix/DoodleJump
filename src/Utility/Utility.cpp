@@ -2,7 +2,6 @@
 // Created by Thomas Gueutal on 31/12/2021.
 //
 
-#include <exception>
 #include "Utility.h"
 
 

@@ -2,12 +2,15 @@
 // Created by Thomas Gueutal on 29/12/2021.
 //
 
-#include <random>
 
 #ifndef DOODLEJUMP_RANDOM_H
 #define DOODLEJUMP_RANDOM_H
 
+#include <random>
+
 typedef std::mt19937 RNG;
+
+
 
 // TODO  inspiration from https://stackoverflow.com/questions/7114043/random-number-generation-in-c11-how-to-generate-how-does-it-work
 
