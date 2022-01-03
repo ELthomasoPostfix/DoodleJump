@@ -18,6 +18,8 @@ public:
     Entity(double positionX, double positionY);
 
     virtual void display() = 0;
+
+    using GameObject::move;
 };
 
 

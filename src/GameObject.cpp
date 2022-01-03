@@ -12,6 +12,22 @@
 GameObject::GameObject(const double positionX, const double positionY)
     : _position(positionX, positionY) {}
 
+void GameObject::process(double delta) {}
+
+void GameObject::move(double moveX, double moveY)
+{
+        adjustPosition(moveX, moveY);
+        moveBehaviour(moveX, moveY);
+}
+
+void GameObject::move(const std::pair<double, double>& moveVector) { this->move(moveVector.first, moveVector.second); }
+
+void GameObject::setPosition(const double destinationX, const double destinationY)
+{
+        _position.first = destinationX;
+        _position.second = destinationY;
+        setBehaviour(destinationX, destinationY, 0, 0);
+}
 
 std::pair<double, double> GameObject::getPosition() const {
     return this->_position;
@@ -23,8 +39,11 @@ std::pair<double, double> GameObject::getPosition() const {
  *      PROTECTED methods
  */
 
-void GameObject::setPosition(const double destinationX, const double destinationY) {
-    this->_position.first = destinationX;
-    this->_position.second = destinationY;
+void GameObject::moveBehaviour(const double moveX, const double moveY)
+{ /* To be extended by derived classes. */
 }
 
+void GameObject::setBehaviour(const double destinationX, const double destinationY, const double prevX,
+                              const double prevY)
+{ /* To be extended by derived classes. */
+}

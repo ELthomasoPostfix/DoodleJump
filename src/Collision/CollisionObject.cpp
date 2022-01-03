@@ -11,15 +11,10 @@
  *      PUBLIC methods
  */
 
-CollisionObject::CollisionObject(const double positionX,
-                                 const double positionY,
-                                 Rect shape)
-                                 : GameObject(positionX, positionY),
-                                 _collisionShape(shape),
-                                 _updated(false) {}
-
-Rect CollisionObject::getCollisionShape() const {
-    return _collisionShape;
+CollisionObject::CollisionObject(const double positionX, const double positionY, const Rect& shape,
+                                 const bool isPhysical)
+    : GameObject(positionX, positionY), _collisionShape(shape), _updated(false), _isPhysical(isPhysical)
+{
 }
 
 bool CollisionObject::checkCollision(CollisionObject& other) {
@@ -28,11 +23,13 @@ bool CollisionObject::checkCollision(CollisionObject& other) {
     //  are used, so no slope different from 0 or +/- inf occur
     //  ==> If they do occur, then collision must be reworked.
 
+    if (!isPhysical())
+            return false;
+
     auto colShape = getCollisionShape();
     auto otherColShape = other.getCollisionShape();
 
-    return hasPointsInBounds(getBoundingBox(), otherColShape) ||
-    hasPointsInBounds(other.getBoundingBox(), colShape);
+    return hasPointsInBounds(getBoundingBox(), otherColShape) || hasPointsInBounds(other.getBoundingBox(), colShape);
 }
 
 std::pair<double, double>
@@ -127,21 +124,11 @@ CollisionObject::determinePushback(const std::pair<double, double> &moveDir,
     }
 }
 
-void CollisionObject::move(double destinationX, double destinationY) {
-    const double moveVec[2] = {destinationX - this->getPosition().first,
-                               destinationY - this->getPosition().second};
-    setPosition(destinationX, destinationY);
+void CollisionObject::setIsPhysical(const bool isPhysical) { _isPhysical = isPhysical; }
 
-    // TODO  Rework collisionShape???
-    for (unsigned int i = 0; i < _collisionShape.size(); ++i) {
-        const auto& point = _collisionShape.at(i);
-        setPoint(i, point.first + moveVec[0], point.second + moveVec[1]);
-    }
-}
+bool CollisionObject::isPhysical() const { return _isPhysical; }
 
-void CollisionObject::move(const std::pair<double, double> &destination) {
-    move(destination.first, destination.second);
-}
+Rect CollisionObject::getCollisionShape() const { return _collisionShape; }
 
 std::pair<double, double> CollisionObject::determineAbsoluteCenterOfMass(const Rect& shape) {
     double x = 0.0, y = 0.0;
@@ -171,8 +158,26 @@ std::pair<double, double> CollisionObject::determineRelativeCenterOfMass(const R
             (y / static_cast<double>(shape.size())) - minY };
 }
 
+/*
+ *      PROTECTED methods
+ */
 
+void CollisionObject::adjustCollisionShapePoints(const double moveX, const double moveY)
+{
+        for (unsigned int i = 0; i < _collisionShape.size(); ++i) {
+                adjustPoint(i, moveX, moveY);
+        }
+}
 
+void CollisionObject::moveBehaviour(const double moveX, const double moveY)
+{
+        adjustCollisionShapePoints(moveX, moveY);
+}
+
+void CollisionObject::setBehaviour(double destinationX, double destinationY, double prevX, double prevY)
+{
+        adjustCollisionShapePoints(destinationX - this->getPosition().first, destinationX - this->getPosition().second);
+}
 
 /*
  *      PRIVATE methods
@@ -187,12 +192,22 @@ const std::array<double, 4> &CollisionObject::getBoundingBox() {
 void CollisionObject::setPoint(const unsigned int index, const double x, const double y) {
     try {
         _updated = false;
-        std::pair<double, double> &point = _collisionShape.at(index);
-        point.first = x;
-        point.second = y;
+        _collisionShape.at(index).first = x;
+        _collisionShape.at(index).second = y;
     } catch (std::exception& e) {
-        throw;  // TODO  how do i handle exceptions ???
+            throw; // TODO  how do i handle exceptions ???
     }
+}
+
+void CollisionObject::adjustPoint(unsigned int index, double moveX, double moveY)
+{
+        try {
+                _updated = false;
+                _collisionShape.at(index).first += moveX;
+                _collisionShape.at(index).second += moveY;
+        } catch (std::exception& e) {
+                throw; // TODO  how do i handle exceptions ???
+        }
 }
 
 const std::pair<double, double> &CollisionObject::getPoint(const unsigned int index) {
