@@ -10,8 +10,6 @@
 
 typedef std::mt19937 RNG;
 
-
-
 // TODO  inspiration from https://stackoverflow.com/questions/7114043/random-number-generation-in-c11-how-to-generate-how-does-it-work
 
 //! A singleton class that generates pseudo random numbers based on a specified normal distribution.

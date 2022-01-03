@@ -6,10 +6,9 @@
 #define DOODLEJUMP_UTILITY_H
 
 #include <cmath>
+#include <exception>
 #include <limits>
 #include <utility>
-#include <exception>
-
 
 namespace Utility {
 

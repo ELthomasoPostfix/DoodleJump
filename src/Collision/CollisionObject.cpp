@@ -2,16 +2,14 @@
 // Created by Thomas Gueutal on 13/11/2021.
 //
 
-
 #include "CollisionObject.h"
-
 
 /*
  *      PUBLIC methods
  */
 
-CollisionObject::CollisionObject(const double positionX, const double positionY,
-                                 const Rect& shape, const bool isPhysical)
+CollisionObject::CollisionObject(const double positionX, const double positionY, const Rect& shape,
+                                 const bool isPhysical)
     : GameObject(positionX, positionY), _collisionShape(shape), _updated(false), _isPhysical(isPhysical)
 {
 }
