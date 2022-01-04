@@ -20,6 +20,8 @@ class GameObject {
 public:
         GameObject(double positionX, double positionY);
 
+        explicit GameObject(std::pair<double, double>  position);
+
         // TODO  Implement ::Game as written in this detailed descr.
         //! The entry point for the ::Game class to let a ::GameObject influence the game state.
         /*!
@@ -51,11 +53,12 @@ public:
         /*!
          * \note If additional behavior intrinsic to a call of the setPosition() method is required,
          * then the setter behaviour can be extended through implementation of the
-         * setBehaviour(double, double) method.
+         * setBehaviour() method.
          * \param destinationX The x-coordinate to move to.
          * \param destinationY The y-coordinate to move to.
+         * \param doSetBehaviour Whether to invoke the setBehaviour() method.
          */
-        void setPosition(double destinationX, double destinationY);
+        void setPosition(double destinationX, double destinationY, bool doSetBehaviour = true);
 
         std::pair<double, double> getPosition() const;
 
@@ -86,16 +89,18 @@ protected:
         /*!
          * After the location of the ::GameObject is altered by the default setPosition() behaviour,
          * this method is called.
-         * \param destinationX The x-coordinate to which the ::GameObject has just been moved.
-         * \param destinationY The y-coordinate of the movement vector by which the ::GameObject
+         * \param moveX The x-coordinate of the movement vector by which the ::GameObject
+         * has just been moved.
+         * \param moveY The y-coordinate of the movement vector by which the ::GameObject
          * has just been moved.
          * \param prevX The x-coordinate the ::GameObject was just moved from.
          * \param prevY The y-coordinate the ::GameObject was just moved from.
          */
-        virtual void setBehaviour(double destinationX, double destinationY, double prevX, double prevY);
+        virtual void setBehaviour(double moveX, double moveY, double prevX, double prevY);
 
 private:
         std::pair<double, double> _position;
+
 };
 
 

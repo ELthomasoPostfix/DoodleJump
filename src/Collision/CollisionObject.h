@@ -16,16 +16,14 @@ using Rect = std::array<std::pair<double, double>, 4>;
  */
 class CollisionObject : public GameObject {
     public:
-        //! A constructor that assumes (\p positionX, \p positionY) to be the coordinates of the (center of the) collision shape.
+        //! A constructor that assumes the bottom left corner of the collision shape to be the initial position of the ::CollisionObject.
             /*!
              * The constructor assumes that for a given shape, the shape contains
              * its points sorted in clockwise fashion.
-             * \param positionX The x-coordinate of the collision shape's position.
-             * \param positionY The y-coordinate of the collision shape's position.
              * \param shape The collision shape.
              * \param isPhysical Whether or not the ::CollisionObject participates in collision.
              */
-            explicit CollisionObject(double positionX, double positionY, const Rect& shape, bool isPhysical);
+            explicit CollisionObject(Rect shape, bool isPhysical);
 
             //! Check whether the caller's and \p other ::CollisionObject's collision shapes overlap.
             /*!
@@ -88,6 +86,29 @@ class CollisionObject : public GameObject {
              */
             static std::pair<double, double> determineRelativeCenterOfMass(const Rect& shape);
 
+            //! Get the width of the shape's bounding box.
+            double getBoundingWidth();
+
+            //! Get the height of the shape's bounding box.
+            double getBoundingHeight();
+
+            //! Get the origin, the point relative to the bottom left corner on which all transformations of the ::CollisionObject are applied.
+            /*!
+             * \note See setOrigin() for more information regarding the effect of changing the origin of the shape.
+             */
+            std::pair<double, double> getOrigin() const;
+
+            //! set the origin, the point relative to the bottom left corner of the bounding box on which all transformations of the ::GameObject are applied.
+            /*!
+             * The origin expresses which point in relation to the bottom left of the bounding
+             * box will dictate the transformations onto the object. If we choose the origin
+             * to be the half the length and height of the bounding box, then the shape will
+             * perform all its transformations in relation to its center. For example,
+             * a transposition will move the ::GameObject
+             */
+            void setOrigin(double originX, double originY);
+            void setOrigin(const std::pair<double, double>& origin);
+
     protected:
             //! Move all points in the collision shape by the movement vector.
             /*!
@@ -109,13 +130,13 @@ class CollisionObject : public GameObject {
              * Move the position member inherited from ::GameObject to the specified destination.
              * The points of the collision shape will be moved according to the same movement vector that
              * the position is moved along.
-             * \param destinationX The x-coordinate to which the ::GameObject has just been moved.
-             * \param destinationY The y-coordinate of the movement vector by which the ::GameObject
+             * \param moveX The x-coordinate to which the ::GameObject has just been moved.
+             * \param moveY The y-coordinate of the movement vector by which the ::GameObject
              * has just been moved.
              * \param prevX The x-coordinate the ::GameObject was just moved from.
              * \param prevY The y-coordinate the ::GameObject was just moved from.
              */
-            void setBehaviour(double destinationX, double destinationY, double prevX, double prevY) override;
+            void setBehaviour(double moveX, double moveY, double prevX, double prevY) override;
 
     private:
 
@@ -141,6 +162,9 @@ class CollisionObject : public GameObject {
         //! Check whether the point is located within the bounds.
         static inline bool pointIsInBounds(const std::array<double, 4> &bounds, const std::pair<double, double>& point);
 
+        //! Calculate the bottom left and top right corners of the bounding box of the shape.
+        static std::array<double, 4> determineBoundingBox(const Rect& shape);
+
         //! update the boundingBox of the ::CollisionObject.
         void updateBoundingBox();
 
@@ -150,9 +174,14 @@ class CollisionObject : public GameObject {
 
         //! The bounding box contains the bottom left point followed by the top right point.
         std::array<double, 4> _boundingBox;
+        //! Used for lazy loading of the bounding box.
         bool _updated;
 
+        //! Whether the ::CollisionShape participates in collision.
         bool _isPhysical;
+
+        //! The point relative to the bottom left corner of the bounding box based on which all transformations occur.
+        std::pair<double, double> _origin;
 };
 
 

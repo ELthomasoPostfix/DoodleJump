@@ -4,14 +4,17 @@
 
 #include "CollisionObject.h"
 
+
 /*
  *      PUBLIC methods
  */
 
-CollisionObject::CollisionObject(const double positionX, const double positionY, const Rect& shape,
-                                 const bool isPhysical)
-    : GameObject(positionX, positionY), _collisionShape(shape), _updated(false), _isPhysical(isPhysical)
+CollisionObject::CollisionObject(Rect shape, bool isPhysical)
+    : GameObject(0, 0), _collisionShape(std::move(shape)),
+    _updated(false), _isPhysical(isPhysical), _origin(0, 0)
 {
+    auto& boundingBox = getBoundingBox();
+    setPosition(boundingBox.at(0), boundingBox.at(1), false);
 }
 
 bool CollisionObject::checkCollision(CollisionObject& other) {
@@ -155,6 +158,41 @@ std::pair<double, double> CollisionObject::determineRelativeCenterOfMass(const R
             (y / static_cast<double>(shape.size())) - minY };
 }
 
+double CollisionObject::getBoundingWidth()  {
+    const auto& boundingBox = getBoundingBox();
+    return boundingBox.at(2) - boundingBox.at(0);
+}
+
+double CollisionObject::getBoundingHeight() {
+    const auto& boundingBox = getBoundingBox();
+    return boundingBox.at(3) - boundingBox.at(1);
+}
+
+std::pair<double, double> CollisionObject::getOrigin() const {
+    return _origin;
+}
+
+void CollisionObject::setOrigin(const double originX, const double originY) {
+    const double prevOX = _origin.first;
+    const double prevOY = _origin.second;
+
+    _origin.first = originX;
+    _origin.second = originY;
+
+    // The ::CollisionShape position remains the same, but the relative location of the
+    // collision shape points, and thus their absolute location as well, in relation
+    // to the ::CollisionObject 's position is altered.
+    // Move the collision shape to reflect this.
+    setBehaviour(-(_origin.first - prevOX), -(_origin.second - prevOY), prevOX, prevOY);
+
+}
+
+void CollisionObject::setOrigin(const std::pair<double, double>& origin) {
+    setOrigin(origin.first, origin.second);
+}
+
+
+
 /*
  *      PROTECTED methods
  */
@@ -171,10 +209,14 @@ void CollisionObject::moveBehaviour(const double moveX, const double moveY)
         adjustCollisionShapePoints(moveX, moveY);
 }
 
-void CollisionObject::setBehaviour(double destinationX, double destinationY, double prevX, double prevY)
+void CollisionObject::setBehaviour(double moveX, double moveY, double prevX, double prevY)
 {
-        adjustCollisionShapePoints(destinationX - this->getPosition().first, destinationX - this->getPosition().second);
+        // Adjust collision shape
+        adjustCollisionShapePoints(moveX, moveY);
 }
+
+
+
 
 /*
  *      PRIVATE methods
@@ -234,29 +276,39 @@ bool CollisionObject::pointIsInBounds(const std::array<double, 4> &bounds, const
     return minX <= x && x <= maxX && minY <= y && y <= maxY;
 }
 
-void CollisionObject::updateBoundingBox() {
-    // Reset values
-    _boundingBox.at(0) = std::numeric_limits<double>::infinity();
-    _boundingBox.at(1) = std::numeric_limits<double>::infinity();
-    _boundingBox.at(2) = - std::numeric_limits<double>::infinity();
-    _boundingBox.at(3) = - std::numeric_limits<double>::infinity();
+std::array<double, 4> CollisionObject::determineBoundingBox(const Rect &shape) {
+    std::array<double, 4> boundingBox{};
+
+    // Set initial bounding values:
+    //  [ minX, minY, maxX, maxY ]
+    //  [ +inf, +inf, -inf, -inf ]
+    boundingBox.at(0) = std::numeric_limits<double>::infinity();
+    boundingBox.at(1) = std::numeric_limits<double>::infinity();
+    boundingBox.at(2) = - std::numeric_limits<double>::infinity();
+    boundingBox.at(3) = - std::numeric_limits<double>::infinity();
 
     // Create aliases
-    double& minX = _boundingBox.at(0);
-    double& minY = _boundingBox.at(1);
-    double& maxX = _boundingBox.at(2);
-    double& maxY = _boundingBox.at(3);
+    double& minX = boundingBox.at(0);
+    double& minY = boundingBox.at(1);
+    double& maxX = boundingBox.at(2);
+    double& maxY = boundingBox.at(3);
 
     // Update values
-    for (const auto& point : _collisionShape) {
+    for (const auto& point : shape) {
         minX = std::min(minX, point.first);
         minY = std::min(minY, point.second);
         maxX = std::max(maxX, point.first);
         maxY = std::max(maxY, point.second);
     }
+    return boundingBox;
+}
 
+void CollisionObject::updateBoundingBox() {
+    _boundingBox = determineBoundingBox(_collisionShape);
     _updated = true;
 }
+
+
 
 
 

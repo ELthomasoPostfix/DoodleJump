@@ -47,4 +47,5 @@ namespace Utility {
     double dot2(const std::pair<double, double>& vec1, const std::pair<double, double>& vec2) {
         return vec1.first * vec2.first + vec1.second * vec2.second;
     }
+
 }
