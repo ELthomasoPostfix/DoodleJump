@@ -27,10 +27,13 @@ class CollisionObject : public GameObject {
 
             //! Check whether the caller's and \p other ::CollisionObject's collision shapes overlap.
             /*!
+             * \param other The object against which to test collision.
+             * \param forceCollision Even if either object is marked as not physical,
+             * still test for collision.
              * \note The use of lazy loading for the bounding box prevents the const qualification of the \p other
              * parameter.
              */
-            bool checkCollision(CollisionObject& other);
+            bool checkCollision(CollisionObject& other, bool forceCollision = false);
 
             // TODO  clean this code up, it's too long and can probably be generalized
             //! Calculate the movement vector required for this ::CollisionObject to not collide with the container
@@ -109,37 +112,55 @@ class CollisionObject : public GameObject {
             void setOrigin(double originX, double originY);
             void setOrigin(const std::pair<double, double>& origin);
 
+            //! Whether the bounding box of the ::CollisionObject is located higher than the bounding box of other.
+            /*!
+             * Returns whether the lower bound y-coordinate of the caller's bounding box is located
+             * at least as high as the upper bound y-coordinate of the bounding box of other.
+             * \param other The object whose bounding box the caller checks to be above or not.
+             */
+            bool isAbove(CollisionObject& other);
+
     protected:
-            //! Move all points in the collision shape by the movement vector.
-            /*!
-             * \param moveX The x-coordinate of the movement vector.
-             * \param moveY The y-coordinate of the movement vector.
-             */
-            void adjustCollisionShapePoints(double moveX, double moveY);
+        //! Move all points in the collision shape by the movement vector.
+        /*!
+         * \param moveX The x-coordinate of the movement vector.
+         * \param moveY The y-coordinate of the movement vector.
+         */
+        void adjustCollisionShapePoints(double moveX, double moveY);
 
-            //! Extend the ::GameObject::move(double, double) behaviour to also move the collision shape by the movement
-            //! vector.
-            /*!
-             * \param moveX The x-coordinate of the movement vector.
-             * \param moveY The y-coordinate of the movement vector.
-             */
-            void moveBehaviour(double moveX, double moveY) override;
+        //! Extend the ::GameObject::move(double, double) behaviour to also move the collision shape by the movement
+        //! vector.
+        /*!
+         * \param moveX The x-coordinate of the movement vector.
+         * \param moveY The y-coordinate of the movement vector.
+         */
+        void moveBehaviour(double moveX, double moveY) override;
 
-            //! Move the ::CollisionObject, this includes its position and collision shape, to the specified location.
-            /*!
-             * Move the position member inherited from ::GameObject to the specified destination.
-             * The points of the collision shape will be moved according to the same movement vector that
-             * the position is moved along.
-             * \param moveX The x-coordinate to which the ::GameObject has just been moved.
-             * \param moveY The y-coordinate of the movement vector by which the ::GameObject
-             * has just been moved.
-             * \param prevX The x-coordinate the ::GameObject was just moved from.
-             * \param prevY The y-coordinate the ::GameObject was just moved from.
-             */
-            void setBehaviour(double moveX, double moveY, double prevX, double prevY) override;
+        //! Move the ::CollisionObject, this includes its position and collision shape, to the specified location.
+        /*!
+         * Move the position member inherited from ::GameObject to the specified destination.
+         * The points of the collision shape will be moved according to the same movement vector that
+         * the position is moved along.
+         * \param moveX The x-coordinate to which the ::GameObject has just been moved.
+         * \param moveY The y-coordinate of the movement vector by which the ::GameObject
+         * has just been moved.
+         * \param prevX The x-coordinate the ::GameObject was just moved from.
+         * \param prevY The y-coordinate the ::GameObject was just moved from.
+         */
+        void setBehaviour(double moveX, double moveY, double prevX, double prevY) override;
+
+        friend World;
+
+        //! Check whether any point part of the shape are located within the bounding box.
+        static inline bool hasPointsInBounds(const std::array<double, 4> &bounds, const Rect& shape);
+
+        //! Check whether the point is located within the bounds.
+        static inline bool pointIsInBounds(const std::array<double, 4> &bounds, const std::pair<double, double>& point);
+
+        //! Calculate the bottom left and top right corners of the bounding box of the shape.
+        static std::array<double, 4> determineBoundingBox(const Rect& shape);
 
     private:
-
         //! Get the bounding box of the current collision shape.
         /*!
          * The bounding box of collision shape is the smallest rectangle that completely
@@ -154,16 +175,6 @@ class CollisionObject : public GameObject {
         inline void adjustPoint(unsigned int index, double moveX, double moveY);
 
         inline const std::pair<double, double>& getPoint(unsigned int index);
-
-        //! Check whether any point part of the contents, the ::CollisionObject's collision shape, are located within
-        //! the bounding box of the container.
-        static inline bool hasPointsInBounds(const std::array<double, 4> &bounds, const Rect& container);
-
-        //! Check whether the point is located within the bounds.
-        static inline bool pointIsInBounds(const std::array<double, 4> &bounds, const std::pair<double, double>& point);
-
-        //! Calculate the bottom left and top right corners of the bounding box of the shape.
-        static std::array<double, 4> determineBoundingBox(const Rect& shape);
 
         //! update the boundingBox of the ::CollisionObject.
         void updateBoundingBox();

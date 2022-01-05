@@ -17,18 +17,20 @@ CollisionObject::CollisionObject(Rect shape, bool isPhysical)
     setPosition(boundingBox.at(0), boundingBox.at(1), false);
 }
 
-bool CollisionObject::checkCollision(CollisionObject& other) {
+bool CollisionObject::checkCollision(CollisionObject& other, const bool forceCollision) {
 
     // TODO Only rectangular shapes with sides either perpendicular to or parallel to the x-axis
     //  are used, so no slope different from 0 or +/- inf occur
     //  ==> If they do occur, then collision must be reworked.
 
-    if (!isPhysical())
+    if (!forceCollision && !(isPhysical() && other.isPhysical()) )
             return false;
 
     auto colShape = getCollisionShape();
     auto otherColShape = other.getCollisionShape();
 
+    // If one of the collision shapes is located inside the other,
+    // then only one of these check resolves to true.
     return hasPointsInBounds(getBoundingBox(), otherColShape) || hasPointsInBounds(other.getBoundingBox(), colShape);
 }
 
@@ -191,6 +193,11 @@ void CollisionObject::setOrigin(const std::pair<double, double>& origin) {
     setOrigin(origin.first, origin.second);
 }
 
+bool CollisionObject::isAbove(CollisionObject &other) {
+    return getBoundingBox().at(1) >= other.getBoundingBox().at(3);
+}
+
+
 
 
 /*
@@ -307,8 +314,6 @@ void CollisionObject::updateBoundingBox() {
     _boundingBox = determineBoundingBox(_collisionShape);
     _updated = true;
 }
-
-
 
 
 

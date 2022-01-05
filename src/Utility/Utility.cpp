@@ -48,4 +48,22 @@ namespace Utility {
         return vec1.first * vec2.first + vec1.second * vec2.second;
     }
 
+    double magnitude(const std::pair<double, double>& vec) {
+        return std::sqrt(std::pow(vec.first, 2) + std::pow(vec.second, 2));
+    }
+
+    unsigned int getLongestVectorIndex(const std::vector<std::pair<double, double>>& vectors) {
+        unsigned int index = -1;
+        double maxMagnitude = std::numeric_limits<double>::infinity();
+        for (unsigned int i = 0; i < vectors.size(); ++i) {
+            const auto& vector = vectors.at(i);
+            double magnitude = Utility::magnitude(vector);
+            if (maxMagnitude < magnitude) {
+                maxMagnitude = magnitude;
+                index = i;
+            }
+        }
+        return index;
+    }
+
 }

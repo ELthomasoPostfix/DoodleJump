@@ -9,7 +9,7 @@
 #include <memory>
 
 // TODO  this needed here?
-class Game;
+class World;
 
 //! The base class for all movable objects and for all subcomponents of movable objects.
 /*! The ::GameObject class functions as an abstract base class for all objects that require
@@ -22,12 +22,12 @@ public:
 
         explicit GameObject(std::pair<double, double>  position);
 
-        // TODO  Implement ::Game as written in this detailed descr.
-        //! The entry point for the ::Game class to let a ::GameObject influence the game state.
+        // TODO  Move this to Entity?
+        //! The entry point for the ::World class to let a ::GameObject influence the game state.
         /*!
          * If a derived class desires to influence the game world every frame, then these
-         * interactions should be implemented through deriving the process() function.
-         * The ::Game class will call the process function of all registered ::GameObject objects,
+         * interactions should be implemented through deriving the process() method.
+         * The ::World class will call the process() method of all registered ::GameObject objects,
          * after it has performed its physics step on the ::RigidBody objects.
          * \param delta How many seconds have passed since the previous frame was ready.
          */
@@ -59,6 +59,7 @@ public:
          * \param doSetBehaviour Whether to invoke the setBehaviour() method.
          */
         void setPosition(double destinationX, double destinationY, bool doSetBehaviour = true);
+        void setPosition(const std::pair<double, double>& destination, bool doSetBehaviour = true);
 
         std::pair<double, double> getPosition() const;
 

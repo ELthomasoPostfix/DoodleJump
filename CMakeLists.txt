@@ -17,15 +17,31 @@ add_executable(DoodleJump
         src/Utility/Random.cpp
         src/Utility/Random.h
 
+        src/Game.cpp
+        src/Game.h
+        src/World.cpp
+        src/World.h
+        src/PhysicsEngine.cpp
+        src/PhysicsEngine.h
+
         src/GameObject.cpp
         src/GameObject.h
+
         src/Collision/CollisionObject.cpp
         src/Collision/CollisionObject.h
+            src/Collision/PhysicsBody/PhysicsBody.cpp
+            src/Collision/PhysicsBody/PhysicsBody.h
+                src/Collision/PhysicsBody/KinematicBody.cpp
+                src/Collision/PhysicsBody/KinematicBody.h
+                src/Collision/PhysicsBody/RigidBody.cpp
+                src/Collision/PhysicsBody/RigidBody.h
+                src/Collision/PhysicsBody/StaticBody.cpp
+                src/Collision/PhysicsBody/StaticBody.h
+
         src/Entity/Entity.cpp
         src/Entity/Entity.h
-
-        src/Entity/Player.cpp
-        src/Entity/Player.h
+            src/Entity/Player.cpp
+            src/Entity/Player.h
 
         src/Utility/Utility.cpp
         src/Utility/Utility.h)

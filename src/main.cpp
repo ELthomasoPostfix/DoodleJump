@@ -15,6 +15,8 @@
 //  determine good stddev for random
 //      Random(seed, .5, .15)       ??
 
+// TODO  Fix all singleton constructors to only return smart pointers, not raw pointers
+
 void windowTest()
 {
 

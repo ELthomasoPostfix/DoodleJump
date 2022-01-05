@@ -42,6 +42,10 @@ void GameObject::setPosition(double destinationX, double destinationY, bool doSe
                          prevX, prevY);
 }
 
+void GameObject::setPosition(const std::pair<double, double>& destination, const bool doSetBehaviour) {
+    setPosition(destination.first, destination.second, doSetBehaviour);
+}
+
 std::pair<double, double> GameObject::getPosition() const {
     return _position;
 }

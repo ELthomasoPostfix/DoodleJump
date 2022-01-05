@@ -9,6 +9,9 @@
 #include <exception>
 #include <limits>
 #include <utility>
+#include <algorithm>
+#include <functional>
+#include <vector>
 
 namespace Utility {
 
@@ -32,6 +35,13 @@ namespace Utility {
 
     //! Compute the dot product of two 2D vectors.
     double dot2(const std::pair<double, double>& vec1, const std::pair<double, double>& vec2);
+
+    //! Compute the magnitude of the 2D vector.
+    double magnitude(const std::pair<double, double>& vec);
+
+    //! Find the index of the vector with the largest magnitude. If the list is empty, returns -1.
+    unsigned int getLongestVectorIndex(const std::vector<std::pair<double, double>>& vectors);
+
 };
 
 
