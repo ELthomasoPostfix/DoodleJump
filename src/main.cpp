@@ -2,8 +2,8 @@
 #include <iostream>
 #include <memory>
 
-#include "Collision/CollisionObject.h"
-#include "Entity/Player.h"
+#include "Game/GameObject/Collision/CollisionObject.h"
+#include "Game/GameObject/Entity/Player.h"
 
 // TODO  to modify difficulty, modify standard deviation of the normal distribution of Random???
 //  ==> If we normalize the result of random to the rang [0, 1], and we multiply default

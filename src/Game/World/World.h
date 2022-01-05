@@ -8,8 +8,8 @@
 #include <utility>
 
 #include "PhysicsEngine.h"
-#include "Collision/PhysicsBody/StaticBody.h"
-#include "Collision/PhysicsBody/KinematicBody.h"
+#include "../GameObject/Collision/PhysicsBody/StaticBody.h"
+#include "../GameObject/Collision/PhysicsBody/KinematicBody.h"
 
 
 //! Used to transmit info about a collision test requested through ::World.

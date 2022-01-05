@@ -3,7 +3,7 @@
 //
 
 #include "KinematicBody.h"
-#include "../../Game.h"
+#include "../../../Game.h"
 
 
 bool KinematicBody::moveAndCollide(const std::pair<double, double> &moveVector) {

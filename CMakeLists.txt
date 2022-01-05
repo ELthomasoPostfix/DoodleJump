@@ -17,31 +17,31 @@ add_executable(DoodleJump
         src/Utility/Random.cpp
         src/Utility/Random.h
 
-        src/Game.cpp
-        src/Game.h
-        src/World.cpp
-        src/World.h
-        src/PhysicsEngine.cpp
-        src/PhysicsEngine.h
+        src/Game/Game.cpp
+        src/Game/Game.h
+        src/Game/World/World.cpp
+        src/Game/World/World.h
+        src/Game/World/PhysicsEngine.cpp
+        src/Game/World/PhysicsEngine.h
 
-        src/GameObject.cpp
-        src/GameObject.h
+        src/Game/GameObject/GameObject.cpp
+        src/Game/GameObject/GameObject.h
 
-        src/Collision/CollisionObject.cpp
-        src/Collision/CollisionObject.h
-            src/Collision/PhysicsBody/PhysicsBody.cpp
-            src/Collision/PhysicsBody/PhysicsBody.h
-                src/Collision/PhysicsBody/KinematicBody.cpp
-                src/Collision/PhysicsBody/KinematicBody.h
-                src/Collision/PhysicsBody/RigidBody.cpp
-                src/Collision/PhysicsBody/RigidBody.h
-                src/Collision/PhysicsBody/StaticBody.cpp
-                src/Collision/PhysicsBody/StaticBody.h
+        src/Game/GameObject/Collision/CollisionObject.cpp
+        src/Game/GameObject/Collision/CollisionObject.h
+        src/Game/GameObject/Collision/PhysicsBody/PhysicsBody.cpp
+        src/Game/GameObject/Collision/PhysicsBody/PhysicsBody.h
+        src/Game/GameObject/Collision/PhysicsBody/KinematicBody.cpp
+        src/Game/GameObject/Collision/PhysicsBody/KinematicBody.h
+        src/Game/GameObject/Collision/PhysicsBody/RigidBody.cpp
+        src/Game/GameObject/Collision/PhysicsBody/RigidBody.h
+        src/Game/GameObject/Collision/PhysicsBody/StaticBody.cpp
+        src/Game/GameObject/Collision/PhysicsBody/StaticBody.h
 
-        src/Entity/Entity.cpp
-        src/Entity/Entity.h
-            src/Entity/Player.cpp
-            src/Entity/Player.h
+        src/Game/GameObject/Entity/Entity.cpp
+        src/Game/GameObject/Entity/Entity.h
+        src/Game/GameObject/Entity/Player.cpp
+        src/Game/GameObject/Entity/Player.h
 
         src/Utility/Utility.cpp
         src/Utility/Utility.h)

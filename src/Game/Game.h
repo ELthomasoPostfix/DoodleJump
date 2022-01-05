@@ -7,7 +7,7 @@
 
 #include <memory>
 #include <vector>
-#include "World.h"
+#include "World/World.h"
 
 //! A class used to run the DoodleJump game. Its setup determines which graphics implementation is utilized.
 /*!

@@ -7,7 +7,7 @@
 
 #include <vector>
 #include <cmath>
-#include "Collision/PhysicsBody/RigidBody.h"
+#include "../GameObject/Collision/PhysicsBody/RigidBody.h"
 
 
 class World;
