@@ -7,6 +7,7 @@
 #define DOODLEJUMP_RANDOM_H
 
 #include <random>
+#include <memory>
 
 typedef std::mt19937 RNG;
 
@@ -21,6 +22,10 @@ typedef std::mt19937 RNG;
  */
 class Random {
     public:
+        //! Retrieve the single instance of the ::Random singleton.
+        static std::unique_ptr<Random>& getInstance(uint32_t seed, double mean, double stddev,
+                                                    double clampMin = 0.0, double clampMax = 1.0);
+
         //! Random value based on a normal distribution, clamped to the continuous range [_clampMin, _clampMax]
         double random();
 
@@ -30,10 +35,6 @@ class Random {
          * result by the chance of its negative counterpart occurring.
          */
         double randomAbsolute();
-
-        //! Retrieve the single instance of the ::Random singleton.
-        static Random* getInstance(uint32_t seed, double mean, double stddev,
-                                   double clampMin = 0.0, double clampMax = 1.0);
 
         //! Change the seed of the underlying pseudo random number generator.
         void reseed(uint32_t seed);

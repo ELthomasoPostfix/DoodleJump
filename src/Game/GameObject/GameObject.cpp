@@ -3,9 +3,6 @@
 //
 
 #include "GameObject.h"
-#include "Collision/CollisionObject.h"
-
-#include <utility>
 
 
 /*
@@ -18,7 +15,6 @@ GameObject::GameObject(const double positionX, const double positionY)
 GameObject::GameObject(std::pair<double, double>  position)
     : _position(std::move(position)) {}
 
-void GameObject::process(double delta) {}
 
 void GameObject::move(double moveX, double moveY)
 {

@@ -95,6 +95,13 @@ class CollisionObject : public GameObject {
             //! Get the height of the shape's bounding box.
             double getBoundingHeight();
 
+            //! Get the bounding box of the current collision shape.
+            /*!
+             * The bounding box of collision shape is the smallest rectangle that completely
+             * contains the collision shape.
+             */
+            const std::array<double, 4>& getBoundingBox();
+
             //! Get the origin, the point relative to the bottom left corner on which all transformations of the ::CollisionObject are applied.
             /*!
              * \note See setOrigin() for more information regarding the effect of changing the origin of the shape.
@@ -160,13 +167,8 @@ class CollisionObject : public GameObject {
         //! Calculate the bottom left and top right corners of the bounding box of the shape.
         static std::array<double, 4> determineBoundingBox(const Rect& shape);
 
+
     private:
-        //! Get the bounding box of the current collision shape.
-        /*!
-         * The bounding box of collision shape is the smallest rectangle that completely
-         * contains the collision shape.
-         */
-        const std::array<double, 4>& getBoundingBox();
 
         //! Set the coordinates of a point in the collision shape.
         inline void setPoint(unsigned int index, double x, double y);

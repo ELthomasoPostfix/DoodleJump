@@ -2,8 +2,9 @@
 #include <iostream>
 #include <memory>
 
-#include "Game/GameObject/Collision/CollisionObject.h"
+//#include "Game/GameObject/Collision/CollisionObject.h"
 #include "Game/GameObject/Entity/Player.h"
+#include "Game/World/World.h"
 
 // TODO  to modify difficulty, modify standard deviation of the normal distribution of Random???
 //  ==> If we normalize the result of random to the rang [0, 1], and we multiply default
@@ -61,7 +62,12 @@ void windowTest()
         quadIV.setPoint(3, sf::Vector2f(0, 800));
         quadIV.setFillColor(sf::Color::Yellow);
 
-        Player* player = new Player(0, 0);
+        std::unique_ptr<World>& world(World::getInstance());
+
+        auto* player = new Player(0, 0);
+        player->process(2);
+        const auto& res1 = player->doAThing();
+        const auto& res2 = player->doAThingE();
 
         Rect r1 = {{{100.0, 100.0}, {200.0, 100.0}, {200.0, 200.0}, {100.0, 200.0}}};
         std::pair<double, double> c1 = CollisionObject::determineAbsoluteCenterOfMass(r1);
@@ -73,6 +79,7 @@ void windowTest()
         CollisionObject* cObj2 = new CollisionObject(r2, true);
         cObj2->setOrigin(cObj2->getBoundingWidth()/2, cObj2->getBoundingHeight()/2);
         cObj2->move(-150, -150);
+
 
         uint32_t ctr = 0;
         int moveAmount = 5;
@@ -195,6 +202,7 @@ void windowTest()
 
 int main()
 {
+
 
 
         // TODO

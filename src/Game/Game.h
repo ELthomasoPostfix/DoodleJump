@@ -21,7 +21,7 @@ class Game {
     public:
 
         // TODO  return a std::unique_ptr<PhysicsEngine> instead ???
-        static Game* getInstance();
+        static std::unique_ptr<Game>& getInstance();
 
 
 

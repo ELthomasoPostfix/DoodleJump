@@ -3,24 +3,23 @@
 //
 
 #include "World.h"
+#include "../GameObject/Entity/Entity.h"
+
 
 /*
  *      PUBLIC methods
  */
 
-World* World::getInstance() {
-    static auto* world = new World();
+std::unique_ptr<World>& World::getInstance() {
+    static std::unique_ptr<World> world(new World);
     return world;
 }
 
-void World::processRegisteredGameObjects(const double delta) {
-    for (const auto& go : _registeredObjects) {
+void World::processRegisteredEntities(const double delta) {
+
+    for (const auto& go : _entities) {
         go->process(delta);
     }
-}
-
-void World::registerGameObject(const std::shared_ptr<GameObject> &gameObject) {
-    _registeredObjects.emplace_back(gameObject);
 }
 
 bool World::setGravity(double gravity) const {
@@ -58,7 +57,7 @@ void World::processRigidBodies(const double delta) {
     // TODO 3) per phys rb, find sb and kb collisions
     //  ==> calc pushback
     for (auto& rb : physicalRigidBodies) {
-        CollisionInfo info = std::move(getRigidCollisionPushback(*rb, {rb->_velocity[0], rb->_velocity[1]}));
+        CollisionInfo info = std::move(getRigidCollisionInfo(*rb, {rb->_velocity[0], rb->_velocity[1]}));
 
         if (info.collidedWith == nullptr)
             continue;
@@ -98,21 +97,6 @@ void World::processRigidBodies(const double delta) {
 
 }
 
-std::shared_ptr<KinematicBody> World::createKinematicBody() {
-    // TODO Add the body to the proper list
-    return std::shared_ptr<KinematicBody>();
-}
-
-std::shared_ptr<RigidBody> World::createRigidBody() {
-    // TODO Add the body to the proper list
-    return std::shared_ptr<RigidBody>();
-}
-
-std::shared_ptr<StaticBody> World::createStaticBody() {
-    // TODO Add the body to the proper list
-    return std::shared_ptr<StaticBody>();
-}
-
 
 
 
@@ -121,35 +105,58 @@ std::shared_ptr<StaticBody> World::createStaticBody() {
  *      PROTECTED methods
  */
 
+const std::shared_ptr<Entity> & World::addEntity(const std::shared_ptr<Entity> &entity) {
+    auto it = std::find(_entities.begin(), _entities.end(), entity);
+
+    if (*it == entity)
+        return *it;
+
+    // TODO  take ownership of the unique_ptr by using std::move() ?????
+    _entities.emplace_back(entity);
+    return entity;
+}
+
+bool World::removeEntity(const std::shared_ptr<Entity> &entity) {
+    auto it = std::find(_entities.begin(), _entities.end(), entity);
+
+    if (*it == entity) {
+        _entities.erase(it);
+        return true;
+    }
+
+    return false;
+}
+
+
 CollisionInfo
-World::getKinematicCollisionPushback(CollisionObject &movingBody, const std::pair<double, double> &moveDir) {
-    return std::move(getCollisionPushback(movingBody, moveDir, _kinematicBodies));
+World::getKinematicCollisionInfo(CollisionObject &movingBody, const std::pair<double, double> &moveDir) {
+    return std::move(getCollisionInfo(movingBody, moveDir, _kinematicBodies));
 }
 
 CollisionInfo
-World::getRigidCollisionPushback(RigidBody &movingBody, const std::pair<double, double> &moveDir) {
+World::getRigidCollisionInfo(RigidBody &movingBody, const std::pair<double, double> &moveDir) {
     const std::vector<CollisionInfo> pbVecs = {
-            std::move(getStaticCollisionPushback(movingBody, moveDir)),
-            std::move(getKinematicCollisionPushback(movingBody, moveDir))
+            std::move(getStaticCollisionInfo(movingBody, moveDir)),
+            std::move(getKinematicCollisionInfo(movingBody, moveDir))
     };
 
     return pbVecs.at(Utility::getLongestVectorIndex({pbVecs.at(0).pushback, pbVecs.at(1).pushback}));
 }
 
 CollisionInfo
-World::getRigidCollisionPushback(CollisionObject &movingBody, const std::pair<double, double> &moveDir) {
-    return std::move(getCollisionPushback(movingBody, moveDir, _rigidBodies));
+World::getRigidCollisionInfo(CollisionObject &movingBody, const std::pair<double, double> &moveDir) {
+    return std::move(getCollisionInfo(movingBody, moveDir, _rigidBodies));
 }
 
 CollisionInfo
-World::getStaticCollisionPushback(CollisionObject &movingBody, const std::pair<double, double> &moveDir) {
-    return std::move(getCollisionPushback(movingBody, moveDir, _staticBodies));
+World::getStaticCollisionInfo(CollisionObject &movingBody, const std::pair<double, double> &moveDir) {
+    return std::move(getCollisionInfo(movingBody, moveDir, _staticBodies));
 }
 
 template<class T>
 CollisionInfo
-World::getCollisionPushback(CollisionObject &movingBody, const std::pair<double, double> &moveDir,
-                            const std::vector<std::shared_ptr<T>>& otherObjects) {
+World::getCollisionInfo(CollisionObject &movingBody, const std::pair<double, double> &moveDir,
+                        const std::vector<std::shared_ptr<T>>& otherObjects) {
 
     std::vector<std::pair<double, double>> pushbackVectors;
 

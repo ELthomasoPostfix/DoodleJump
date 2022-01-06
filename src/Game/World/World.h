@@ -8,8 +8,11 @@
 #include <utility>
 
 #include "PhysicsEngine.h"
+#include "../World/Camera.h"
 #include "../GameObject/Collision/PhysicsBody/StaticBody.h"
 #include "../GameObject/Collision/PhysicsBody/KinematicBody.h"
+
+class Entity;
 
 
 //! Used to transmit info about a collision test requested through ::World.
@@ -27,22 +30,23 @@ struct CollisionInfo {
 };
 
 
+class Camera;
+
+
 // TODO   store Entity objects in layers? (bg layer, collision layer, ...)
 class World {
     public:
         // TODO  return a std::unique_ptr<World> instead ???
-        static World* getInstance();
+        static std::unique_ptr<World>& getInstance();
 
-        //! Register the ::Entity object so that its ::GameObject::process(double) method will be called.
-        void registerGameObject(const std::shared_ptr<GameObject>& gameObject);
-
-        //! Call the process method of all registered ::GameObject objects.
+        //! Call the process method of all registered ::Entity objects.
         /*!
-         * Each ::GameObject may define a ::GameObject::process(double) method,
-         * which allows ot to influence the game state. These process methods
-         * are called here for all objects registered using registerGameObject().
+         * Each ::Entity may define a ::Entity::process(double) method,
+         * which allows it to influence the game state. These process methods
+         * are called here for all objects registered using
+         * ::World::addEntity().
          */
-        void processRegisteredGameObjects(double delta);
+        void processRegisteredEntities(double delta);
 
         //! Set the gravity for ::RigidBody objects.
         bool setGravity(double gravity) const;
@@ -53,20 +57,20 @@ class World {
         //! Resolves the physics step of the ::RigidBody objects.
         void processRigidBodies(double delta);
 
+        //! Register any ::Entity derived class object, such that its ::Entity::process(double) method will be called.
+        const std::shared_ptr<Entity> & addEntity(const std::shared_ptr<Entity> &entity);
+
+        //! Removed a registered ::Entity. Its is effectively removed from the game world.
+        bool removeEntity(const std::shared_ptr<Entity> &entity);
 
         // TODO  add constructor parameters
-        std::shared_ptr<KinematicBody> createKinematicBody();
+        const std::unique_ptr<KinematicBody>& addKinematicBody();
 
         // TODO  add constructor parameters
-        std::shared_ptr<RigidBody> createRigidBody();
+        const std::unique_ptr<RigidBody>& addRigidBody();
 
         // TODO  add constructor parameters
-        std::shared_ptr<StaticBody> createStaticBody();
-
-    protected:
-        friend PhysicsEngine;
-        friend KinematicBody;
-
+        const std::unique_ptr<StaticBody>& addStaticBody();
 
         //! Test for collision between the input ::CollisionObject and all ::KinematicBody objects in the world.
         /*!
@@ -78,7 +82,7 @@ class World {
          * \param moveDir The direction that \p movingBody was traveling until we checked for collisions.
          */
         CollisionInfo
-        getKinematicCollisionPushback(CollisionObject &movingBody, const std::pair<double, double> &moveDir);
+        getKinematicCollisionInfo(CollisionObject &movingBody, const std::pair<double, double> &moveDir);
 
         //! Test for collision between the input ::RigidBody and all ::KinematicBody and ::StaticBody objects in the world.
         /*!
@@ -90,7 +94,7 @@ class World {
          * \param moveDir The direction that \p movingBody was traveling until we checked for collisions.
          */
         CollisionInfo
-        getRigidCollisionPushback(RigidBody &movingBody, const std::pair<double, double> &moveDir);
+        getRigidCollisionInfo(RigidBody &movingBody, const std::pair<double, double> &moveDir);
 
         //! Test for collision between the input ::CollisionObject and all ::RigidBody objects in the world.
         /*!
@@ -102,7 +106,7 @@ class World {
          * \param moveDir The direction that \p movingBody was traveling until we checked for collisions.
          */
         CollisionInfo
-        getRigidCollisionPushback(CollisionObject &movingBody, const std::pair<double, double> &moveDir);
+        getRigidCollisionInfo(CollisionObject &movingBody, const std::pair<double, double> &moveDir);
 
         //! Test for collision between the input ::CollisionObject and all ::StaticBody objects in the world.
         /*!
@@ -114,7 +118,7 @@ class World {
          * \param moveDir The direction that \p movingBody was traveling until we checked for collisions.
          */
         CollisionInfo
-        getStaticCollisionPushback(CollisionObject &movingBody, const std::pair<double, double> &moveDir);
+        getStaticCollisionInfo(CollisionObject &movingBody, const std::pair<double, double> &moveDir);
 
     private:
 
@@ -130,14 +134,15 @@ class World {
          */
         template<class T>
         static CollisionInfo
-        getCollisionPushback(CollisionObject &movingBody, const std::pair<double, double> &moveDir,
-                             const std::vector<std::shared_ptr<T>>& otherObjects);
+        getCollisionInfo(CollisionObject &movingBody, const std::pair<double, double> &moveDir,
+                         const std::vector<std::shared_ptr<T>>& otherObjects);
 
 
     private:
-        std::unique_ptr<PhysicsEngine> _physicsEngine;           // existence guaranteed by constructor
+        std::unique_ptr<PhysicsEngine>& _physicsEngine;           // existence guaranteed by constructor
+        std::unique_ptr<Camera> _camera;
 
-        std::vector<std::shared_ptr<GameObject>> _registeredObjects;
+        std::vector<std::shared_ptr<Entity>> _entities;
 
         std::vector<std::shared_ptr<KinematicBody>> _kinematicBodies;
         std::vector<std::shared_ptr<RigidBody>> _rigidBodies;

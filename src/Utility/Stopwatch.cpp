@@ -8,6 +8,12 @@
  *      PUBLIC methods
  */
 
+std::unique_ptr<Stopwatch>& Stopwatch::getInstance()
+{
+    static std::unique_ptr<Stopwatch> stopwatch(new Stopwatch);
+    return stopwatch;
+}
+
 Stopwatch::Stopwatch() : _prevUpdate(Stopwatch::now()) {}
 
 double Stopwatch::elapsedSeconds()
@@ -19,12 +25,6 @@ double Stopwatch::elapsedSeconds()
 void Stopwatch::update() { _prevUpdate = Stopwatch::now(); }
 
 std::chrono::steady_clock::time_point Stopwatch::now() { return std::chrono::steady_clock::now(); }
-
-Stopwatch* Stopwatch::getInstance()
-{
-        static auto* stopwatch = new Stopwatch();
-        return stopwatch;
-}
 
 /*
  *      PRIVATE methods

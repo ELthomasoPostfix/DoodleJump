@@ -19,7 +19,6 @@
  */
 class StaticBody : public PhysicsBody {
     protected:
-        friend World;
 
         /*!
          * Restrict the use of the ::StaticBody constructor as a ::StaticBody

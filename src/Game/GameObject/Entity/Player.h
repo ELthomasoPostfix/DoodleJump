@@ -18,6 +18,9 @@ public:
 
     void display() final;
 
+    const std::unique_ptr<int>& doAThing();
+    const std::unique_ptr<Player>& doAThingE();
+
 };
 
 

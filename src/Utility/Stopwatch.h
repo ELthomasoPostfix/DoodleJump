@@ -7,6 +7,7 @@
 #define DOODLEJUMP_STOPWATCH_H
 
 #include <chrono>
+#include <memory>
 
 // TODO inspiration from https://gist.github.com/mcleary/b0bf4fa88830ff7c882d
 //! A singleton class that uses the <a href="https://en.cppreference.com/w/cpp/chrono/steady_clock">std::chrono::steady_clock.</a> to simulate time intervals.
@@ -19,7 +20,7 @@
 class Stopwatch {
     public:
         //! Retrieve the single instance of the ::Stopwatch singleton.
-        static Stopwatch* getInstance();
+        static std::unique_ptr<Stopwatch>& getInstance();
 
         //! The number of elapsed seconds in relation to the last update() call.
         double elapsedSeconds();

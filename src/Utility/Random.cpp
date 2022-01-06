@@ -8,10 +8,10 @@
  *      PUBLIC methods
  */
 
-Random* Random::getInstance(const uint32_t seed, const double mean, const double stddev,
-                            const double clampMin, const double clampMax)
-{
-        static auto* random = new Random(seed, mean, stddev, clampMin, clampMax);
+std::unique_ptr<Random>& Random::getInstance(const uint32_t seed,
+                                            const double mean, const double stddev,
+                                            const double clampMin, const double clampMax) {
+        static std::unique_ptr<Random> random(new Random(seed, mean, stddev, clampMin, clampMax));
         return random;
 }
 

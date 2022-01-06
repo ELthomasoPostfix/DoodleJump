@@ -13,30 +13,30 @@
 class World;
 
 class PhysicsEngine {
-public:
-    // TODO  return a std::unique_ptr<PhysicsEngine> instead ???
-    static PhysicsEngine* getInstance();
+    public:
+        // TODO  return a std::unique_ptr<PhysicsEngine> instead ???
+        static std::unique_ptr<PhysicsEngine>& getInstance();
 
-    std::pair<double, double> calculateMovement(double delta, std::shared_ptr<RigidBody>& rb,
-                                                bool applyForces = false) const;
+        std::pair<double, double> calculateMovement(double delta, std::shared_ptr<RigidBody>& rb,
+                                                    bool applyForces = false) const;
 
-    /*
-     *      getters and setters
-     */
+        /*
+         *      getters and setters
+         */
 
-    bool setGravity(double gravity);
-    double getGravity() const;
-    bool setDrag(double drag);
-    double getDrag() const;
+        bool setGravity(double gravity);
+        double getGravity() const;
+        bool setDrag(double drag);
+        double getDrag() const;
 
-private:
-    double gravity;     // vertical acc/deceleration,   always pos
-    double drag;        // horizontal deceleration, always pos
-    double rigidCollisionPush;
+    private:
+        double gravity;     // vertical acc/deceleration,   always pos
+        double drag;        // horizontal deceleration, always pos
+        double rigidCollisionPush;
 
-    PhysicsEngine();
-    PhysicsEngine(PhysicsEngine const&) = default;              // don't implement
-    PhysicsEngine& operator= (PhysicsEngine const&) = default;  // don't implement
+        PhysicsEngine();
+        PhysicsEngine(PhysicsEngine const&) = default;              // don't implement
+        PhysicsEngine& operator= (PhysicsEngine const&) = default;  // don't implement
 
 };
 

@@ -5,11 +5,11 @@
 #include "PhysicsEngine.h"
 
 /*
- *      PUBLIC
+ *      PUBLIC methods
  */
 
-PhysicsEngine *PhysicsEngine::getInstance() {
-    static auto* engine = new PhysicsEngine();
+std::unique_ptr<PhysicsEngine>& PhysicsEngine::getInstance() {
+    static std::unique_ptr<PhysicsEngine> engine(new PhysicsEngine);
     return engine;
 }
 
@@ -100,7 +100,7 @@ double PhysicsEngine::getDrag() const {
 
 
 /*
- *      PRIVATE
+ *      PRIVATE methods
  */
 
 

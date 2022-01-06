@@ -4,30 +4,37 @@
 
 #include "Player.h"
 
+
 Player::Player(const double positionX, const double positionY) :
         Entity(positionX, positionY) {}
+
+
+
 
 void Player::processInput(int horizFactor) {
     this->move(this->getPosition().first + horizFactor,
                this->getPosition().second);
 }
 
-// void Player::move(double moveX, double moveY) {
-//    adjustPosition(moveX, moveY);
-//}
-//
-// void Player::setPosition(double destinationX, double destinationY) {
-//    const double moveVec[2] = {destinationX - this->getPosition().first,
-//                               destinationY - this->getPosition().second};
-//
-//    adjustPosition(moveVec[0], moveVec[1]);
-//    // TODO also move CollisionObject related to Player
-//    // TODO generalize this to Entity? ==> generalize to the objects possessing
-//    //  a CollisionObject
-//}
-
-void Player::process(double delta) { GameObject::process(delta); }
+void Player::process(double delta) {
+    std::unique_ptr<Player> up = std::make_unique<Player>(2, 3);
+    registerEntity(up);
+}
 
 void Player::display() {
     // display view
+}
+
+
+const std::unique_ptr<int>& Player::doAThing() {
+    static auto i = std::make_unique<int>(2);
+    registerEntity(i);       // instantiate function/method template defined in Base
+    return i;
+
+}
+
+const std::unique_ptr<Player>& Player::doAThingE() {
+    static std::unique_ptr<Player> e = std::make_unique<Player>(2, 3);
+    registerEntity(e);       // instantiate function/method template defined in Base
+    return e;
 }

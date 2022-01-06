@@ -32,9 +32,6 @@ class RigidBody : public PhysicsBody {
         friend World;
         friend PhysicsEngine;
 
-        //using GameObject::move;
-        //using GameObject::setPosition;
-
 
         /*!
          * Restrict the use of the ::RigidBody constructor as a ::RigidBody

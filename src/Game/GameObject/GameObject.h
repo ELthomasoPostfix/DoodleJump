@@ -17,21 +17,10 @@ class World;
  * implementation for different types of movable objects.
  */
 class GameObject {
-public:
+    public:
         GameObject(double positionX, double positionY);
 
         explicit GameObject(std::pair<double, double>  position);
-
-        // TODO  Move this to Entity?
-        //! The entry point for the ::World class to let a ::GameObject influence the game state.
-        /*!
-         * If a derived class desires to influence the game world every frame, then these
-         * interactions should be implemented through deriving the process() method.
-         * The ::World class will call the process() method of all registered ::GameObject objects,
-         * after it has performed its physics step on the ::RigidBody objects.
-         * \param delta How many seconds have passed since the previous frame was ready.
-         */
-        virtual void process(double delta);
 
         //! Move the ::GameObject by the specified movement vector.
         /*!
@@ -61,9 +50,11 @@ public:
         void setPosition(double destinationX, double destinationY, bool doSetBehaviour = true);
         void setPosition(const std::pair<double, double>& destination, bool doSetBehaviour = true);
 
+        //! Get the position of the ::GameObject.
         std::pair<double, double> getPosition() const;
 
-protected:
+
+    protected:
         //! Move the location of the ::GameObject by the movement vector.
         /*!
          * \note When a derived class wants to alter the ::GameObject's location,
@@ -99,7 +90,7 @@ protected:
          */
         virtual void setBehaviour(double moveX, double moveY, double prevX, double prevY);
 
-private:
+    private:
         std::pair<double, double> _position;
 
 };

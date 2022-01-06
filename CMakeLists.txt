@@ -12,8 +12,6 @@ add_executable(DoodleJump
 
         src/Utility/Stopwatch.cpp
         src/Utility/Stopwatch.h
-        src/Utility/Camera.cpp
-        src/Utility/Camera.h
         src/Utility/Random.cpp
         src/Utility/Random.h
 
@@ -23,6 +21,8 @@ add_executable(DoodleJump
         src/Game/World/World.h
         src/Game/World/PhysicsEngine.cpp
         src/Game/World/PhysicsEngine.h
+        src/Game/World/Camera.cpp
+        src/Game/World/Camera.h
 
         src/Game/GameObject/GameObject.cpp
         src/Game/GameObject/GameObject.h
@@ -42,6 +42,9 @@ add_executable(DoodleJump
         src/Game/GameObject/Entity/Entity.h
         src/Game/GameObject/Entity/Player.cpp
         src/Game/GameObject/Entity/Player.h
+
+        src/Game/GameObject/View/View.cpp
+        src/Game/GameObject/View/View.h
 
         src/Utility/Utility.cpp
         src/Utility/Utility.h)

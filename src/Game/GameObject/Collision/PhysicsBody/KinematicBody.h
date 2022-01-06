@@ -23,7 +23,6 @@ class KinematicBody : public PhysicsBody {
         bool moveAndCollide(const std::pair<double, double> &moveVector);
 
     protected:
-        //friend Game;
 
         /*!
          * Restrict the use of the ::KinematicBody constructor as a ::KinematicBody
