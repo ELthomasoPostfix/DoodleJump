@@ -66,8 +66,7 @@ void windowTest()
 
         auto* player = new Player(0, 0);
         player->process(2);
-        const auto& res1 = player->doAThing();
-        const auto& res2 = player->doAThingE();
+        player->process(2);
 
         Rect r1 = {{{100.0, 100.0}, {200.0, 100.0}, {200.0, 200.0}, {100.0, 200.0}}};
         std::pair<double, double> c1 = CollisionObject::determineAbsoluteCenterOfMass(r1);

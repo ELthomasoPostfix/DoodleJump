@@ -28,17 +28,20 @@ class RigidBody : public PhysicsBody {
         //! Apply an impulse to the ::RigidBody, which is used by the ::PhysicsEngine to automatically move it.
         void applyImpulse(const std::pair<double, double> &velocity);     // TODO check use of override
 
-    protected:
-        friend World;
-        friend PhysicsEngine;
 
-
+        // TODO  This not the case anymore. A extender of the game can now have such bodies in their
+        //          process function, which is deemed more beneficial (why exactly??).
         /*!
          * Restrict the use of the ::RigidBody constructor as a ::RigidBody
          * should be instanced by the ::World class as to ensure that it is
          * properly included in all game functionality.
          */
         RigidBody(double positionX, double positionY, const Rect &shape, bool isPhysical);
+
+
+    protected:
+        friend World;
+        friend PhysicsEngine;
 
 
         double _velocity[2];

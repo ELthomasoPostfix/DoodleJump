@@ -24,10 +24,12 @@ static const std::unique_ptr<World>& getInstance();
  */
 class Entity : public GameObject {
     public:
+        // TODO    Access the ViewFactory of ::World and attach the correct View
+        //          in the constructor of ::Entity. This way there is never a
+        //          need to add more creator methods.
         Entity(double positionX, double positionY);
 
-        // TODO  make pure virtual again
-        virtual void display() {};
+        virtual void display() = 0;
 
         View& getView();
 
@@ -43,37 +45,40 @@ class Entity : public GameObject {
          */
         virtual void process(double delta);
 
-        // TODO    support/ensure \return claim "Ownership remains with the ::World object"
         //! Register a derived ::Entity class object in the ::World object so that its process function will be called.
         /*!
+         * The registered ::Entity derived class will be managed by both the ::World and caller classes.
+         * This way the caller may exploit the functionality offered by the ::World interface to glean
+         * information about the ::Game state and thus influence it through the process(double) method.
          * \param entity The ::Entity derived class to register.
-         * \return A reference to the registered object. Ownership remains with the ::World object.
-         * \note This template allows for any ::Entity derived class object
-         * to be registered in the ::World object, without the person extending
-         * the game to need to worry about writing code to integrate their
-         * classes with the current ::World implementation, nor for them
-         * to need to edit the existing ::World code.
+         * \return Whether or not the \p entity was already registered.
+         * \note There is much less danger of memory leaks of entities due to the use of shared pointers
+         * by both the caller and the ::World if the a Entity is to be registered. Any memory leaks due
+         * to new declarations in the process method are unhandled by the game logic.
          */
-        template<class DerivedEntity>
-        const std::unique_ptr<DerivedEntity>&
-        registerEntity(const std::unique_ptr<DerivedEntity>& entity);
+        bool registerEntity(const std::shared_ptr<Entity>& entity);
+        bool unregisterEntity(const std::shared_ptr<Entity>& entity);
 
         // TODO  If ::PhysicsBody is deprecated, then this comment needs to be edited
         //  ==> decide whether to keep ::PhysicsBody
         //! Register a derived ::PhysicsBody class object in the ::World object so that it may be used in collisions.
         /*!
+         * This template allows for any ::PhysicsBody derived class object
+         * to be registered in the ::World object. This way, extenders of the game
+         * may still have unregistered instances of the ::PhysicsBody derived classes in their
+         * code which allows reuse of the existing code base. If such an object is
+         * to be implicitly used in collisions, however, then it must be registered.
+         * Dual ownership of the object then exists between the ::World object and the caller.
          * \param physBody The ::PhysicsBody derived class to register.
-         * \return A reference to the registered object. Ownership remains with the ::World object.
-         * \note This template allows for any ::PhysicsBody derived class object
-         * to be registered in the ::World object, without the person extending
-         * the game to need to call creator methods for each object. This way, they
-         * may still have instances of the ::PhysicsBody derived classes in their
-         * code for whatever reason. If such an object is to be used in collisions,
-         * however, then it must be registered and ownership of it is transferred.
+         * \note Registration of additional derivations of ::PhysicsBody is not possible,
+         * as these objects are not stored generically as a ::PhysicsBody object in ::World,
+         * as their interfaces must be accessible by ::World.
+         * (This may be solved by storing the derived class objects in a templated vector???)
          */
         template<class DerivedPhysicsBody>
-        const std::unique_ptr<DerivedPhysicsBody>&
-        registerCollisionBody(const std::unique_ptr<DerivedPhysicsBody>& physBody);
+        bool registerPhysicsBody(const std::shared_ptr<DerivedPhysicsBody>& physBody);
+        template<class DerivedPhysicsBody>
+        bool unregisterPhysicsBody(const std::shared_ptr<DerivedPhysicsBody>& physBody);
 
 
     protected:
@@ -81,18 +86,20 @@ class Entity : public GameObject {
 
 };
 
-template<class DerivedEntity>
-const std::unique_ptr<DerivedEntity>&
-Entity::registerEntity(const std::unique_ptr<DerivedEntity>& entity) {
-    const std::unique_ptr<World>& world = World::getInstance();
-    //world->addEntity(entity);
-    return entity;
+template<class DerivedPhysicsBody>
+bool Entity::registerPhysicsBody(const std::shared_ptr<DerivedPhysicsBody>& physBody) {
+    // Compile-time sanity check
+    static_assert(std::is_base_of<PhysicsBody, DerivedPhysicsBody>::value,
+            "A to register PhysicsBody must derived from PhysicsBody");
+    return World::getInstance()->addPhysicsBody(physBody);
 }
 
 template<class DerivedPhysicsBody>
-const std::unique_ptr<DerivedPhysicsBody>&
-Entity::registerCollisionBody(const std::unique_ptr<DerivedPhysicsBody>& physBody) {
-    return physBody;
+bool Entity::unregisterPhysicsBody(const std::shared_ptr<DerivedPhysicsBody>& physBody) {
+    // Compile-time sanity check
+    static_assert(std::is_base_of<PhysicsBody, DerivedPhysicsBody>::value,
+            "A to unregister PhysicsBody must derived from PhysicsBody");
+    return World::getInstance()->removePhysicsBody(physBody);
 }
 
 

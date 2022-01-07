@@ -58,19 +58,48 @@ class World {
         void processRigidBodies(double delta);
 
         //! Register any ::Entity derived class object, such that its ::Entity::process(double) method will be called.
-        const std::shared_ptr<Entity> & addEntity(const std::shared_ptr<Entity> &entity);
+        bool addEntity(const std::shared_ptr<Entity> &entity);
 
         //! Removed a registered ::Entity. Its is effectively removed from the game world.
         bool removeEntity(const std::shared_ptr<Entity> &entity);
 
-        // TODO  add constructor parameters
-        const std::unique_ptr<KinematicBody>& addKinematicBody();
 
-        // TODO  add constructor parameters
-        const std::unique_ptr<RigidBody>& addRigidBody();
 
-        // TODO  add constructor parameters
-        const std::unique_ptr<StaticBody>& addStaticBody();
+        bool addPhysicsBody(const std::shared_ptr<KinematicBody>& physicsBody);
+
+        bool addPhysicsBody(const std::shared_ptr<RigidBody>& physicsBody);
+
+        bool addPhysicsBody(const std::shared_ptr<StaticBody>& physicsBody);
+
+        bool removePhysicsBody(const std::shared_ptr<KinematicBody>& physicsBody);
+
+        bool removePhysicsBody(const std::shared_ptr<RigidBody>& physicsBody);
+
+        bool removePhysicsBody(const std::shared_ptr<StaticBody>& physicsBody);
+
+
+        // TODO  Some sort of View interface + use \/ \note ???
+        //  + use static_assert(std::is_base_of(Base, Derived)::value, "Incorrect type ...")
+        //  + template declaration in class scope, definition in header outside class scope
+
+        /*
+         * \note This template allows for any ::Entity derived class object
+         * to be registered in the ::World object, without the person extending
+         * the game to need to worry about writing code to integrate their
+         * classes with the current ::World implementation, nor for them
+         * to need to edit the existing ::World code. It avoids addition of
+         * new getter methods to the ::World class that return the specific
+         * derived ::Entity reference required and circumvents the need
+         * for reinterpret_cast calls.
+         */
+
+
+
+
+
+
+
+
 
         //! Test for collision between the input ::CollisionObject and all ::KinematicBody objects in the world.
         /*!
@@ -122,6 +151,16 @@ class World {
 
     private:
 
+        //! Register a ::PhysicsBody within the world to use for collision detection.
+        template<class PBody>
+        bool addPhysicsBody(const std::shared_ptr<PBody>& pBody,
+                            std::vector<std::shared_ptr<PBody>>& otherObjects);
+
+        //! Remove a registered ::PhysicsBody within the world used for collision detection.
+        template<class PBody>
+        bool removePhysicsBody(const std::shared_ptr<PBody>& pBody,
+                            std::vector<std::shared_ptr<PBody>>& otherObjects);
+
         //! Test for collision between the input ::CollisionObject and all elements of otherObjects.
         /*!
          * The info returned will only describe the collision with the body that requires the
@@ -132,10 +171,10 @@ class World {
          * \param moveDir The direction that \p movingBody was traveling until we checked for collisions.
          * \param otherObjects The ::CollisionObject objects to check for collisions with.
          */
-        template<class T>
+        template<class PBody>
         static CollisionInfo
         getCollisionInfo(CollisionObject &movingBody, const std::pair<double, double> &moveDir,
-                         const std::vector<std::shared_ptr<T>>& otherObjects);
+                         const std::vector<std::shared_ptr<PBody>>& otherObjects);
 
 
     private:

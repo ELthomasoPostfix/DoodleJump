@@ -105,21 +105,20 @@ void World::processRigidBodies(const double delta) {
  *      PROTECTED methods
  */
 
-const std::shared_ptr<Entity> & World::addEntity(const std::shared_ptr<Entity> &entity) {
+bool World::addEntity(const std::shared_ptr<Entity>& entity) {
     auto it = std::find(_entities.begin(), _entities.end(), entity);
 
-    if (*it == entity)
-        return *it;
+    if (it != _entities.end() && &(**it) == &(*entity))
+        return false;
 
-    // TODO  take ownership of the unique_ptr by using std::move() ?????
     _entities.emplace_back(entity);
-    return entity;
+    return true;
 }
 
 bool World::removeEntity(const std::shared_ptr<Entity> &entity) {
     auto it = std::find(_entities.begin(), _entities.end(), entity);
 
-    if (*it == entity) {
+    if (it != _entities.end() && &(**it) == &(*entity)) {
         _entities.erase(it);
         return true;
     }
@@ -127,6 +126,29 @@ bool World::removeEntity(const std::shared_ptr<Entity> &entity) {
     return false;
 }
 
+bool World::addPhysicsBody(const std::shared_ptr<KinematicBody> &physicsBody) {
+    return addPhysicsBody(physicsBody, _kinematicBodies);
+}
+
+bool World::addPhysicsBody(const std::shared_ptr<RigidBody> &physicsBody) {
+    return addPhysicsBody(physicsBody, _rigidBodies);
+}
+
+bool World::addPhysicsBody(const std::shared_ptr<StaticBody> &physicsBody) {
+    return addPhysicsBody(physicsBody, _staticBodies);
+}
+
+bool World::removePhysicsBody(const std::shared_ptr<KinematicBody> &physicsBody) {
+    return removePhysicsBody(physicsBody, _kinematicBodies);
+}
+
+bool World::removePhysicsBody(const std::shared_ptr<RigidBody> &physicsBody) {
+    return removePhysicsBody(physicsBody, _rigidBodies);
+}
+
+bool World::removePhysicsBody(const std::shared_ptr<StaticBody> &physicsBody) {
+    return removePhysicsBody(physicsBody, _staticBodies);
+}
 
 CollisionInfo
 World::getKinematicCollisionInfo(CollisionObject &movingBody, const std::pair<double, double> &moveDir) {
@@ -153,13 +175,50 @@ World::getStaticCollisionInfo(CollisionObject &movingBody, const std::pair<doubl
     return std::move(getCollisionInfo(movingBody, moveDir, _staticBodies));
 }
 
-template<class T>
+
+
+/*
+ *      PRIVATE methods
+ */
+
+
+World::World() : _physicsEngine(PhysicsEngine::getInstance()) {}
+
+template<class PBody>
+bool
+World::addPhysicsBody(const std::shared_ptr<PBody>& pBody,
+                      std::vector<std::shared_ptr<PBody>>& otherObjects) {
+    auto it = std::find(otherObjects.begin(), otherObjects.end(), pBody);
+
+    if (it != otherObjects.end() && &(**it) == &(*pBody))
+        return false;
+
+    otherObjects.emplace_back(pBody);
+    return true;
+}
+
+template<class PBody>
+bool World::removePhysicsBody(const std::shared_ptr<PBody>& pBody,
+                              std::vector<std::shared_ptr<PBody>>& otherObjects) {
+    auto it = std::find(otherObjects.begin(), otherObjects.end(), pBody);
+
+    if (it != otherObjects.end() && &(**it) == &(*pBody)) {
+        otherObjects.erase(it);
+        return true;
+    }
+
+    return false;
+}
+
+template<class PBody>
 CollisionInfo
 World::getCollisionInfo(CollisionObject &movingBody, const std::pair<double, double> &moveDir,
-                        const std::vector<std::shared_ptr<T>>& otherObjects) {
+                        const std::vector<std::shared_ptr<PBody>>& otherObjects) {
 
     std::vector<std::pair<double, double>> pushbackVectors;
 
+    // TODO Wrap checkCollision() and determinePushback() into a getCollisionInfo method?
+    //  Also think about difference between getCollisionInfo() and getCollisionsInfo().
     for (const auto& other : otherObjects) {
         if (movingBody.checkCollision(*other)) {
             auto pushback = movingBody.determinePushback(moveDir, *other);
@@ -185,13 +244,4 @@ World::getCollisionInfo(CollisionObject &movingBody, const std::pair<double, dou
     result.sideCollision = !result.topCollision;
     return result;
 }
-
-
-
-/*
- *      PRIVATE methods
- */
-
-
-World::World() : _physicsEngine(PhysicsEngine::getInstance()) {}
 

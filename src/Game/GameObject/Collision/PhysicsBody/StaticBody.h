@@ -18,14 +18,17 @@
  * Creating an object of this class should occur through calling the ::World::createStaticBody() method.
  */
 class StaticBody : public PhysicsBody {
-    protected:
-
+    public:
+        // TODO  This not the case anymore. A extender of the game can now have such bodies in their
+        //          process function, which is deemed more beneficial (why exactly??).
         /*!
          * Restrict the use of the ::StaticBody constructor as a ::StaticBody
          * should be instanced by the ::World class as to ensure that it is
          * properly included in all game functionality.
          */
         StaticBody(double positionX, double positionY, const Rect &shape, bool isPhysical);
+
+    protected:
 
         /*!
          * Restrict the use of ::GameObject::move(double, double) and ::GameObject::move(const std::pair<double,double>&)
