@@ -8,14 +8,22 @@
 #include "World/World.h"
 #include "GameObject/View/Window/SFMLWindowManager.h"
 
+#define PLAYER_TEXTURE_PATH  "../Resources/Images/doodle-right.png"
+#define PLAYER_TEXTURE_ID    0
+#define SPRING_TEXTURE_PATH  "../Resources/Images/pruz1.png"
+#define SPRING_TEXTURE_ID    1
+#define JETPACK_TEXTURE_PATH "../Resources/Images/raketa_on_panel.png"
+#define JETPACK_TEXTURE_ID   2
+#define ARIAL_FONT_PATH      "../Resources/Fonts/arial.ttf"
+#define ARIAL_FONT_ID        0
+
+
 
 //! A class used to run the DoodleJump game. Its setup determines which graphics implementation is utilized.
 /*!
- * \note The ::Game class follows the singleton pattern, meaning that an instance of it is acquired
- * through the static ::Game::getInstance() method. Only one such object may exist at a time. The need
- * for the singleton pattern is mainly a consequence of the ::Stopwatch class following the same pattern.
- * If two ::Game objects were to use the same stopwatch, then they would interfere with each other's
- * use of it. To support such behaviour, ::Stopwatch would need to be reworked.
+ * \note The ::Game class uses the ::Stopwatch class, which is a singleton.
+ * If the used stopwatch were to be utilized by another object besides the
+ * game object, then erroneous behaviour would occur.
  */
 class Game {
     public:

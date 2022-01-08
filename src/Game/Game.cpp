@@ -11,6 +11,11 @@
 
 Game::Game(unsigned int windowWidth, unsigned int windowHeight)
     : _windowManager(std::make_unique<SFMLWindowManager>(windowWidth, windowHeight)) {
+
+    _windowManager->textureManager->load(PLAYER_TEXTURE_ID, PLAYER_TEXTURE_PATH);
+    _windowManager->textureManager->load(SPRING_TEXTURE_ID, SPRING_TEXTURE_PATH);
+    _windowManager->textureManager->load(JETPACK_TEXTURE_ID, JETPACK_TEXTURE_PATH);
+    _windowManager->fontManager->load(ARIAL_FONT_ID,ARIAL_FONT_PATH);
 }
 
 void Game::draw(EntityView &view) {
