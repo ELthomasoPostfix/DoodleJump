@@ -9,6 +9,11 @@
  *      PUBLIC methods
  */
 
+
+EntityView::~EntityView() {
+    _viewArea.reset();
+}
+
 void EntityView::move(const std::pair<double, double> &moveVector) {
     _viewArea->move(moveVector);
 }

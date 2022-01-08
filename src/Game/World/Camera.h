@@ -5,7 +5,7 @@
 #ifndef DOODLEJUMP_CAMERA_H
 #define DOODLEJUMP_CAMERA_H
 
-#include "../GameObject/View/EntityView/EntityView.h"
+#include "../../View/EntityView/EntityView.h"
 
 
 

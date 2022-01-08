@@ -15,12 +15,12 @@ add_executable(DoodleJump
         src/Utility/Random.cpp
         src/Utility/Random.h
 
-        src/Game/Game.cpp
-        src/Game/Game.h
-        src/Game/GameObject/View/ResourceManager/ResourceManager.h
-        src/Game/GameObject/View/Window/WindowManager.h
-        src/Game/GameObject/View/Window/SFMLWindowManager.cpp
-        src/Game/GameObject/View/Window/SFMLWindowManager.h
+        src/Game.cpp
+        src/Game.h
+        src/View/ResourceManager/ResourceManager.h
+        src/View/Window/WindowManager.h
+        src/View/Window/SFMLWindowManager.cpp
+        src/View/Window/SFMLWindowManager.h
 
         src/Game/World/World.cpp
         src/Game/World/World.h
@@ -62,15 +62,18 @@ add_executable(DoodleJump
         src/Game/GameObject/Entity/BGTile/BGTile.cpp
         src/Game/GameObject/Entity/BGTile/BGTile.h
 
-        src/Game/GameObject/View/EntityView/EntityView.cpp
-        src/Game/GameObject/View/EntityView/EntityView.h
-        src/Game/GameObject/View/AbstractEntityFactory/AbstractEntityFactory.cpp
-        src/Game/GameObject/View/AbstractEntityFactory/AbstractEntityFactory.h
-        src/Game/GameObject/View/AbstractEntityFactory/SFMLEntityFactory/StandardEntityFactory.cpp
-        src/Game/GameObject/View/AbstractEntityFactory/SFMLEntityFactory/StandardEntityFactory.h
+        src/View/EntityView/EntityView.cpp
+        src/View/EntityView/EntityView.h
+        src/View/EntityView/PlayerView/PlayerView.cpp
+        src/View/EntityView/PlayerView/PlayerView.h
+
+        src/View/AbstractEntityFactory/AbstractEntityFactory.cpp
+        src/View/AbstractEntityFactory/AbstractEntityFactory.h
+        src/View/AbstractEntityFactory/SFMLEntityFactory/SFMLEntityFactory.cpp
+        src/View/AbstractEntityFactory/SFMLEntityFactory/SFMLEntityFactory.h
 
         src/Utility/Utility.cpp
-        src/Utility/Utility.h)
+        src/Utility/Utility.h src/View/resources.h)
 
 target_link_libraries(DoodleJump sfml-system sfml-window sfml-graphics sfml-audio)
 

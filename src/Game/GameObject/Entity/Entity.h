@@ -7,7 +7,7 @@
 
 #include <utility>
 #include <memory>
-#include "../View/EntityView/EntityView.h"
+#include "../../../View/EntityView/EntityView.h"    // TODO  delete ??
 #include "../../World/World.h"
 
 
@@ -84,7 +84,7 @@ class Entity : public GameObject {
 
 
     protected:
-        EntityView _view;
+        EntityView _view;       // TODO  delete ??
 
 };
 

@@ -5,12 +5,13 @@
 #ifndef DOODLEJUMP_ENTITYVIEW_H
 #define DOODLEJUMP_ENTITYVIEW_H
 
-#include "../../Collision/CollisionObject.h"
+#include "../../Game/GameObject/Collision/CollisionObject.h"
 
 
 
 class EntityView {
     public:
+        virtual ~EntityView();
 
         //! Move the ::View by the moveVector.
         void move(const std::pair<double, double>& moveVector);
@@ -43,7 +44,7 @@ class EntityView {
          */
         const std::array<uint8_t, 3>& getRGBFillColor() const;
 
-    private:
+    protected:
         std::unique_ptr<CollisionObject> _viewArea;
         size_t _textureID;
         bool _hasTexture;

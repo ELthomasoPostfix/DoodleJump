@@ -5,17 +5,9 @@
 #ifndef DOODLEJUMP_GAME_H
 #define DOODLEJUMP_GAME_H
 
-#include "World/World.h"
-#include "GameObject/View/Window/SFMLWindowManager.h"
-
-#define PLAYER_TEXTURE_PATH  "../Resources/Images/doodle-right.png"
-#define PLAYER_TEXTURE_ID    0
-#define SPRING_TEXTURE_PATH  "../Resources/Images/pruz1.png"
-#define SPRING_TEXTURE_ID    1
-#define JETPACK_TEXTURE_PATH "../Resources/Images/raketa_on_panel.png"
-#define JETPACK_TEXTURE_ID   2
-#define ARIAL_FONT_PATH      "../Resources/Fonts/arial.ttf"
-#define ARIAL_FONT_ID        0
+#include "Game/World/World.h"
+#include "View/Window/SFMLWindowManager.h"
+#include "View/AbstractEntityFactory/SFMLEntityFactory/SFMLEntityFactory.h"
 
 
 

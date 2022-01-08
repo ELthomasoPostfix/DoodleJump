@@ -2,7 +2,7 @@
 
 //#include "Game/GameObject/Collision/CollisionObject.h"
 #include "Game/GameObject/Entity/Player/Player.h"
-#include "Game/Game.h"
+#include "Game.h"
 
 // TODO  to modify difficulty, modify standard deviation of the normal distribution of Random???
 //  ==> If we normalize the result of random to the rang [0, 1], and we multiply default
@@ -14,7 +14,6 @@
 //  determine good stddev for random
 //      Random(seed, .5, .15)       ??
 
-// TODO  Fix all singleton constructors to only return smart pointers, not raw pointers
 
 void windowTest()
 {
