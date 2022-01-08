@@ -7,7 +7,7 @@
 
 #include <utility>
 #include <memory>
-#include "../View/EntityView.h"
+#include "../View/EntityView/EntityView.h"
 #include "../../World/World.h"
 
 

@@ -5,7 +5,7 @@
 #ifndef DOODLEJUMP_ENTITYVIEW_H
 #define DOODLEJUMP_ENTITYVIEW_H
 
-#include "../Collision/CollisionObject.h"
+#include "../../Collision/CollisionObject.h"
 
 
 

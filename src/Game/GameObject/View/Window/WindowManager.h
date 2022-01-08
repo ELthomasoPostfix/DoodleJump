@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include "../ResourceManager/ResourceManager.h"
-#include "../EntityView.h"
+#include "../EntityView/EntityView.h"
 
 
 //! A common interface for all window managers.
