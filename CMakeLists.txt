@@ -55,6 +55,10 @@ add_executable(DoodleJump
         src/Game/GameObject/Entity/Platform/StaticPlatform.h
         src/Game/GameObject/Entity/Bonus/Bonus.cpp
         src/Game/GameObject/Entity/Bonus/Bonus.h
+        src/Game/GameObject/Entity/Bonus/Jetpack.cpp
+        src/Game/GameObject/Entity/Bonus/Jetpack.h
+        src/Game/GameObject/Entity/Bonus/Spring.cpp
+        src/Game/GameObject/Entity/Bonus/Spring.h
         src/Game/GameObject/Entity/BGTile/BGTile.cpp
         src/Game/GameObject/Entity/BGTile/BGTile.h
 
