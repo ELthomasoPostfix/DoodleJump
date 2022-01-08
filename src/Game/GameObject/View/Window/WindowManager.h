@@ -37,12 +37,21 @@ struct WindowManager {
         //! Draw an ::EntityView onto the window. The view may describe a texture or not.
         virtual void draw(EntityView& view) = 0;
 
+        //! Resets all ::WindowManager members.
         virtual ~WindowManager();
 
+        //! Draw a text string onto the window.
+        /*!
+         * \param text The text to display.
+         * \param fontID The id of the font to apply to the text.
+         * It references the related font stored in the font manager.
+         */
         virtual void draw(const std::string &text, size_t fontID) = 0;
 
+        //! Set the framerate limit of the window.
         virtual void setFrameRateLimit(unsigned int limit) {};
 
+        //! Print a generic error to report that the ::WindowManager encountered a problem drawing onto the window.
         void printDrawError(const std::string& what);
 
     public:

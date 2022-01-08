@@ -10,6 +10,7 @@
  */
 
 SFMLWindowManager::SFMLWindowManager(unsigned int width, unsigned int height) {
+    window = std::make_unique<sf::RenderWindow>();
     window->setSize({width, height});
 }
 

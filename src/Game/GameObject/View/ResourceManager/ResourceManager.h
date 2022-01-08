@@ -13,8 +13,12 @@
 #include <cassert>
 
 
-// TODO  This code was found somewhere on the internet. I do not know from where.
-// TODO  The loadFromFile() method in the load methods is perhaps not general??
+//! A resource manager to generally handle textures and fonts.
+/*!
+ * \note The code for this ResourceManager was taken from
+ * <a href="https://github.com/SFML/SFML-Game-Development-Book/tree/master/02_Resources/Include/Book">
+ * this github page</a> and merged into this one file (initially separate .hpp and .ini files).
+ */
 template <typename Resource, typename Identifier>
 class ResourceManager
 {
