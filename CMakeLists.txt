@@ -47,6 +47,12 @@ add_executable(DoodleJump
         src/Game/GameObject/Entity/Entity.h
         src/Game/GameObject/Entity/Player/Player.cpp
         src/Game/GameObject/Entity/Player/Player.h
+        src/Game/GameObject/Entity/Platform/Platform.cpp
+        src/Game/GameObject/Entity/Platform/Platform.h
+        src/Game/GameObject/Entity/Platform/KinematicPlatform.cpp
+        src/Game/GameObject/Entity/Platform/KinematicPlatform.h
+        src/Game/GameObject/Entity/Platform/StaticPlatform.cpp
+        src/Game/GameObject/Entity/Platform/StaticPlatform.h
 
         src/Game/GameObject/View/EntityView/EntityView.cpp
         src/Game/GameObject/View/EntityView/EntityView.h
