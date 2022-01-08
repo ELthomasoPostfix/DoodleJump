@@ -7,7 +7,7 @@
 
 #include <utility>
 #include <memory>
-#include "../View/View.h"
+#include "../View/EntityView.h"
 #include "../../World/World.h"
 
 
@@ -29,9 +29,11 @@ class Entity : public GameObject {
         //          need to add more creator methods.
         Entity(double positionX, double positionY);
 
+        ~Entity() override = default;
+
         virtual void display() = 0;
 
-        View& getView();
+        EntityView& getView();
 
         // TODO  Extract this behaviour into a Spawnable superclass?
         //  ==> GameObject --> Spawnable --> Entity  ???
@@ -82,7 +84,7 @@ class Entity : public GameObject {
 
 
     protected:
-        View _view;
+        EntityView _view;
 
 };
 
@@ -101,7 +103,6 @@ bool Entity::unregisterPhysicsBody(const std::shared_ptr<DerivedPhysicsBody>& ph
             "A to unregister PhysicsBody must derived from PhysicsBody");
     return World::getInstance()->removePhysicsBody(physBody);
 }
-
 
 
 #endif //DOODLEJUMP_ENTITY_H

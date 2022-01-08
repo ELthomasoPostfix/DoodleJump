@@ -1,10 +1,8 @@
-#include <SFML/Graphics.hpp>
 #include <iostream>
-#include <memory>
 
 //#include "Game/GameObject/Collision/CollisionObject.h"
-#include "Game/GameObject/Entity/Player.h"
-#include "Game/World/World.h"
+#include "Game/GameObject/Entity/Player/Player.h"
+#include "Game/Game.h"
 
 // TODO  to modify difficulty, modify standard deviation of the normal distribution of Random???
 //  ==> If we normalize the result of random to the rang [0, 1], and we multiply default
@@ -67,6 +65,28 @@ void windowTest()
         auto* player = new Player(0, 0);
         player->process(2);
         player->process(2);
+
+        sf::Texture texture;
+        texture.loadFromFile("../Resources/Images/doodle-right.png");
+        // Create a sprite
+        sf::Sprite sprite;
+        sprite.setTexture(texture);
+        sprite.setPosition(300, 400);
+        sprite.setOrigin(texture.getSize().x/2, texture.getSize().y/2);
+
+
+        sf::Font font;
+        font.loadFromFile("../Resources/Fonts/Qikki-Reg/Qarmic_sans_Abridged.ttf");
+        // Create text
+        sf::Text text;
+        text.setFont(font);
+        text.setString("Hello");
+        text.setPosition(250, 100);
+        text.setCharacterSize(24);
+        text.setFillColor(sf::Color::Black);
+
+
+
 
         Rect r1 = {{{100.0, 100.0}, {200.0, 100.0}, {200.0, 200.0}, {100.0, 200.0}}};
         std::pair<double, double> c1 = CollisionObject::determineAbsoluteCenterOfMass(r1);
@@ -195,6 +215,10 @@ void windowTest()
 
                 window.draw(circle3);
 
+                //window.draw(sprite);
+
+                window.draw(text);
+
                 window.display();
         }
 }
@@ -202,11 +226,12 @@ void windowTest()
 int main()
 {
 
-
+        const std::unique_ptr<Game>& game = std::make_unique<Game>(600, 800);
+        game->setFrameRateLimit(60);
 
         // TODO
         // TODO
-        windowTest();
+        //windowTest();
         // TODO
         // TODO
 

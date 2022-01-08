@@ -5,8 +5,7 @@
 #ifndef DOODLEJUMP_CAMERA_H
 #define DOODLEJUMP_CAMERA_H
 
-#include <memory>
-#include "../GameObject/View/View.h"
+#include "../GameObject/View/EntityView.h"
 
 
 
@@ -35,7 +34,7 @@ class Camera {
         void setPosition(const std::pair<double, double>& destination);
 
         //! Check whether the view is visible inside the ::Camera object's camera area.
-        bool isVisible(View& view);
+        bool isVisible(EntityView& view);
 
         //! Get the bounding box of the ::Camera.
         /*!

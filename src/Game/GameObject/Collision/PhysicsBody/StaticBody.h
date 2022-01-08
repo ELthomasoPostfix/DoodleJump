@@ -28,6 +28,8 @@ class StaticBody : public PhysicsBody {
          */
         StaticBody(double positionX, double positionY, const Rect &shape, bool isPhysical);
 
+        ~StaticBody() override = default;
+
     protected:
 
         /*!

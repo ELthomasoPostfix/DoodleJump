@@ -30,8 +30,6 @@ struct CollisionInfo {
 };
 
 
-class Camera;
-
 
 // TODO   store Entity objects in layers? (bg layer, collision layer, ...)
 class World {

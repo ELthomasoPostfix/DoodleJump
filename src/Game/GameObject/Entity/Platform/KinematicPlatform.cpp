@@ -4,6 +4,6 @@
 
 #include "KinematicPlatform.h"
 
-void KinematicPlatform::move(double delta, double destinationY) {
-    // physicsBody->applyForce(double[2]{1, 1})
+KinematicPlatform::~KinematicPlatform() {
+    _physicsBody.reset();
 }

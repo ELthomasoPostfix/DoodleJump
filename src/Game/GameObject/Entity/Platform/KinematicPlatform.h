@@ -9,16 +9,17 @@
 
 
 class KinematicPlatform : Platform {
-private:
-    // TODO add proper extensible implementation of moving platform (std::function, ...)
-    std::pair<double, double> startLocation;
-    double maxDistance;
+    public:
+        ~KinematicPlatform() override;
 
-    // TODO  !!!! PhysicsBody composition OR inheritance/composition from KineticBody !!!!
-    PhysicsBody* physicsBody;
+    private:
+        // TODO add proper extensible implementation of moving platform (std::function, ...)
+        std::pair<double, double> _startLocation;
+        double _maxDistance;
 
-public:
-    virtual void move(double delta, double destinationY);
+        // TODO  !!!! PhysicsBody composition OR inheritance/composition from KineticBody !!!!
+        std::unique_ptr<PhysicsBody> _physicsBody;
+
 };
 
 

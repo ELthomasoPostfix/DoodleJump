@@ -8,7 +8,8 @@
 Entity::Entity(double positionX, double positionY) :
     GameObject(positionX, positionY) {}
 
-View &Entity::getView() {
+
+EntityView &Entity::getView() {
     return _view;
 }
 

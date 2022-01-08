@@ -14,6 +14,8 @@ class PhysicsBody : public CollisionObject {
 public:
     PhysicsBody(double positionX, double positionY, const Rect &shape, bool isPhysical);
 
+    ~PhysicsBody() override = default;
+
     // TODO Use a bodyType field (enum)???
     //  Or dynamic_cast (lecture 15/11/2021)???
 

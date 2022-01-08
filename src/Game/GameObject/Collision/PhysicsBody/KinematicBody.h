@@ -20,18 +20,18 @@
  */
 class KinematicBody : public PhysicsBody {
     public:
+        // TODO  This not the case anymore. A extender of the game can now have such bodies in their
+        //          process function, which is deemed more beneficial (why exactly??).
+        /*!
+         * Restrict the use of the ::KinematicBody constructor as a ::KinematicBody
+         * should be instanced by the ::World class as to ensure that it is
+         * properly included in all game functionality.
+         */
+        KinematicBody(double positionX, double positionY, const Rect &shape, bool isPhysical);
+
+        ~KinematicBody() override = default;
+
         bool moveAndCollide(const std::pair<double, double> &moveVector);
-
-    // TODO  This not the case anymore. A extender of the game can now have such bodies in their
-    //          process function, which is deemed more beneficial (why exactly??).
-    /*!
-     * Restrict the use of the ::KinematicBody constructor as a ::KinematicBody
-     * should be instanced by the ::World class as to ensure that it is
-     * properly included in all game functionality.
-     */
-    KinematicBody(double positionX, double positionY, const Rect &shape, bool isPhysical);
-
-    protected:
 
 
     private:

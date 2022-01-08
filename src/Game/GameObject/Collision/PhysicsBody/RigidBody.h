@@ -23,12 +23,6 @@ class PhysicsEngine;
  */
 class RigidBody : public PhysicsBody {
     public:
-        // TODO  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //  find good range of value for velocity to take !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //! Apply an impulse to the ::RigidBody, which is used by the ::PhysicsEngine to automatically move it.
-        void applyImpulse(const std::pair<double, double> &velocity);     // TODO check use of override
-
-
         // TODO  This not the case anymore. A extender of the game can now have such bodies in their
         //          process function, which is deemed more beneficial (why exactly??).
         /*!
@@ -37,6 +31,14 @@ class RigidBody : public PhysicsBody {
          * properly included in all game functionality.
          */
         RigidBody(double positionX, double positionY, const Rect &shape, bool isPhysical);
+
+        ~RigidBody() override = default;
+
+        // TODO  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //  find good range of value for velocity to take !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //! Apply an impulse to the ::RigidBody, which is used by the ::PhysicsEngine to automatically move it.
+        void applyImpulse(const std::pair<double, double> &velocity);     // TODO check use of override
+
 
 
     protected:

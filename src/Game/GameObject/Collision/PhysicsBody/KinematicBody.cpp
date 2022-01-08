@@ -5,6 +5,16 @@
 #include "KinematicBody.h"
 #include "../../../World/World.h"
 
+/*
+ *      PUBLIC methods
+ */
+
+
+KinematicBody::KinematicBody(const double positionX, const double positionY,
+                             const Rect &shape, const bool isPhysical)
+        : PhysicsBody(positionX, positionY, shape, isPhysical) {
+
+}
 
 bool KinematicBody::moveAndCollide(const std::pair<double, double> &moveVector) {
 
@@ -28,16 +38,4 @@ bool KinematicBody::moveAndCollide(const std::pair<double, double> &moveVector) 
     // Undo all collisions
     move(pushbackVector);
     return true;
-}
-
-
-
-/*
- *      PROTECTED methods
- */
-
-KinematicBody::KinematicBody(const double positionX, const double positionY,
-                             const Rect &shape, const bool isPhysical)
-        : PhysicsBody(positionX, positionY, shape, isPhysical) {
-
 }

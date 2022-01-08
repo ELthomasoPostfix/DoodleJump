@@ -17,6 +17,9 @@ add_executable(DoodleJump
 
         src/Game/Game.cpp
         src/Game/Game.h
+        src/Game/GameObject/View/ResourceManager/ResourceManager.h
+        src/Game/GameObject/View/Window/WindowManager.h
+
         src/Game/World/World.cpp
         src/Game/World/World.h
         src/Game/World/PhysicsEngine.cpp
@@ -40,14 +43,18 @@ add_executable(DoodleJump
 
         src/Game/GameObject/Entity/Entity.cpp
         src/Game/GameObject/Entity/Entity.h
-        src/Game/GameObject/Entity/Player.cpp
-        src/Game/GameObject/Entity/Player.h
+        src/Game/GameObject/Entity/Player/Player.cpp
+        src/Game/GameObject/Entity/Player/Player.h
 
-        src/Game/GameObject/View/View.cpp
-        src/Game/GameObject/View/View.h
+        src/Game/GameObject/View/EntityView.cpp
+        src/Game/GameObject/View/EntityView.h
+        src/Game/GameObject/View/AbstractEntityFactory/AbstractEntityFactory.cpp
+        src/Game/GameObject/View/AbstractEntityFactory/AbstractEntityFactory.h
+        src/Game/GameObject/View/AbstractEntityFactory/SFMLEntityFactory/StandardEntityFactory.cpp
+        src/Game/GameObject/View/AbstractEntityFactory/SFMLEntityFactory/StandardEntityFactory.h
 
         src/Utility/Utility.cpp
-        src/Utility/Utility.h)
+        src/Utility/Utility.h src/Game/GameObject/View/Window/SFMLWindowManager.cpp src/Game/GameObject/View/Window/SFMLWindowManager.h)
 
 target_link_libraries(DoodleJump sfml-system sfml-window sfml-graphics sfml-audio)
 

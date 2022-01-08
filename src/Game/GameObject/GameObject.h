@@ -22,6 +22,8 @@ class GameObject {
 
         explicit GameObject(std::pair<double, double>  position);
 
+        virtual ~GameObject() = default;
+
         //! Move the ::GameObject by the specified movement vector.
         /*!
          * \note If additional behavior intrinsic to a call of the move() method is required,

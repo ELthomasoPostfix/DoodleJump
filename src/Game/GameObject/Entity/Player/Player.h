@@ -5,12 +5,14 @@
 #ifndef DOODLEJUMP_PLAYER_H
 #define DOODLEJUMP_PLAYER_H
 
-#include "Entity.h"
+#include "../Entity.h"
 
 
 class Player : public Entity {
 public:
     Player(double positionX, double positionY);
+
+    ~Player() override = default;
 
     void processInput(int horizFactor = 0);
 

@@ -5,7 +5,7 @@
 #include "StaticBody.h"
 
 /*
- *      PROTECTED methods
+ *      PUBLIC methods
  */
 
 StaticBody::StaticBody(const double positionX, const double positionY,

@@ -46,7 +46,7 @@ void Camera::setPosition(const std::pair<double, double> &destination) {
     _cameraArea->setPosition(destination);
 }
 
-bool Camera::isVisible(View &view) {
+bool Camera::isVisible(EntityView &view) {
     return _cameraArea->checkCollision(*view.getViewArea());
 }
 
