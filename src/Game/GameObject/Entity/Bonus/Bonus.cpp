@@ -3,3 +3,11 @@
 //
 
 #include "Bonus.h"
+
+/*
+ *      PUBLIC methods
+ */
+
+Bonus::Bonus(Rect &rect) : Entity(rect) {
+
+}

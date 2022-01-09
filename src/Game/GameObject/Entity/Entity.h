@@ -17,14 +17,37 @@
  */
 class Entity : public GameObject {
     public:
-        // TODO    Access the ViewFactory of ::World and attach the correct View
-        //          in the constructor of ::Entity. This way there is never a
-        //          need to add more creator methods.
+        explicit Entity(Rect& rect);
+
         Entity(double positionX, double positionY);
 
         ~Entity() override = default;
 
+        //! Notify the ::Game class object, that this object is ready to be displayed.
+        /*!
+         * \note The ::Game object functions as a controller in the MVC design,
+         * and the ::World, the Model, is not allowed to know about the View.
+         * Thus, we apply an Observer pattern with a ::ViewEntity as an observable
+         * and the game object as the observer. This way, the controller may
+         * request the model to supply the ::EntityView objects to draw onto the View.
+         * This will be done by letting the to draw objects leverage the observer
+         * pattern to present themselves to the controller.
+         */
         virtual void display();
+
+        //! Get the collision object representing the collision shape of the entity.
+        CollisionObject& getCollisionShape();
+
+        //! Get the collisionObject used to check whether or not the entity is visible to a ::Camera object.
+        /*!
+         * By default the collision object representing the collision shape will be used to
+         * check visibility. However, if the object's actual class type is a ::EntityView
+         * derivative, then this method can be overridden explicitly in that derived class
+         * definition to utilize its view area instead. This behaviour is not included by default,
+         * but must be expressed in the derived view classes.
+         * Still, this allows a degree of combustibility of when the ::Entity is actually removed from the world by the associated camera.
+         */
+        virtual CollisionObject& getClipObject();
 
         // TODO  Extract this behaviour into a Spawnable superclass?
         //  ==> GameObject --> Spawnable --> Entity  ???
@@ -35,8 +58,15 @@ class Entity : public GameObject {
          * The ::World class will call the process() method of all registered ::GameObject objects,
          * after it has performed its physics step on the ::RigidBody objects.
          * \param delta How many seconds have passed since the previous frame was ready.
+         * \todo Extract the ::Entity process behaviour into a 'Processable' object for extensibility.
          */
         virtual void process(double delta);
+
+        //! Augment the move of the entity itself by also moving its collision shape.
+        void moveBehaviour(double moveX, double moveY) override;
+
+        //! Augment the move of the entity itself by also moving its collision shape.
+        void setBehaviour(double moveX, double moveY, double prevX, double prevY) override;
 
         //! Register a derived ::Entity class object in the ::World object so that its process function will be called.
         /*!
@@ -49,8 +79,8 @@ class Entity : public GameObject {
          * by both the caller and the ::World if the a Entity is to be registered. Any memory leaks due
          * to new declarations in the process method are unhandled by the game logic.
          */
-        bool registerEntity(const std::shared_ptr<Entity>& entity);
-        bool unregisterEntity(const std::shared_ptr<Entity>& entity);
+        bool registerEntity(const std::shared_ptr<Entity>& entity) = delete;
+        bool unregisterEntity(const std::shared_ptr<Entity>& entity) = delete;
 
         // TODO  If ::PhysicsBody is deprecated, then this comment needs to be edited
         //  ==> decide whether to keep ::PhysicsBody
@@ -69,12 +99,19 @@ class Entity : public GameObject {
          * (This may be solved by storing the derived class objects in a templated vector???)
          */
         template<class DerivedPhysicsBody>
-        bool registerPhysicsBody(const std::shared_ptr<DerivedPhysicsBody>& physBody);
+        bool registerPhysicsBody(const std::shared_ptr<DerivedPhysicsBody>& physBody) = delete;
         template<class DerivedPhysicsBody>
-        bool unregisterPhysicsBody(const std::shared_ptr<DerivedPhysicsBody>& physBody);
+        bool unregisterPhysicsBody(const std::shared_ptr<DerivedPhysicsBody>& physBody) = delete;
 
+    private:
+        //! In this game all viewable objects have a need for collision.
+        /*!
+         * \todo Extract the ::Entity collision behaviour into a 'Collideable' object for extensibility.
+         */
+        CollisionObject _collisionObject;
 };
 
+/*
 template<class DerivedPhysicsBody>
 bool Entity::registerPhysicsBody(const std::shared_ptr<DerivedPhysicsBody>& physBody) {
     // Compile-time sanity check
@@ -90,6 +127,6 @@ bool Entity::unregisterPhysicsBody(const std::shared_ptr<DerivedPhysicsBody>& ph
             "A to unregister PhysicsBody must derived from PhysicsBody");
     return World::getInstance()->removePhysicsBody(physBody);
 }
-
+*/
 
 #endif //DOODLEJUMP_ENTITY_H

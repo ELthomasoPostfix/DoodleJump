@@ -33,12 +33,13 @@ class Camera {
         //! Move the bottom left corner of the ::Camera to the destination.
         void setPosition(const std::pair<double, double>& destination);
 
-        // TODO Find replacement for EntityView OR make some kind of
-        //  #define VISUAL_MODE true/false option that toggles the
-        //  include of EntityView and the definition and declaration
-        //  of the isVisible() method.
         //! Check whether the view is visible inside the ::Camera object's camera area.
-        //bool isVisible(EntityView& view);
+        /*!
+         * \note As the ::World object constitutes the Model component of the MVC design,
+         * the ::EntityView component is not available here by design. Instead, the
+         * ::Entity::getClipObject() method will ensure that any EntityView deriving
+         */
+        bool isVisible(CollisionObject& viewArea);
 
         //! Get the bounding box of the ::Camera.
         /*!

@@ -42,10 +42,6 @@ class Game {
         std::unique_ptr<SFMLWindowManager> _windowManager;
         std::unique_ptr<AbstractEntityFactory> _entityFactory;
 
-        // TODO  Clean up circular and multiple include
-        //  fix clutter inside of Game.h/cpp, WindowManager.h,
-        //  SFMLWindowManager.h/cpp and EntityView.h/cpp.
-
 };
 
 

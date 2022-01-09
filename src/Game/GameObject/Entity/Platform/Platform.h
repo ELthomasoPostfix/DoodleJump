@@ -10,6 +10,8 @@
 
 class Platform : Entity {
     public:
+        explicit Platform(Rect& rect);
+
         ~Platform() override = default;
 };
 

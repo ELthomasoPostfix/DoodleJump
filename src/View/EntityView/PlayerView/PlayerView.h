@@ -10,11 +10,13 @@
 
 class PlayerView : public EntityView, public Player {
     public:
-        PlayerView(Game &observer, double positionX, double positionY);
+        PlayerView(Game &observer, Rect& collShape, Rect& viewArea);
 
         ~PlayerView() override = default;
 
         void display() override;
+
+        CollisionObject& getClipObject() override;
 };
 
 

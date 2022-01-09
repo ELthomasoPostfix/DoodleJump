@@ -10,6 +10,8 @@
 
 class BGTile : Entity {
     public:
+        explicit BGTile(Rect& rect);
+
         ~BGTile() override = default;
 };
 

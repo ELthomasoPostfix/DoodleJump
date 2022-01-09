@@ -5,6 +5,7 @@
 #ifndef DOODLEJUMP_ENTITYVIEW_H
 #define DOODLEJUMP_ENTITYVIEW_H
 
+#include "../resources.h"
 #include "../../Game/GameObject/Collision/CollisionObject.h"
 
 class Game;
@@ -19,7 +20,7 @@ class Game;
 //              }
 class EntityView {
     public:
-        explicit EntityView(Game& observer);
+        explicit EntityView(Game& observer, Rect& viewArea);
 
         virtual ~EntityView();
 
@@ -28,17 +29,17 @@ class EntityView {
         //  Why would we update() the Game that a view location has changed when stuff is drawn
         //  all the time? --> Instead, call a notify to add an entity to a list of ViewEntities inside of
         //  Game, or when some other state similar to player death changes???
-        //! Notify all observers of the change in view state.
+        //! Notify all observers that the view is ready to be drawn.
         void notify();
 
-        //! Move the ::View by the moveVector.
+        //! Move the view by the moveVector.
         void move(const std::pair<double, double>& moveVector);
 
-        //! Move the bottom left corner of the ::View to the destination.
+        //! Move the bottom left corner of the view to the destination.
         void setPosition(const std::pair<double, double>& destination);
 
         //! Get the bounding box in world space coordinates of the view.
-        const std::unique_ptr<CollisionObject>& getViewArea();
+        CollisionObject& getViewArea();
 
         //! Get the id of the texture used by this view. A view may not use a texture.
         /*!
@@ -65,8 +66,12 @@ class EntityView {
     protected:
         void setTextureID(size_t textureID);
 
+        void setFillColor(unsigned int red, unsigned int green, unsigned int blue);
+
+        EntityView getViewCopy() const;
+
     protected:
-        std::unique_ptr<CollisionObject> _viewArea;
+        CollisionObject _viewArea;
         size_t _textureID;
         bool _hasTexture;
         std::array<uint8_t, 3> _rgbFillColor;

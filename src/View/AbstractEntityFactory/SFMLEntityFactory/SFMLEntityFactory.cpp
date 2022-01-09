@@ -12,7 +12,8 @@
 SFMLEntityFactory::SFMLEntityFactory(Game& observer) : AbstractEntityFactory(observer) {}
 
 std::shared_ptr<Player> SFMLEntityFactory::createPlayer(double positionX, double positionY) {
-    std::shared_ptr<Player> player = std::make_shared<PlayerView>(observer, 1, 1);
+    Rect r{{{0, 0}, {0, 0}, {0, 0}, {0, 0}}};
+    std::shared_ptr<Player> player = std::make_shared<PlayerView>(observer, r, r);
     return player;
 }
 

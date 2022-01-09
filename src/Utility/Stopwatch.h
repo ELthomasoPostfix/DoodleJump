@@ -9,13 +9,14 @@
 #include <chrono>
 #include <memory>
 
-// TODO inspiration from https://gist.github.com/mcleary/b0bf4fa88830ff7c882d
 //! A singleton class that uses the <a href="https://en.cppreference.com/w/cpp/chrono/steady_clock">std::chrono::steady_clock.</a> to simulate time intervals.
 /*!
  * This class allows the user to store a point in time using the update() method. A call to elapsedSeconds()
  * will then return the number of seconds that have passed since the previous update() call.
  * The constructor initialises the first reference time point, so technically no update() call
  * is ever required for the class to function.
+ * \note Credit to <a href="https://gist.github.com/mcleary/b0bf4fa88830ff7c882d">this github page</a>
+ * on which this class was based.
  */
 class Stopwatch {
     public:

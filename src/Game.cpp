@@ -34,6 +34,7 @@ void Game::setFrameRateLimit(unsigned int limit) {
 
 void Game::update(EntityView &changed) {
     // TODO  This is a weird implementation? Isn't the window cleared every frame???
+    //  ==> Add to a buffer instead + Add a 'size_t layer' parameter??
     _windowManager->draw(changed);
 }
 

@@ -11,14 +11,14 @@
 
 typedef std::mt19937 RNG;
 
-// TODO  inspiration from https://stackoverflow.com/questions/7114043/random-number-generation-in-c11-how-to-generate-how-does-it-work
-
 //! A singleton class that generates pseudo random numbers based on a specified normal distribution.
 /*!
  * This class is instantiated through the assignment of a seed for the purpose
  * of seeding a pseudo random number generator and a mean and standard deviation
  * for defining a normal distribution based on which to generate the random numbers.
  * \note The random numbers generated are clamped to the continuous range [0, 1].
+ * \note Credit to <a href="https://stackoverflow.com/questions/7114043/random-number-generation-in-c11-how-to-generate-how-does-it-work">
+ * this stackoverflow post</a> on which this class was based.
  */
 class Random {
     public:

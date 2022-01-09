@@ -4,13 +4,17 @@
 
 #include "PlayerView.h"
 
-PlayerView::PlayerView(Game &observer, double positionX, double positionY) : EntityView(observer),
-                                                                             Player(positionX, positionY) {
+PlayerView::PlayerView(Game &observer, Rect& collShape, Rect& viewArea)
+    : Player(collShape), EntityView(observer, viewArea) {
     // TODO construct _viewArea
     //_textureID = PLAYER
 
 }
 
 void PlayerView::display() {
+    notify();
+}
 
+CollisionObject &PlayerView::getClipObject() {
+    return _viewArea;
 }

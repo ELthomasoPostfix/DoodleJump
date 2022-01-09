@@ -3,3 +3,11 @@
 //
 
 #include "Platform.h"
+
+/*
+ *      PUBLIC methods
+ */
+
+Platform::Platform(Rect &rect) : Entity(rect) {
+
+}

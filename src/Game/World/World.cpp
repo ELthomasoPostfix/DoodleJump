@@ -98,7 +98,12 @@ void World::processRigidBodies(const double delta) {
 
 }
 
-
+void World::clipEntities() {
+    for (auto& entity : _entities) {
+        if (!_camera->isVisible(entity->getClipObject()))
+            removeEntity(entity);
+    }
+}
 
 
 
@@ -245,4 +250,5 @@ World::getCollisionInfo(CollisionObject &movingBody, const std::pair<double, dou
     result.sideCollision = !result.topCollision;
     return result;
 }
+
 

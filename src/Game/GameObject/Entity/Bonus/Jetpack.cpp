@@ -3,3 +3,11 @@
 //
 
 #include "Jetpack.h"
+
+/*
+ *      PUBLIC methods
+ */
+
+Jetpack::Jetpack(Rect& rect) : Bonus(rect) {
+
+}

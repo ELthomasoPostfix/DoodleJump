@@ -12,6 +12,8 @@
 Player::Player(const double positionX, const double positionY) :
         Entity(positionX, positionY) {}
 
+Player::Player(Rect &rect) : Entity(rect) {}
+
 void Player::processInput(int horizFactor) {
     this->move(this->getPosition().first + horizFactor,
                this->getPosition().second);
@@ -29,23 +31,23 @@ void Player::process(double delta) {
     //const std::shared_ptr<Entity>& uEr(up);
     bool res = false;
 
-    res = registerEntity(up);
-    res = registerEntity(up);
-    res = unregisterEntity(up);
-    res = unregisterEntity(up);
-    res = unregisterEntity(up);
-
-    res = registerPhysicsBody(kb);
-    res = registerPhysicsBody(kb);
-    res = unregisterPhysicsBody(kb);
-    res = unregisterPhysicsBody(kb);
-    res = unregisterPhysicsBody(kb);
-    res = registerPhysicsBody(rb);
-    res = unregisterPhysicsBody(rb);
-    res = unregisterPhysicsBody(rb);
-    res = registerPhysicsBody(sb);
-    res = unregisterPhysicsBody(sb);
-    res = unregisterPhysicsBody(sb);
-    res = true;
+//    res = registerEntity(up);
+//    res = registerEntity(up);
+//    res = unregisterEntity(up);
+//    res = unregisterEntity(up);
+//    res = unregisterEntity(up);
+//
+//    res = registerPhysicsBody(kb);
+//    res = registerPhysicsBody(kb);
+//    res = unregisterPhysicsBody(kb);
+//    res = unregisterPhysicsBody(kb);
+//    res = unregisterPhysicsBody(kb);
+//    res = registerPhysicsBody(rb);
+//    res = unregisterPhysicsBody(rb);
+//    res = unregisterPhysicsBody(rb);
+//    res = registerPhysicsBody(sb);
+//    res = unregisterPhysicsBody(sb);
+//    res = unregisterPhysicsBody(sb);
+//    res = true;
 }
 

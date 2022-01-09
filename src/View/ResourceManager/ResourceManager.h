@@ -17,7 +17,8 @@
 /*!
  * \note The code for this ResourceManager was taken from
  * <a href="https://github.com/SFML/SFML-Game-Development-Book/tree/master/02_Resources/Include/Book">
- * this github page</a> and merged into this one file (initially separate .hpp and .ini files).
+ * this github page</a> and merged into this one file (initially separate .hpp and .ini files). Small
+ * renames were applied due to preference.
  */
 template <typename Resource, typename Identifier>
 class ResourceManager

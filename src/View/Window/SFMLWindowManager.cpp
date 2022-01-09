@@ -22,8 +22,8 @@ void SFMLWindowManager::draw(EntityView &view) {
 
             sf::Sprite sprite;
             sprite.setTexture(textureManager->get(view.getTextureID()));
-            sprite.setOrigin(viewArea->getOrigin().first, viewArea->getOrigin().second);
-            sprite.setPosition(viewArea->getPosition().first, viewArea->getPosition().second);
+            sprite.setOrigin(viewArea.getOrigin().first, viewArea.getOrigin().second);
+            sprite.setPosition(viewArea.getPosition().first, viewArea.getPosition().second);
 
             window->draw(sprite);
         } else {
@@ -31,8 +31,8 @@ void SFMLWindowManager::draw(EntityView &view) {
             sf::Color fillColor(fc.at(0), fc.at(1), fc.at(2));
 
             sf::RectangleShape rect;    // TODO set corners
-            rect.setOrigin(viewArea->getOrigin().first, viewArea->getOrigin().second);
-            rect.setPosition(viewArea->getPosition().first, viewArea->getPosition().second);
+            rect.setOrigin(viewArea.getOrigin().first, viewArea.getOrigin().second);
+            rect.setPosition(viewArea.getPosition().first, viewArea.getPosition().second);
             rect.setFillColor(fillColor);
 
             window->draw(rect);

@@ -30,10 +30,8 @@ struct CollisionInfo {
 
 
 
-// TODO   store Entity objects in layers? (bg layer, collision layer, ...)
 class World {
     public:
-        // TODO  return a std::unique_ptr<World> instead ???
         static std::unique_ptr<World>& getInstance();
 
         //! Call the process method of all registered ::Entity objects.
@@ -54,13 +52,18 @@ class World {
         //! Resolves the physics step of the ::RigidBody objects.
         void processRigidBodies(double delta);
 
+        //! Clip all the entities that are not within the camera's view area in world space.
+        void clipEntities();
+
+        // TODO Where to put the transform method to apply to ::EntityView's
+        //  shape after conversion to independent coordinates????
+        //  ==> SFMLWindowManager?
+
         //! Register any ::Entity derived class object, such that its ::Entity::process(double) method will be called.
         bool addEntity(const std::shared_ptr<Entity> &entity);
 
         //! Removed a registered ::Entity. Its is effectively removed from the game world.
         bool removeEntity(const std::shared_ptr<Entity> &entity);
-
-
 
         bool addPhysicsBody(const std::shared_ptr<KinematicBody>& physicsBody);
 
@@ -75,22 +78,8 @@ class World {
         bool removePhysicsBody(const std::shared_ptr<StaticBody>& physicsBody);
 
 
-        // TODO  Some sort of View interface + use \/ \note ???
-        //  + use static_assert(std::is_base_of(Base, Derived)::value, "Incorrect type ...")
-        //  + template declaration in class scope, definition in header outside class scope
-
-        /*
-         * \note This template allows for any ::Entity derived class object
-         * to be registered in the ::World object, without the person extending
-         * the game to need to worry about writing code to integrate their
-         * classes with the current ::World implementation, nor for them
-         * to need to edit the existing ::World code. It avoids addition of
-         * new getter methods to the ::World class that return the specific
-         * derived ::Entity reference required and circumvents the need
-         * for reinterpret_cast calls.
-         */
-
-
+        // TODO  Remove Entity::registerEntity/PhysicsBody() ???
+        //  ==> Restrict access to add/remove methods, make it protected???
 
 
 

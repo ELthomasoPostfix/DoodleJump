@@ -5,7 +5,6 @@
 #ifndef DOODLEJUMP_ABSTRACTENTITYFACTORY_H
 #define DOODLEJUMP_ABSTRACTENTITYFACTORY_H
 
-#include "../resources.h"
 #include "../../Game/GameObject/Entity/Player/Player.h"
 #include "../../Game/GameObject/Entity/Platform/Platform.h" // TODO specific Platforms
 #include "../../Game/GameObject/Entity/BGTile/BGTile.h"

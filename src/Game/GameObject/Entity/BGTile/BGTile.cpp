@@ -3,3 +3,11 @@
 //
 
 #include "BGTile.h"
+
+/*
+ *      PUBLIC methods
+ */
+
+BGTile::BGTile(Rect &rect) : Entity(rect) {
+
+}

@@ -12,6 +12,8 @@ class Player : public Entity {
 public:
     Player(double positionX, double positionY);
 
+    Player(Rect& rect);
+
     ~Player() override = default;
 
     void processInput(int horizFactor = 0);

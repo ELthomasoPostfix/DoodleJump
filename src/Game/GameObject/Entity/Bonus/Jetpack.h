@@ -10,6 +10,8 @@
 
 class Jetpack : Bonus {
     public:
+        explicit Jetpack(Rect& rect);
+
         ~Jetpack() override = default;
 
 };

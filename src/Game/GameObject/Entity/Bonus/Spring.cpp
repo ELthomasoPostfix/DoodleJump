@@ -3,3 +3,11 @@
 //
 
 #include "Spring.h"
+
+/*
+ *      PUBLIC methods
+ */
+
+Spring::Spring(Rect& rect) : Bonus(rect) {
+
+}

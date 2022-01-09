@@ -10,6 +10,8 @@
 
 class Spring : Bonus {
     public:
+        explicit Spring(Rect& rect);
+
         ~Spring() override = default;
 
 };

@@ -10,6 +10,8 @@
 
 class Bonus : Entity {
     public:
+        explicit Bonus(Rect& rect);
+
         ~Bonus() override = default;
 };
 
