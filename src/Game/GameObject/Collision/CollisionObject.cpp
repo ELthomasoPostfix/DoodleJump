@@ -162,16 +162,21 @@ std::pair<double, double> CollisionObject::determineRelativeCenterOfMass(const R
 
 double CollisionObject::getBoundingWidth()  {
     const auto& boundingBox = getBoundingBox();
-    return boundingBox.at(2) - boundingBox.at(0);
+    return std::abs(boundingBox.at(2) - boundingBox.at(0));
 }
 
 double CollisionObject::getBoundingHeight() {
     const auto& boundingBox = getBoundingBox();
-    return boundingBox.at(3) - boundingBox.at(1);
+    return std::abs(boundingBox.at(3) - boundingBox.at(1));
 }
 
 std::pair<double, double> CollisionObject::getOrigin() const {
     return _origin;
+}
+
+std::pair<double, double> CollisionObject::getAbsoluteOrigin() const {
+    auto pos = getPosition();
+    return {pos.first + _origin.first, pos.second + _origin.second};
 }
 
 void CollisionObject::setOrigin(const double originX, const double originY) {
@@ -314,6 +319,8 @@ void CollisionObject::updateBoundingBox() {
     _boundingBox = determineBoundingBox(_collisionShape);
     _updated = true;
 }
+
+
 
 
 

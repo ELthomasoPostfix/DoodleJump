@@ -12,9 +12,9 @@ class Player : public Entity {
 public:
     Player(double positionX, double positionY);
 
-    Player(Rect& rect);
+    explicit Player(Rect& rect);
 
-    ~Player() override = default;
+    ~Player() override;
 
     void processInput(int horizFactor = 0);
 

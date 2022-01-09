@@ -113,6 +113,12 @@ class CollisionObject : public GameObject {
              */
             std::pair<double, double> getOrigin() const;
 
+            //! Get the absolute coordinates of the origin.
+            /*!
+             * \note See setOrigin() for more information regarding the effect of changing the origin of the shape.
+             */
+            std::pair<double, double> getAbsoluteOrigin() const;
+
             //! set the origin, the point relative to the bottom left corner of the bounding box on which all transformations of the ::GameObject are applied.
             /*!
              * The origin expresses which point in relation to the bottom left of the bounding

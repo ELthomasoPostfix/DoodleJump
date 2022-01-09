@@ -9,57 +9,87 @@
  *      PUBLIC methods
  */
 
-std::unique_ptr<Camera>& Camera::getInstance(const unsigned int width, const unsigned int height) {
-    static std::unique_ptr<Camera> camera(new Camera(width, height));
-    return camera;
+Camera::Camera(const double wWidth, const double wHeight, Rect& viewArea)
+    : _cameraArea(viewArea, true) {
+    recalibrateFocusY();
+    setIndependentDimensions(wWidth, wHeight);
 }
 
-//void Camera::clip(const std::vector<std::shared_ptr<Entity>>& entities) {
-//    std::vector<std::shared_ptr<Entity>> clippedEntities;
-//    for (const auto& entity : entities) {
-//        if (!isVisible(entity->getView()))
-//            clippedEntities.emplace_back(entity);
-//        // TODO
-//        //  1) assign ::Entity class a View
-//        //  ==> virtual inheritance (public GameObject, public virtual CollisionObject) ??
-//        //   OR Extract BoundingBox into own class ??
-//        //  ==> https://stackoverflow.com/questions/27545888/is-multiple-inheritance-from-the-same-base-class-via-different-parent-classes-re
-//        //  2) if (!isVisible(object.view)) clip object
-//        //  3) rescale (make copies of Entities??)
-//    }
-//}
 
-std::pair<unsigned int, unsigned int> Camera::getDimensions() const {
-    return {_width, _height};
+std::pair<unsigned int, unsigned int> Camera::getDimensions() {
+    return {_cameraArea.getBoundingWidth(), _cameraArea.getBoundingHeight()};
 }
 
-void Camera::setDimensions(unsigned int width, unsigned int height) {
-    _width = width;
-    _height = height;
+std::pair<double, double> Camera::getIndependentDimensions() {
+    return {_wWidth, _wHeight};
+}
+
+void Camera::setIndependentDimensions(const double width, const double height) {
+    // TODO  exception instead?? ==> ValueError??
+    if (width > 0)
+        _wWidth = width;
+    else
+        _wWidth = 600;
+
+    if (height > 0)
+        _wHeight = height;
+    else
+        _wHeight = 800;
 }
 
 void Camera::move(const std::pair<double, double> &moveVector) {
-    _cameraArea->move(moveVector);
+    _cameraArea.move(moveVector);
+    _focusY += moveVector.second;
 }
 
 void Camera::setPosition(const std::pair<double, double> &destination) {
-    _cameraArea->setPosition(destination);
+    _cameraArea.setPosition(destination);
+    recalibrateFocusY();
 }
 
 bool Camera::isVisible(CollisionObject &viewArea) {
-    return _cameraArea->checkCollision(viewArea);
+    return _cameraArea.checkCollision(viewArea);
 }
 
 const std::array<double, 4> & Camera::getBoundingBox() {
-    return _cameraArea->getBoundingBox();
+    return _cameraArea.getBoundingBox();
 }
+
+void Camera::project(CollisionObject &viewArea) {
+    auto pos = viewArea.getPosition();
+    // independent dimensions
+    auto iDims = getIndependentDimensions();
+    // camera area dimensions
+    std::pair<double ,double> aDims = {_cameraArea.getBoundingWidth(),
+                                       _cameraArea.getBoundingHeight()};
+
+    auto& cameraBoundingBox = _cameraArea.getBoundingBox();
+
+    const double projX = (pos.first - cameraBoundingBox.at(0)) / aDims.first * iDims.first;
+    const double projY = (pos.second - cameraBoundingBox.at(1)) / aDims.second * iDims.second;
+
+    // Apply projection in place
+    viewArea.move(projX, projY);
+}
+
+void Camera::replaceCameraArea(Rect &newArea) {
+    _cameraArea = CollisionObject(newArea, true);
+    recalibrateFocusY();
+
+}
+
 
 
 /*
  *      PRIVATE methods
  */
 
-Camera::Camera(const unsigned int width, const unsigned int height)
-        : _width(width), _height(height) {}
+
+void Camera::recalibrateFocusY() {
+    _focusY = CollisionObject::determineAbsoluteCenterOfMass(_cameraArea.getCollisionShape()).second;
+}
+
+
+
 
 

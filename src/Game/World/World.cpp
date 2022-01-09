@@ -31,24 +31,19 @@ void World::clipEntities() {
 }
 
 bool World::addEntity(const std::shared_ptr<Entity>& entity) {
-    auto it = std::find(_entities.begin(), _entities.end(), entity);
-
-    if (it != _entities.end() && &(**it) == &(*entity))
-        return false;
-
-    _entities.emplace_back(entity);
-    return true;
+    return addEntity(entity, _entities);
 }
 
 bool World::removeEntity(const std::shared_ptr<Entity> &entity) {
-    auto it = std::find(_entities.begin(), _entities.end(), entity);
+    return removeEntity(entity, _entities);
+}
 
-    if (it != _entities.end() && &(**it) == &(*entity)) {
-        _entities.erase(it);
-        return true;
-    }
+bool World::addBGEntity(const std::shared_ptr<Entity> &entity) {
+    return addEntity(entity, _bgEntities);
+}
 
-    return false;
+bool World::removeBGEntity(const std::shared_ptr<Entity> &entity) {
+    return removeEntity(entity, _bgEntities);
 }
 
 CollisionInfo
@@ -85,14 +80,70 @@ World::checkCollision(Entity& movingBody, const std::pair<double, double> &moveD
     return std::move(result);
 }
 
+void World::signalRoundEnd() {
+    _roundOver = true;
+}
+
+bool World::roundHasEnded() {
+    return _roundOver;
+}
+
+void World::setIndependentDimensions(unsigned int wWidth, unsigned int wHeight) {
+    _camera->setIndependentDimensions(wWidth, wHeight);
+}
+
+void World::assignEntityFactory(std::unique_ptr<AbstractEntityFactory>& abstractEntityFactory) {
+    _entityFactory = std::move(abstractEntityFactory);
+}
+
+void World::setCameraArea(Rect &cameraArea) {
+    _camera->replaceCameraArea(cameraArea);
+}
+
+void World::projectViewArea(CollisionObject &viewArea) const {
+    _camera->project(viewArea);
+}
+
 
 
 /*
  *      PRIVATE methods
  */
 
+bool World::addEntity(const std::shared_ptr<Entity> &entity, std::vector<std::shared_ptr<Entity>>& vec) {
+    auto it = std::find(vec.begin(), vec.end(), entity);
 
-World::World() {}
+    if (it != vec.end() && &(**it) == &(*entity))
+        return false;
+
+    vec.emplace_back(entity);
+    return true;
+}
+
+bool World::removeEntity(const std::shared_ptr<Entity> &entity, std::vector<std::shared_ptr<Entity>>& vec) {
+    auto it = std::find(vec.begin(), vec.end(), entity);
+
+    if (it != vec.end() && &(**it) == &(*entity)) {
+        vec.erase(it);
+        return true;
+    }
+
+    // TODO  Scroll camera down, go to end screen??
+    if (roundHasEnded())
+        _endAnimationFinished = false;
+
+    return false;
+}
+
+World::World() {
+    _roundOver = false;
+    _endAnimationFinished = true;
+}
+
+
+
+
+
 
 
 

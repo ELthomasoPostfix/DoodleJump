@@ -11,26 +11,22 @@
 
 class Camera {
     public:
-        /*!
-         * The initial call will result in the assignment of the width and height
-         * parameters passed to it. All subsequent changes to the dimensions
-         * must happen through setDimensions().
-         */
-        static std::unique_ptr<Camera>& getInstance(unsigned int width = 600,
-                                                    unsigned int height = 800);
-
-        //void clip(const std::vector<std::shared_ptr<Entity>>& entities);
+        //! Define the independent coordinate system and the absolute view area onto the world space.
+        Camera(double wWidth, double wHeight, Rect& viewArea);
 
         //! Get the dimensions, (width, height), of the rectangle onto which the ::Camera object will project the ::World.
-        std::pair<unsigned int, unsigned int> getDimensions() const;
+        std::pair<unsigned int, unsigned int> getDimensions();
 
-        //! Set the dimensions of the rectangle onto which the ::Camera object will project the ::World.
-        void setDimensions(unsigned int width, unsigned int height);
+        //! Get the dimensions of the independent coordinate system the ::Camera object will projects the world coordinates onto.
+        std::pair<double, double> getIndependentDimensions();
+
+        //! Set the dimensions of the independent coordinate system the ::Camera object will projects the world coordinates onto.
+        void setIndependentDimensions(double width, double height);
 
         //! Move the ::Camera by the moveVector.
         void move(const std::pair<double, double>& moveVector);
 
-        //! Move the bottom left corner of the ::Camera to the destination.
+        //! Move the ::Camera's position to the destination.
         void setPosition(const std::pair<double, double>& destination);
 
         //! Check whether the view is visible inside the ::Camera object's camera area.
@@ -50,16 +46,29 @@ class Camera {
          */
         const std::array<double, 4>& getBoundingBox();
 
+        //! Project the view area <b>in place</b> onto its relative position within the independent coordinate system.
+        /*!
+         * In more concrete terms, we first compress the x-axis by a factor cameraArea.x and then
+         * stretch it by a factor of independentDimensions.x. We then work similarly for the y-axis
+         * and the cameraArea.y and independentDimensions.x values.
+         * After that, we translate the scaled coordinates so that the bottom left corner of the
+         * scaled camera area coincides with the Origin (0, 0).
+         */
+        void project(CollisionObject& viewArea);
+
+        //! Replace the camera area.
+        void replaceCameraArea(Rect& newArea);
+
     private:
-        unsigned int _width;
-        unsigned int _height;
-        std::unique_ptr<CollisionObject> _cameraArea;
+        //! Set the focus point y-value to where it should be based upon the camera view area.
+        void recalibrateFocusY();
 
 
-        Camera(unsigned int width, unsigned int height);
-        Camera(Camera const&);              // don't implement
-        Camera& operator= (Camera const&);  // don't implement
-
+    private:
+        double _wWidth;
+        double _wHeight;
+        CollisionObject _cameraArea;
+        double _focusY;
 };
 
 

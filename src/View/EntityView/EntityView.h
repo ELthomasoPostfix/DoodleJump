@@ -11,13 +11,6 @@
 class Game;
 
 
-// TODO     The EntityView class will notify the Game class that it has changed.
-//  ==> Give the AbstractEntityFactory a reference to Game, then it can attach this reference to the views
-//  ==> View then calls a callback function of Game or just calls a Game method. This Game method then polls
-//      the relevant view for changes
-//              Game->notify(const EntityView& changedView) {
-//                  window.draw(changedView);
-//              }
 class EntityView {
     public:
         explicit EntityView(Game& observer, Rect& viewArea);
@@ -63,11 +56,11 @@ class EntityView {
          */
         const std::array<uint8_t, 3>& getRGBFillColor() const;
 
-    protected:
         void setTextureID(size_t textureID);
 
         void setFillColor(unsigned int red, unsigned int green, unsigned int blue);
 
+    protected:
         EntityView getViewCopy() const;
 
     protected:

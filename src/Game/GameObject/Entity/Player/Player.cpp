@@ -14,6 +14,10 @@ Player::Player(const double positionX, const double positionY) :
 
 Player::Player(Rect &rect) : Entity(rect) {}
 
+Player::~Player() {
+    signalRoundEnd();
+}
+
 void Player::processInput(int horizFactor) {
     this->move(this->getPosition().first + horizFactor,
                this->getPosition().second);
@@ -22,4 +26,5 @@ void Player::processInput(int horizFactor) {
 void Player::process(double delta) {
 
 }
+
 

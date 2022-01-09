@@ -37,6 +37,10 @@ CollisionInfo Entity::checkCollision(const std::pair<double, double>& moveDir) {
     return std::move(World::getInstance()->checkCollision(*this, moveDir));
 }
 
+void Entity::signalRoundEnd() const {
+    World::getInstance()->signalRoundEnd();
+}
+
 void Entity::moveBehaviour(double moveX, double moveY) {
     _collisionObject.move(moveX, moveY);
 }
@@ -44,14 +48,3 @@ void Entity::moveBehaviour(double moveX, double moveY) {
 void Entity::setBehaviour(double moveX, double moveY, double prevX, double prevY) {
     _collisionObject.move(moveX, moveY);
 }
-
-/*
-bool Entity::registerEntity(const std::shared_ptr<Entity> &entity) {
-    // TODO check header
-    return World::getInstance()->addEntity(entity);
-}
-
-bool Entity::unregisterEntity(const std::shared_ptr<Entity> &entity) {
-    return World::getInstance()->removeEntity(entity);
-}
-*/

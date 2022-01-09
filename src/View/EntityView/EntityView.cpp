@@ -52,19 +52,9 @@ const std::array<uint8_t, 3>& EntityView::getRGBFillColor() const {
     return _rgbFillColor;
 }
 
-
-/*
- *      PROTECTED methods
- */
-
-
 void EntityView::setTextureID(const size_t textureID) {
     _textureID = textureID;
     _hasTexture = true;
-}
-
-EntityView EntityView::getViewCopy() const {
-    return *this;
 }
 
 void EntityView::setFillColor(const unsigned int red,
@@ -73,6 +63,17 @@ void EntityView::setFillColor(const unsigned int red,
     _rgbFillColor.at(0) = std::max(0, std::min(255, (int) red));
     _rgbFillColor.at(0) = std::max(0, std::min(255, (int) green));
     _rgbFillColor.at(0) = std::max(0, std::min(255, (int) blue));
+}
+
+
+
+/*
+ *      PROTECTED methods
+ */
+
+
+EntityView EntityView::getViewCopy() const {
+    return *this;
 }
 
 

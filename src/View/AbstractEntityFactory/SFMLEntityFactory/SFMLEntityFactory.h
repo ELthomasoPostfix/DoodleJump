@@ -16,7 +16,7 @@ class SFMLEntityFactory : public AbstractEntityFactory {
         explicit SFMLEntityFactory(Game& observer);
 
         //! Create a ::Player object with the correct view attached.
-        std::shared_ptr<Player> createPlayer(double positionX, double positionY) override;
+        std::shared_ptr<Player> createPlayer(Rect &collisionShape) override;
 
         // TODO revise comment
         //! Create a ::StaticPlatform object with the correct view attached.

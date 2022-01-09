@@ -28,7 +28,7 @@ class AbstractEntityFactory {
     //  ==> IF THIS IS DONE, ONLY A CREATEENTITY() METHOD IS NEEDED!!!
 
         //! Create a ::Player object with the correct view attached.
-        virtual std::shared_ptr<Player> createPlayer(double positionX, double positionY) = 0;
+        virtual std::shared_ptr<Player> createPlayer(Rect &collisionShape) = 0;
 
         // TODO revise comment
         //! Create a ::StaticPlatform object with the correct view attached.
