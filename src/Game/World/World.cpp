@@ -4,7 +4,7 @@
 
 #include "World.h"
 #include "../GameObject/Entity/Entity.h"
-#include "../../View/AbstractEntityFactory/AbstractEntityFactory.cpp"
+#include "../../View/AbstractEntityFactory/AbstractEntityFactory.h"
 
 
 /*

@@ -6,7 +6,7 @@
 #define DOODLEJUMP_GAME_H
 
 #include "View/Window/SFMLWindowManager.h"
-#include "View/AbstractEntityFactory/AbstractEntityFactory.h"
+#include "View/AbstractEntityFactory/SFMLEntityFactory/SFMLEntityFactory.h"
 
 
 //! A class used to run the DoodleJump game. Its setup determines which graphics implementation is utilized.
@@ -24,8 +24,7 @@ class Game {
         //  ==> mention this in the doxygen documentation
 
 
-        Game(unsigned int windowWidth, unsigned int windowHeight,
-             std::unique_ptr<AbstractEntityFactory>& entityFactory);
+        Game(unsigned int windowWidth, unsigned int windowHeight);
 
         //! Draw an ::EntityView onto the window.
         void draw(EntityView& view);

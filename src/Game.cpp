@@ -9,11 +9,10 @@
  *      PUBLIC methods
  */
 
-Game::Game(unsigned int windowWidth, unsigned int windowHeight,
-           std::unique_ptr<AbstractEntityFactory>& entityFactory)
+Game::Game(unsigned int windowWidth, unsigned int windowHeight)
     : _windowManager(std::make_unique<SFMLWindowManager>(windowWidth, windowHeight)) {
 
-    _entityFactory = std::move(entityFactory);
+    _entityFactory = std::make_unique<SFMLEntityFactory>(*this);
 
     _windowManager->textureManager->load(PLAYER_TEXTURE_ID, PLAYER_TEXTURE_PATH);
     _windowManager->textureManager->load(SPRING_TEXTURE_ID, SPRING_TEXTURE_PATH);

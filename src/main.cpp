@@ -1,7 +1,6 @@
 #include <iostream>
 
 #include "Game.h"
-#include "View/AbstractEntityFactory/SFMLEntityFactory/SFMLEntityFactory.h"
 
 // TODO  to modify difficulty, modify standard deviation of the normal distribution of Random???
 //  ==> If we normalize the result of random to the rang [0, 1], and we multiply default
@@ -59,8 +58,7 @@ void windowTest()
         quadIV.setFillColor(sf::Color::Yellow);
 
         std::unique_ptr<World>& world(World::getInstance());
-        std::unique_ptr<AbstractEntityFactory> f = std::make_unique<SFMLEntityFactory>();
-        std::unique_ptr<Game> game = std::make_unique<Game>(600, 800, f);
+        std::unique_ptr<Game> game = std::make_unique<Game>(600, 800);
 
         auto* player = new Player(0, 0);
         player->process(2);
@@ -225,8 +223,7 @@ void windowTest()
 
 int main()
 {
-        std::unique_ptr<AbstractEntityFactory> f = std::make_unique<SFMLEntityFactory>();
-        const std::unique_ptr<Game>& game = std::make_unique<Game>(600, 800, f);
+        const std::unique_ptr<Game>& game = std::make_unique<Game>(600, 800);
         game->setFrameRateLimit(60);
 
         // TODO

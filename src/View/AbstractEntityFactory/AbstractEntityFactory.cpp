@@ -3,3 +3,9 @@
 //
 
 #include "AbstractEntityFactory.h"
+
+/*
+ *      PUBLIC methods
+ */
+
+AbstractEntityFactory::AbstractEntityFactory(Game &observer) : observer(observer) {}

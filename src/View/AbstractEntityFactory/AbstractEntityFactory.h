@@ -12,9 +12,13 @@
 #include "../../Game/GameObject/Entity/Bonus/Jetpack.h"
 #include "../../Game/GameObject/Entity/Bonus/Spring.h"
 
-
+//! Functions as the observer of the ::EntityView derived class objects.
+class Game;
 
 class AbstractEntityFactory {
+    public:
+        //! All concrete factories are required to implement a constructor that assigns the observer.
+        explicit AbstractEntityFactory(Game &observer);
 
     // TODO  contain the logic of entity spawning within the EntityFactory?
     //  ==> e.g. The EntityFactory keeps "totalCreated" and "lastCreatedPosition" members.
@@ -51,6 +55,9 @@ class AbstractEntityFactory {
 
         //! Create a ::BGTile object with the correct view attached.
         virtual std::shared_ptr<BGTile> createBGTile(double positionX, double positionY) = 0;
+
+    protected:
+        Game& observer;
 };
 
 
