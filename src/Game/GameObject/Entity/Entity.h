@@ -62,6 +62,15 @@ class Entity : public GameObject {
          */
         virtual void process(double delta);
 
+        // TODO  Return a vector of collided with objects??
+        // TODO  If collision is detected, then a bonus should apply to an entity/Player
+        //  ==> Bonus checks collision, then asks the world is it is a player??
+        //  ==> observer like logic to register a Player& to each bonus??? And
+        //  ==> if the bonus finds collision with the player, then they can apply a boost
+        //  ==> Generalized for Bonus and Player classes
+        //! Check whether the entity has collided with anything in the world.
+        CollisionInfo checkCollision(const std::pair<double, double>& moveDir);
+
         //! Augment the move of the entity itself by also moving its collision shape.
         void moveBehaviour(double moveX, double moveY) override;
 

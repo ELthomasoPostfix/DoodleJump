@@ -23,8 +23,8 @@ bool KinematicBody::moveAndCollide(const std::pair<double, double> &moveVector) 
 
     // Check all collisions between the moved object and all static and kinematic bodies.
     const std::vector<CollisionInfo> collInfo = {
-            std::move(World::getInstance()->getStaticCollisionInfo(*this, moveVector)),
-            std::move(World::getInstance()->getRigidCollisionInfo(*this, moveVector))
+            //std::move(World::getInstance()->getStaticCollisionInfo(*this, moveVector)),
+            //std::move(World::getInstance()->getRigidCollisionInfo(*this, moveVector))
     };
     const auto pushbackVector =
             collInfo.at(Utility::getLongestVectorIndex({collInfo.at(0).pushback, collInfo.at(1).pushback})).pushback;

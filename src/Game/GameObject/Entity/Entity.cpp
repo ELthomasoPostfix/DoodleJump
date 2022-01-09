@@ -33,6 +33,10 @@ CollisionObject &Entity::getClipObject() {
 
 void Entity::process(double delta) {}
 
+CollisionInfo Entity::checkCollision(const std::pair<double, double>& moveDir) {
+    return std::move(World::getInstance()->checkCollision(*this, moveDir));
+}
+
 void Entity::moveBehaviour(double moveX, double moveY) {
     _collisionObject.move(moveX, moveY);
 }
