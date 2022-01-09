@@ -8,8 +8,6 @@
 #include <utility>
 #include <memory>
 
-// TODO  this needed here?
-class World;
 
 //! The base class for all movable objects and for all subcomponents of movable objects.
 /*! The ::GameObject class functions as an abstract base class for all objects that require

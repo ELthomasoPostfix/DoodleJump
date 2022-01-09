@@ -5,16 +5,9 @@
 #ifndef DOODLEJUMP_ENTITY_H
 #define DOODLEJUMP_ENTITY_H
 
-#include <utility>
-#include <memory>
-#include "../../../View/EntityView/EntityView.h"    // TODO  delete ??
 #include "../../World/World.h"
 
 
-static const std::unique_ptr<World>& getInstance();
-
-
-// TODO  #include "../Collision/PhysicsBody/PhysicsBody.h"
 
 //! The base class for all displayable objects.
 /*!
@@ -31,9 +24,7 @@ class Entity : public GameObject {
 
         ~Entity() override = default;
 
-        virtual void display() = 0;
-
-        EntityView& getView();
+        virtual void display();
 
         // TODO  Extract this behaviour into a Spawnable superclass?
         //  ==> GameObject --> Spawnable --> Entity  ???
@@ -81,10 +72,6 @@ class Entity : public GameObject {
         bool registerPhysicsBody(const std::shared_ptr<DerivedPhysicsBody>& physBody);
         template<class DerivedPhysicsBody>
         bool unregisterPhysicsBody(const std::shared_ptr<DerivedPhysicsBody>& physBody);
-
-
-    protected:
-        EntityView _view;       // TODO  delete ??
 
 };
 

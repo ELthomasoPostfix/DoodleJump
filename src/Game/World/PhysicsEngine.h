@@ -5,8 +5,7 @@
 #ifndef DOODLEJUMP_PHYSICSENGINE_H
 #define DOODLEJUMP_PHYSICSENGINE_H
 
-#include <vector>
-#include <cmath>
+
 #include "../GameObject/Collision/PhysicsBody/RigidBody.h"
 
 

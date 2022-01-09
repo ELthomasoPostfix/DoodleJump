@@ -161,8 +161,6 @@ class CollisionObject : public GameObject {
          */
         void setBehaviour(double moveX, double moveY, double prevX, double prevY) override;
 
-        friend World;
-
         //! Check whether any point part of the shape are located within the bounding box.
         static inline bool hasPointsInBounds(const std::array<double, 4> &bounds, const Rect& shape);
 

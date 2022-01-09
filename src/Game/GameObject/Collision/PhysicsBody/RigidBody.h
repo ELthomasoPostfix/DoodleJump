@@ -11,6 +11,7 @@
 //  Forces can be integrated into the rigid body, which is then moved explicitly by the physics engine.
 
 class PhysicsEngine;
+class World;
 
 
 //! A class modeling a ::CollisionObject that a user of the ::Game class can only influence by applying force to it, which is resolved by the ::Game class.

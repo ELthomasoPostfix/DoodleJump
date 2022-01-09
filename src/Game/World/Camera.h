@@ -5,7 +5,7 @@
 #ifndef DOODLEJUMP_CAMERA_H
 #define DOODLEJUMP_CAMERA_H
 
-#include "../../View/EntityView/EntityView.h"
+#include "../GameObject/Collision/CollisionObject.h"
 
 
 
@@ -33,8 +33,12 @@ class Camera {
         //! Move the bottom left corner of the ::Camera to the destination.
         void setPosition(const std::pair<double, double>& destination);
 
+        // TODO Find replacement for EntityView OR make some kind of
+        //  #define VISUAL_MODE true/false option that toggles the
+        //  include of EntityView and the definition and declaration
+        //  of the isVisible() method.
         //! Check whether the view is visible inside the ::Camera object's camera area.
-        bool isVisible(EntityView& view);
+        //bool isVisible(EntityView& view);
 
         //! Get the bounding box of the ::Camera.
         /*!

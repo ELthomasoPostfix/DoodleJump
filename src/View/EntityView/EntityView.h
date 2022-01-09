@@ -7,11 +7,29 @@
 
 #include "../../Game/GameObject/Collision/CollisionObject.h"
 
+class Game;
 
 
+// TODO     The EntityView class will notify the Game class that it has changed.
+//  ==> Give the AbstractEntityFactory a reference to Game, then it can attach this reference to the views
+//  ==> View then calls a callback function of Game or just calls a Game method. This Game method then polls
+//      the relevant view for changes
+//              Game->notify(const EntityView& changedView) {
+//                  window.draw(changedView);
+//              }
 class EntityView {
     public:
+        explicit EntityView(Game& observer);
+
         virtual ~EntityView();
+
+        // TODO  Add a override notify() implementation of the PlayerView to signal
+        //  that the game is over because the player is dead???
+        //  Why would we update() the Game that a view location has changed when stuff is drawn
+        //  all the time? --> Instead, call a notify to add an entity to a list of ViewEntities inside of
+        //  Game, or when some other state similar to player death changes???
+        //! Notify all observers of the change in view state.
+        void notify();
 
         //! Move the ::View by the moveVector.
         void move(const std::pair<double, double>& moveVector);
@@ -45,10 +63,15 @@ class EntityView {
         const std::array<uint8_t, 3>& getRGBFillColor() const;
 
     protected:
+        void setTextureID(size_t textureID);
+
+    protected:
         std::unique_ptr<CollisionObject> _viewArea;
         size_t _textureID;
         bool _hasTexture;
         std::array<uint8_t, 3> _rgbFillColor;
+
+        Game& _observer;        // TODO  is Game a View observer? Should Camera be one instead?
 
 
 };

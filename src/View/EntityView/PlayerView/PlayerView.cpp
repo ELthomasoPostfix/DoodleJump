@@ -4,7 +4,13 @@
 
 #include "PlayerView.h"
 
-PlayerView::PlayerView(double positionX, double positionY) : Player(positionX, positionY) {
+PlayerView::PlayerView(Game &observer, double positionX, double positionY) : EntityView(observer),
+                                                                             Player(positionX, positionY) {
     // TODO construct _viewArea
     //_textureID = PLAYER
+
+}
+
+void PlayerView::display() {
+
 }

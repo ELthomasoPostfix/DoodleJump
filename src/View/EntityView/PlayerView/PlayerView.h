@@ -10,9 +10,11 @@
 
 class PlayerView : public EntityView, public Player {
     public:
-        PlayerView(double positionX, double positionY);
+        PlayerView(Game &observer, double positionX, double positionY);
 
         ~PlayerView() override = default;
+
+        void display() override;
 };
 
 

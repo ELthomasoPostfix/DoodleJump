@@ -5,13 +5,14 @@
 #include "Entity.h"
 
 
+/*
+ *      PUBLIC methods
+ */
+
 Entity::Entity(double positionX, double positionY) :
     GameObject(positionX, positionY) {}
 
-
-EntityView &Entity::getView() {
-    return _view;
-}
+void Entity::display() {}
 
 void Entity::process(double delta) {}
 

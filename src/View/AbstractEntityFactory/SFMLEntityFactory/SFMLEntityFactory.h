@@ -6,7 +6,8 @@
 #define DOODLEJUMP_SFMLENTITYFACTORY_H
 
 #include "../AbstractEntityFactory.h"
-#include "../../EntityView/PlayerView/PlayerView.h"
+#include "../../EntityView/DerivedEntityViews.h"
+
 
 class SFMLEntityFactory : public AbstractEntityFactory {
 

@@ -5,14 +5,13 @@
 #ifndef DOODLEJUMP_WORLD_H
 #define DOODLEJUMP_WORLD_H
 
-#include <utility>
-
 #include "PhysicsEngine.h"
 #include "../World/Camera.h"
 #include "../GameObject/Collision/PhysicsBody/StaticBody.h"
 #include "../GameObject/Collision/PhysicsBody/KinematicBody.h"
 
 class Entity;
+class AbstractEntityFactory;
 
 
 //! Used to transmit info about a collision test requested through ::World.

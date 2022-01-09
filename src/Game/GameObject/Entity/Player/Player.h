@@ -18,9 +18,6 @@ public:
 
     void process(double delta) final;
 
-    void display() final;
-
-
 };
 
 

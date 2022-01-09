@@ -5,11 +5,12 @@
 #include "Player.h"
 
 
+/*
+ *      PUBLIC methods
+ */
+
 Player::Player(const double positionX, const double positionY) :
         Entity(positionX, positionY) {}
-
-
-
 
 void Player::processInput(int horizFactor) {
     this->move(this->getPosition().first + horizFactor,
@@ -46,9 +47,5 @@ void Player::process(double delta) {
     res = unregisterPhysicsBody(sb);
     res = unregisterPhysicsBody(sb);
     res = true;
-}
-
-void Player::display() {
-    // display view
 }
 

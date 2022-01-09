@@ -46,9 +46,12 @@ void Camera::setPosition(const std::pair<double, double> &destination) {
     _cameraArea->setPosition(destination);
 }
 
+// TODO Check header file
+/*
 bool Camera::isVisible(EntityView &view) {
     return _cameraArea->checkCollision(*view.getViewArea());
 }
+*/
 
 const std::array<double, 4> & Camera::getBoundingBox() {
     return _cameraArea->getBoundingBox();

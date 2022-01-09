@@ -14,7 +14,6 @@
 
 
 
-// TODO  Rename to AbstractEntityFactory ???
 class AbstractEntityFactory {
 
     // TODO  contain the logic of entity spawning within the EntityFactory?

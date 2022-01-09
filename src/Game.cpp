@@ -9,8 +9,11 @@
  *      PUBLIC methods
  */
 
-Game::Game(unsigned int windowWidth, unsigned int windowHeight)
+Game::Game(unsigned int windowWidth, unsigned int windowHeight,
+           std::unique_ptr<AbstractEntityFactory>& entityFactory)
     : _windowManager(std::make_unique<SFMLWindowManager>(windowWidth, windowHeight)) {
+
+    _entityFactory = std::move(entityFactory);
 
     _windowManager->textureManager->load(PLAYER_TEXTURE_ID, PLAYER_TEXTURE_PATH);
     _windowManager->textureManager->load(SPRING_TEXTURE_ID, SPRING_TEXTURE_PATH);
@@ -28,6 +31,11 @@ void Game::draw(const std::string &text, const size_t fontID) {
 
 void Game::setFrameRateLimit(unsigned int limit) {
     _windowManager->setFrameRateLimit(limit);
+}
+
+void Game::update(EntityView &changed) {
+    // TODO  This is a weird implementation? Isn't the window cleared every frame???
+    _windowManager->draw(changed);
 }
 
 
