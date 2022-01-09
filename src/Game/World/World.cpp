@@ -92,7 +92,7 @@ World::checkCollision(Entity& movingBody, const std::pair<double, double> &moveD
  */
 
 
-World::World() : _physicsEngine(PhysicsEngine::getInstance()) {}
+World::World() {}
 
 
 

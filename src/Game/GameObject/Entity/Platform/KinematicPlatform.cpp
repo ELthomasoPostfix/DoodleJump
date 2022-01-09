@@ -5,5 +5,4 @@
 #include "KinematicPlatform.h"
 
 KinematicPlatform::~KinematicPlatform() {
-    _physicsBody.reset();
 }

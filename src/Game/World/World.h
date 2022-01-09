@@ -5,7 +5,6 @@
 #ifndef DOODLEJUMP_WORLD_H
 #define DOODLEJUMP_WORLD_H
 
-#include "PhysicsEngine.h"
 #include "../World/Camera.h"
 
 class Entity;
@@ -58,11 +57,11 @@ class World {
         CollisionInfo checkCollision(Entity &movingBody, const std::pair<double, double> &moveDir);
 
     private:
-        std::unique_ptr<PhysicsEngine>& _physicsEngine;           // existence guaranteed by constructor
         std::unique_ptr<Camera> _camera;
 
         std::vector<std::shared_ptr<Entity>> _entities;
 
+        // TODO  do something with window dimensions
         World();
         World(World const&);              // don't implement
         World& operator= (World const&);  // don't implement

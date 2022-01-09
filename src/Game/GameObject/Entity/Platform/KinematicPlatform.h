@@ -17,9 +17,6 @@ class KinematicPlatform : Platform {
         std::pair<double, double> _startLocation;
         double _maxDistance;
 
-        // TODO  !!!! PhysicsBody composition OR inheritance/composition from KineticBody !!!!
-        std::unique_ptr<PhysicsBody> _physicsBody;
-
 };
 
 

@@ -20,8 +20,6 @@ add_executable(DoodleJump
 
         src/Game/World/World.cpp
         src/Game/World/World.h
-        src/Game/World/PhysicsEngine.cpp
-        src/Game/World/PhysicsEngine.h
         src/Game/World/Camera.cpp
         src/Game/World/Camera.h
 
@@ -30,14 +28,6 @@ add_executable(DoodleJump
 
         src/Game/GameObject/Collision/CollisionObject.cpp
         src/Game/GameObject/Collision/CollisionObject.h
-        src/Game/GameObject/Collision/PhysicsBody/PhysicsBody.cpp
-        src/Game/GameObject/Collision/PhysicsBody/PhysicsBody.h
-        src/Game/GameObject/Collision/PhysicsBody/KinematicBody.cpp
-        src/Game/GameObject/Collision/PhysicsBody/KinematicBody.h
-        src/Game/GameObject/Collision/PhysicsBody/RigidBody.cpp
-        src/Game/GameObject/Collision/PhysicsBody/RigidBody.h
-        src/Game/GameObject/Collision/PhysicsBody/StaticBody.cpp
-        src/Game/GameObject/Collision/PhysicsBody/StaticBody.h
 
         src/Game/GameObject/Entity/Entity.cpp
         src/Game/GameObject/Entity/Entity.h
@@ -63,8 +53,8 @@ add_executable(DoodleJump
         src/View/EntityView/PlayerView/PlayerView.cpp
         src/View/EntityView/PlayerView/PlayerView.h
 
-
         src/View/resources.h
+        src/View/EntityView/DerivedEntityViews.h
         src/View/AbstractEntityFactory/AbstractEntityFactory.cpp
         src/View/AbstractEntityFactory/AbstractEntityFactory.h
         src/View/AbstractEntityFactory/SFMLEntityFactory/SFMLEntityFactory.cpp
@@ -76,7 +66,7 @@ add_executable(DoodleJump
         src/View/Window/SFMLWindowManager.h
 
         src/Utility/Utility.cpp
-        src/Utility/Utility.h src/View/EntityView/DerivedEntityViews.h)
+        src/Utility/Utility.h)
 
 target_link_libraries(DoodleJump sfml-system sfml-window sfml-graphics sfml-audio)
 
