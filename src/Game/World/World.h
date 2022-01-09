@@ -6,24 +6,11 @@
 #define DOODLEJUMP_WORLD_H
 
 #include "../World/Camera.h"
+#include "CollisionInfo.h"
 
 class Entity;
 class AbstractEntityFactory;
 
-
-//! Used to transmit info about a collision test requested through ::World.
-struct CollisionInfo {
-    CollisionInfo()
-    : collidedWith(nullptr), pushback(0.0, 0.0), topCollision(false), sideCollision(false) {}
-
-    CollisionInfo(std::shared_ptr<Entity> cw, std::pair<double, double> pb, bool tc, bool sc)
-    : collidedWith(std::move(cw)), pushback(std::move(pb)), topCollision(tc), sideCollision(sc) {}
-
-    std::shared_ptr<Entity> collidedWith;
-    std::pair<double, double> pushback;
-    bool topCollision;
-    bool sideCollision;
-};
 
 
 

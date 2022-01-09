@@ -20,6 +20,7 @@ add_executable(DoodleJump
 
         src/Game/World/World.cpp
         src/Game/World/World.h
+        src/Game/World/CollisionInfo.h
         src/Game/World/Camera.cpp
         src/Game/World/Camera.h
 

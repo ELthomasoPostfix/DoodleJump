@@ -12,6 +12,8 @@
 #include <algorithm>
 #include <functional>
 #include <vector>
+#include <memory>
+
 
 namespace Utility {
 
