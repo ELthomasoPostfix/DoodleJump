@@ -18,8 +18,18 @@ std::unique_ptr<World>& World::getInstance() {
 
 void World::processEntities(const double delta) {
 
-    for (const auto& go : _entities) {
-        go->process(delta);
+    for (const auto& processable : _entities) {
+        processable->process(delta);
+    }
+}
+
+void World::requestViews() {
+    for (const auto& bgEntity : _bgEntities) {
+        bgEntity->display();
+    }
+
+    for (auto fgEntity = _entities.rbegin(); fgEntity != _entities.rend(); ++fgEntity) {
+        fgEntity->get()->display();
     }
 }
 
@@ -139,6 +149,9 @@ World::World() {
     _roundOver = false;
     _endAnimationFinished = true;
 }
+
+
+
 
 
 

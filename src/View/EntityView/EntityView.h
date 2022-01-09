@@ -56,11 +56,14 @@ class EntityView {
          */
         const std::array<uint8_t, 3>& getRGBFillColor() const;
 
+        //! Set the id of the texture to use when displaying the entity.
         void setTextureID(size_t textureID);
 
+        //! Set the color of the rectangle representation when displaying the entity.
         void setFillColor(unsigned int red, unsigned int green, unsigned int blue);
 
     protected:
+        //! Make a copy of the to display view information, to pass to the observer.
         EntityView getViewCopy() const;
 
     protected:

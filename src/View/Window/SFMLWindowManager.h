@@ -15,10 +15,19 @@ struct SFMLWindowManager : public WindowManager<sf::Texture, sf::Font, sf::Rende
 
         ~SFMLWindowManager() override = default;
 
+        bool close() override;
+
+        void clear() override;
+
+        void display() override;
+
+
         // TODO set scale of sprite?
         void draw(EntityView& view) final;
 
         void draw(const std::string &text, size_t fontID) final;
+
+        bool pollEvent(dj::Event& event) const override;
 
         void setFrameRateLimit(unsigned int limit) final;
 

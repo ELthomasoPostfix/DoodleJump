@@ -67,7 +67,7 @@ add_executable(DoodleJump
         src/View/Window/SFMLWindowManager.h
 
         src/Utility/Utility.cpp
-        src/Utility/Utility.h)
+        src/Utility/Utility.h src/Event.h)
 
 target_link_libraries(DoodleJump sfml-system sfml-window sfml-graphics sfml-audio)
 

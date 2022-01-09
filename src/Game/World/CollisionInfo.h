@@ -1,5 +1,5 @@
 //
-// Created by elthomaso on 09/01/2022.
+// Created by Thomas Gueutal on 09/01/2022.
 //
 
 #ifndef DOODLEJUMP_COLLISIONINFO_H

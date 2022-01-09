@@ -19,11 +19,9 @@ EntityView::~EntityView() {}
 
 void EntityView::notify() {
     EntityView cpy = getViewCopy();
-    // TODO  update the game observer with a scaled and inverted version of this entity view
-    //  ==> need Camera for this?
-    // TODO Make sure that _observer.update(*this) moves the this values?
-    //  ==> then we can just pass an object and not have to call new for the copy
-    //_observer.update(*this);
+    World::getInstance()->projectViewArea(cpy._viewArea);
+
+    _observer.update(cpy);
 }
 
 void EntityView::move(const std::pair<double, double> &moveVector) {
@@ -75,5 +73,6 @@ void EntityView::setFillColor(const unsigned int red,
 EntityView EntityView::getViewCopy() const {
     return *this;
 }
+
 
 

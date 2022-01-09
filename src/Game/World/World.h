@@ -27,12 +27,10 @@ class World {
          */
         void processEntities(double delta);
 
+        void requestViews();
+
         //! Clip all the entities that are not within the camera's view area in world space.
         void clipEntities();
-
-        // TODO Where to put the transform method to apply to ::EntityView's
-        //  shape after conversion to independent coordinates????
-        //  ==> SFMLWindowManager?
 
         //! Register any ::Entity derived class object, such that its ::Entity::process(double) method will be called.
         /*!
@@ -86,14 +84,17 @@ class World {
         void projectViewArea(CollisionObject& viewArea) const;
 
     private:
+        //! Add an entity <b>in place</b> to the vector.
         bool addEntity(const std::shared_ptr<Entity> &entity, std::vector<std::shared_ptr<Entity>>& vec);
 
+        //! Remove an entity <b>in place</b> from the vector.
         bool removeEntity(const std::shared_ptr<Entity> &entity, std::vector<std::shared_ptr<Entity>>& vec);
 
     private:
         std::unique_ptr<Camera> _camera;
         std::vector<std::shared_ptr<Entity>> _entities;
         std::vector<std::shared_ptr<Entity>> _bgEntities;
+        // TODO  don't store this here, but in World??
         std::unique_ptr<AbstractEntityFactory> _entityFactory;
         bool _roundOver;
         bool _endAnimationFinished;   // Done scrolling down? // TODO  just keep calling clip until top of camera below prev top before game end

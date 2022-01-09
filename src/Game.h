@@ -5,8 +5,10 @@
 #ifndef DOODLEJUMP_GAME_H
 #define DOODLEJUMP_GAME_H
 
+#include "Utility/Stopwatch.h"
 #include "View/Window/SFMLWindowManager.h"
 #include "View/AbstractEntityFactory/SFMLEntityFactory/SFMLEntityFactory.h"
+
 
 
 //! A class used to run the DoodleJump game. Its setup determines which graphics implementation is utilized.
@@ -26,11 +28,12 @@ class Game {
 
         Game(unsigned int windowWidth, unsigned int windowHeight);
 
-        //! Draw an ::EntityView onto the window.
-        void draw(EntityView& view);
-
-        //! Draw text with the specified registered font onto the window.
-        void draw(const std::string& text, size_t fontID);
+        //! Run the main game loop.
+        /*!
+         * The main game loop will only stop once an exit event is received from
+         * the window.
+         */
+        void doGameLoop();
 
         //! Limit the framerate of the window, if this is supported.
         void setFrameRateLimit(unsigned int limit);
@@ -38,9 +41,10 @@ class Game {
         void update(EntityView& changed);
 
     private:
-        std::unique_ptr<World> _world;
+        std::unique_ptr<World> _world;  // TODO  singleton --> just do getInstance()
         std::unique_ptr<SFMLWindowManager> _windowManager;
         std::unique_ptr<AbstractEntityFactory> _entityFactory;
+        std::vector<EntityView> _viewBuffer;
 
 };
 
