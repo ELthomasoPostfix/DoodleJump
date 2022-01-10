@@ -31,6 +31,17 @@ struct SFMLWindowManager : public WindowManager<sf::Texture, sf::Font, sf::Rende
 
         void setFrameRateLimit(unsigned int limit) final;
 
+        std::pair<unsigned int, unsigned int> getTextureDimensions(size_t textureID) const override;
+
+private:
+        //! Transform the independent y-coordinate to an SFML position  y-coordinate.
+        /*!
+         * The independent coordinates choose the bottom of the window to be y = 0.
+         * However, SFML chooses this to be at the top of the screen. Thus,
+         * we must add offset to the position of drawn entities so that
+         * they appear in the correct position on the SFML windows.
+         */
+        double determineSFMLYCoordinate(CollisionObject& viewArea) const;
 };
 
 

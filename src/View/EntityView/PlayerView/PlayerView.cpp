@@ -18,3 +18,15 @@ void PlayerView::display() {
 CollisionObject &PlayerView::getClipObject() {
     return _viewArea;
 }
+
+void PlayerView::moveBehaviour(double moveX, double moveY) {
+    getCollisionObject().move(moveX, moveY);
+    _viewArea.move(moveX, moveY);
+}
+
+void PlayerView::setBehaviour(double moveX, double moveY, double prevX, double prevY) {
+    getCollisionObject().move(moveX, moveY);
+    _viewArea.move(moveX, moveY);
+}
+
+

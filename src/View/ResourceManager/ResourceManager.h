@@ -43,6 +43,9 @@ public:
         assert(found != resources.end());
         return *found->second[0];
     }
+    bool check(Identifier id) {
+        return resources.find(id) != resources.end();
+    }
     const Resource& get(Identifier id) const
     {
         auto found = resources.find(id);

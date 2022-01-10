@@ -25,16 +25,11 @@ std::pair<double, double> Camera::getIndependentDimensions() {
 }
 
 void Camera::setIndependentDimensions(const double width, const double height) {
-    // TODO  exception instead?? ==> ValueError??
     if (width > 0)
-        _wWidth = width;
-    else
-        _wWidth = 600;
+        _wWidth = std::ceil(width);
 
     if (height > 0)
-        _wHeight = height;
-    else
-        _wHeight = 800;
+        _wHeight = std::ceil(height);
 }
 
 void Camera::move(const std::pair<double, double> &moveVector) {
@@ -69,13 +64,12 @@ void Camera::project(CollisionObject &viewArea) {
     const double projY = (pos.second - cameraBoundingBox.at(1)) / aDims.second * iDims.second;
 
     // Apply projection in place
-    viewArea.move(projX, projY);
+    viewArea.setPosition(projX, projY);
 }
 
 void Camera::replaceCameraArea(Rect &newArea) {
     _cameraArea = CollisionObject(newArea, true);
     recalibrateFocusY();
-
 }
 
 

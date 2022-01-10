@@ -8,7 +8,6 @@
 #include <iostream>
 #include "../ResourceManager/ResourceManager.h"
 #include "../EntityView/EntityView.h"
-#include "../../Event.h"
 
 
 //! A common interface for all window managers.
@@ -67,11 +66,19 @@ struct WindowManager {
         //! Set the framerate limit of the window.
         virtual void setFrameRateLimit(unsigned int limit) {};
 
+        //! Get the dimensions of a registered texture by id.
+        virtual std::pair<unsigned int, unsigned int> getTextureDimensions(size_t textureID) const = 0;
+
+        // TODO  Push error handling to Controller???
+        //  ==> throw;
         //! Print a generic error to report that the ::WindowManager encountered a problem drawing onto the window.
-        void printDrawError(const std::string& what);
+        void printDrawError(const std::string& what) const;
+
+        //! Print a generic error to report that the ::WindowManager encountered a problem drawing onto the window.
+        void printTextureDimError(const std::string& what) const;
 
         //! Print a generic error to report that the ::WindowManager encountered a problem closing the window.
-        void printExitError(const std::string& what);
+        void printExitError(const std::string& what) const;
 
     public:
         std::unique_ptr<ResourceManager<Texture, size_t>> textureManager;
@@ -93,13 +100,18 @@ WindowManager<Texture, Font, RenderWindow>::~WindowManager() {
 }
 
 template<typename Texture, typename Font, typename RenderWindow>
-void WindowManager<Texture, Font, RenderWindow>::printDrawError(const std::string &what) {
+void WindowManager<Texture, Font, RenderWindow>::printDrawError(const std::string &what) const {
     std::cout << "Error while drawing on DoodleJump window : " << what << std::endl;
 }
 
 template<typename Texture, typename Font, typename RenderWindow>
-void WindowManager<Texture, Font, RenderWindow>::printExitError(const std::string &what) {
+void WindowManager<Texture, Font, RenderWindow>::printExitError(const std::string &what) const {
     std::cout << "Error while closing DoodleJump window : " << what << std::endl;
+}
+
+template<typename Texture, typename Font, typename RenderWindow>
+void WindowManager<Texture, Font, RenderWindow>::printTextureDimError(const std::string &what) const {
+    std::cout << "Error concerning a Texture : " << what << std::endl;
 }
 
 

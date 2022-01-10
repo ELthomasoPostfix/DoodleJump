@@ -16,6 +16,9 @@ Player::Player(Rect &rect) : Entity(rect) {}
 
 Player::~Player() {
     signalRoundEnd();
+    // TODO Doesn't the player need to live during the end animation???
+    //  ==> Wouldn't keeping a weak_ptr work better?
+    //  ==> transformable into shared_ptr for operations
 }
 
 void Player::processInput(int horizFactor) {

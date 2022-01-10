@@ -23,7 +23,7 @@ Entity::Entity(double positionX, double positionY)
 
 void Entity::display() {}
 
-CollisionObject &Entity::getCollisionShape() {
+CollisionObject &Entity::getCollisionObject() {
     return _collisionObject;
 }
 
@@ -40,6 +40,11 @@ CollisionInfo Entity::checkCollision(const std::pair<double, double>& moveDir) {
 void Entity::signalRoundEnd() const {
     World::getInstance()->signalRoundEnd();
 }
+
+
+/*
+ *      PROTECTED methods
+ */
 
 void Entity::moveBehaviour(double moveX, double moveY) {
     _collisionObject.move(moveX, moveY);

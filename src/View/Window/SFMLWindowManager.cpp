@@ -39,8 +39,12 @@ void SFMLWindowManager::draw(EntityView &view) {
         if (view.hasTexture()) {
             sf::Sprite sprite;
             sprite.setTexture(textureManager->get(view.getTextureID()));
+            // The view and texture should have the same height-width ratios.
+            const double scale = viewArea.getBoundingHeight() / sprite.getTexture()->getSize().y;
+            sprite.setScale(scale, scale);
             sprite.setOrigin(viewArea.getOrigin().first, viewArea.getOrigin().second);
-            sprite.setPosition(viewArea.getPosition().first, viewArea.getPosition().second);
+            sprite.setPosition(viewArea.getPosition().first,
+                             viewArea.getPosition().second + determineSFMLYCoordinate(viewArea));
 
             window->draw(sprite);
         } else {
@@ -50,8 +54,8 @@ void SFMLWindowManager::draw(EntityView &view) {
             sf::RectangleShape rect({static_cast<float>(view.getViewArea().getBoundingWidth()),
                                      static_cast<float>(view.getViewArea().getBoundingHeight())});    // TODO set corners
             rect.setOrigin(viewArea.getOrigin().first, viewArea.getOrigin().second);
-            rect.setPosition(window->getSize().y - viewArea.getPosition().first,
-                             window->getSize().y - viewArea.getPosition().second);
+            rect.setPosition(viewArea.getPosition().first,
+                             viewArea.getPosition().second + determineSFMLYCoordinate(viewArea));
             rect.setFillColor(fillColor);
 
             window->draw(rect);
@@ -102,5 +106,28 @@ bool SFMLWindowManager::pollEvent(dj::Event& event) const {
 void SFMLWindowManager::setFrameRateLimit(const unsigned int limit) {
     window->setFramerateLimit(limit);
 }
+
+std::pair<unsigned int, unsigned int> SFMLWindowManager::getTextureDimensions(size_t textureID) const {
+    try {
+        auto size = textureManager->get(textureID).getSize();
+        return {size.x, size.y};
+    } catch (std::runtime_error& e) {
+        printTextureDimError(e.what());
+        return {0, 0};
+    }
+}
+
+/*
+ *      PRIVATE methods
+ */
+
+double SFMLWindowManager::determineSFMLYCoordinate(CollisionObject& viewArea) const {
+    // SFML chooses y = 0 at the top of the screen
+    const double centerY = window->getSize().y / 2.0;
+    const double topDistance = centerY - viewArea.getBoundingBox().at(3);
+    const double bottomDistance = centerY - viewArea.getBoundingBox().at(1);
+    return topDistance + bottomDistance;
+}
+
 
 

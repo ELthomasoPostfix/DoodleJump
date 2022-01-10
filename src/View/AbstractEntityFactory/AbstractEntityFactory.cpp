@@ -8,4 +8,5 @@
  *      PUBLIC methods
  */
 
-AbstractEntityFactory::AbstractEntityFactory(Game &observer) : observer(observer) {}
+AbstractEntityFactory::AbstractEntityFactory(Game &observer, const TexturesInfo& info)
+    : observer(observer), info(info) {}

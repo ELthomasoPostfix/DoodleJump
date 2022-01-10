@@ -36,7 +36,7 @@ class Entity : public GameObject {
         virtual void display();
 
         //! Get the collision object representing the collision shape of the entity.
-        CollisionObject& getCollisionShape();
+        CollisionObject& getCollisionObject();
 
         //! Get the collisionObject used to check whether or not the entity is visible to a ::Camera object.
         /*!
@@ -72,6 +72,8 @@ class Entity : public GameObject {
 
         //! Signal the world that the round needs to end.
         void signalRoundEnd() const;
+
+    protected:
 
         //! Augment the move of the entity itself by also moving its collision shape.
         void moveBehaviour(double moveX, double moveY) override;

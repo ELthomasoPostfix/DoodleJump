@@ -25,9 +25,23 @@ class Game {
         //  Images used found at https://github.com/shlapkoff/DoodleJump/tree/master/Doodle%20Jump/images
         //  ==> mention this in the doxygen documentation
 
+        // TODO     Set move/setBehaviour for EntityView objects properly ???
 
         Game(unsigned int windowWidth, unsigned int windowHeight);
 
+        //! Start the game.
+        void start();
+
+        //! Limit the framerate of the window, if this is supported.
+        void setFrameRateLimit(unsigned int limit);
+
+    protected:
+        friend void EntityView::notify();
+
+        //! Register an entity's view with the game, the MVC controller, to be drawn next frame.
+        void update(EntityView& changed);
+
+    private:
         //! Run the main game loop.
         /*!
          * The main game loop will only stop once an exit event is received from
@@ -35,15 +49,17 @@ class Game {
          */
         void doGameLoop();
 
-        //! Limit the framerate of the window, if this is supported.
-        void setFrameRateLimit(unsigned int limit);
-
-        void update(EntityView& changed);
-
     private:
-        std::unique_ptr<World> _world;  // TODO  singleton --> just do getInstance()
         std::unique_ptr<SFMLWindowManager> _windowManager;
-        std::unique_ptr<AbstractEntityFactory> _entityFactory;
+        /*!
+         * The game decides which textures correspond to which entity,
+         * it should manage their information. This also allows changes
+         * to the info to immediately be reflected inside the factory,
+         * as the factory stores a reference to this object. As long
+         * as the game object lives, the world and abstract factory do too,
+         * so storing a reference is possible.
+         */
+        TexturesInfo _texturesInfo;
         std::vector<EntityView> _viewBuffer;
 
 };

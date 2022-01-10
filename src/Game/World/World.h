@@ -7,6 +7,7 @@
 
 #include "../World/Camera.h"
 #include "CollisionInfo.h"
+#include "../../Event.h"
 
 class Entity;
 class AbstractEntityFactory;
@@ -27,10 +28,19 @@ class World {
          */
         void processEntities(double delta);
 
+        //! Request all entity views to register themselves with the controller for displaying.
         void requestViews();
 
         //! Clip all the entities that are not within the camera's view area in world space.
+        /*!
+         * If the actual objects are entityViews, then they will register themselves with
+         * the controller, ::Game, so that they can be displayed. This is an application
+         * of the observer pattern.
+         */
         void clipEntities();
+
+        // TODO  void receiveEvent();
+        //  ==> Make an observable for events in World, with Entities being observers??
 
         //! Register any ::Entity derived class object, such that its ::Entity::process(double) method will be called.
         /*!

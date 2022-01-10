@@ -33,8 +33,8 @@ void GameObject::setPosition(double destinationX, double destinationY, bool doSe
         _position.second = destinationY;
 
         if (doSetBehaviour)
-            setBehaviour(_position.first - destinationX,
-                         _position.second - destinationY,
+            setBehaviour(destinationX - prevX,
+                         destinationY - prevY,
                          prevX, prevY);
 }
 

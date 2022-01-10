@@ -7,6 +7,10 @@
 
 #include "../GameObject/Collision/CollisionObject.h"
 
+#define DEFAULT_CAMERA_WIDTH    600
+#define DEFAULT_CAMERA_HEIGHT   800
+#define DEFAULT_CAMERA_AREA     {{0.0, 0.0}, {1000.0, 0.0}, {1000.0, 1000.0}, {0.0, 1000.0}}
+
 
 
 class Camera {

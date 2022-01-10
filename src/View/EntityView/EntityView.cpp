@@ -26,12 +26,10 @@ void EntityView::notify() {
 
 void EntityView::move(const std::pair<double, double> &moveVector) {
     _viewArea.move(moveVector);
-    notify();   // TODO  This is a weird implementation? Isn't the window cleared every frame???
 }
 
 void EntityView::setPosition(const std::pair<double, double> &destination) {
     _viewArea.setPosition(destination);
-    notify();   // TODO  This is a weird implementation? Isn't the window cleared every frame???
 }
 
 CollisionObject& EntityView::getViewArea() {

@@ -60,12 +60,12 @@ CollisionInfo
 World::checkCollision(Entity& movingBody, const std::pair<double, double> &moveDir) {
 
     std::vector<std::pair<double, double>> pushbackVectors;
-    auto mbCollShape = movingBody.getCollisionShape();
+    auto mbCollShape = movingBody.getCollisionObject();
 
     // TODO Wrap checkCollision() and determinePushback() into a getCollisionInfo method?
     //  Also think about difference between getCollisionInfo() and getCollisionsInfo().
     for (const auto& other : _entities) {
-        CollisionObject& otherCollShape = other->getCollisionShape();
+        CollisionObject& otherCollShape = other->getCollisionObject();
         if (&mbCollShape != &otherCollShape && mbCollShape.checkCollision(otherCollShape)) {
             const auto pushback = mbCollShape.determinePushback(moveDir, otherCollShape);
 
@@ -85,7 +85,7 @@ World::checkCollision(Entity& movingBody, const std::pair<double, double> &moveD
     CollisionInfo result;
     result.collidedWith = _entities.at(index);
     result.pushback = pushbackVectors.at(index);
-    result.topCollision = mbCollShape.isAbove(result.collidedWith->getCollisionShape());
+    result.topCollision = mbCollShape.isAbove(result.collidedWith->getCollisionObject());
     result.sideCollision = !result.topCollision;
     return std::move(result);
 }
@@ -146,6 +146,10 @@ bool World::removeEntity(const std::shared_ptr<Entity> &entity, std::vector<std:
 }
 
 World::World() {
+    Rect tempCameraArea{DEFAULT_CAMERA_AREA};
+    _camera = std::make_unique<Camera>(DEFAULT_CAMERA_WIDTH,
+                                       DEFAULT_CAMERA_HEIGHT,
+                                       tempCameraArea);
     _roundOver = false;
     _endAnimationFinished = true;
 }

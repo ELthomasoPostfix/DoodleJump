@@ -8,7 +8,7 @@
 #include "../../../Game/GameObject/Entity/Player/Player.h"
 #include "../EntityView.h"
 
-class PlayerView : public EntityView, public Player {
+class PlayerView : public Player, public EntityView {
     public:
         PlayerView(Game &observer, Rect& collShape, Rect& viewArea);
 
@@ -17,6 +17,10 @@ class PlayerView : public EntityView, public Player {
         void display() override;
 
         CollisionObject& getClipObject() override;
+
+        void moveBehaviour(double moveX, double moveY) override;
+
+        void setBehaviour(double moveX, double moveY, double prevX, double prevY) override;
 };
 
 

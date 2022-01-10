@@ -18,8 +18,11 @@ void windowTest()
 
         // TODO set window VSync to true
         //  cap framerate at 60
-
-        sf::RenderWindow window(sf::VideoMode(600, 800), "SFML works!");
+        unsigned int wWidth = 600;
+        unsigned int wWidthH = wWidth/2;
+        unsigned int wHeight = 800;
+        unsigned int wHeightH = wHeight/2;
+        sf::RenderWindow window(sf::VideoMode(wWidth, wHeight), "SFML works!");
         window.setFramerateLimit(60);
 
         sf::CircleShape shape(100.f);
@@ -60,15 +63,24 @@ void windowTest()
         std::unique_ptr<World>& world(World::getInstance());
         std::unique_ptr<Game> game = std::make_unique<Game>(600, 800);
 
-        auto* player = new Player(0, 0);
+        double margin = 20;
+
+        Rect pViewShape{{{wWidthH+margin, wHeightH+margin}, {wWidthH + 100-margin, wHeightH+margin},
+                         {wWidthH+100-margin, wHeightH+100-margin}, {wWidthH+margin, wHeightH+100-margin}}};
+        Rect pCollShape{{{wWidthH, wHeightH}, {wWidthH + 100, wHeightH},
+                         {wWidthH+100, wHeightH+100}, {wWidthH, wHeightH+100}}};
+        Player* playerView = new PlayerView(*game, pCollShape, pViewShape);
+
+        Player* player = new Player(pCollShape);
         player->process(2);
         player->process(2);
 
         sf::Texture texture;
-        texture.loadFromFile("../Resources/Images/doodle-right.png");
+        texture.loadFromFile(PLAYER_TEXTURE_PATH);
         // Create a sprite
         sf::Sprite sprite;
         sprite.setTexture(texture);
+        sprite.setScale(.4, 1);
         sprite.setPosition(300, 400);
         sprite.setOrigin(texture.getSize().x/2, texture.getSize().y/2);
 
@@ -94,9 +106,14 @@ void windowTest()
         Rect r2 = {{{150.0, 150.0}, {250.0, 150.0}, {250.0, 250.0}, {150.0, 250.0}}};
         std::pair<double, double> c2 = CollisionObject::determineAbsoluteCenterOfMass(r2);
         CollisionObject* cObj2 = new CollisionObject(r2, true);
-        cObj2->setOrigin(cObj2->getBoundingWidth()/2, cObj2->getBoundingHeight()/2);
-        cObj2->move(-150, -150);
+        //cObj2->setOrigin(cObj2->getBoundingWidth()/2, cObj2->getBoundingHeight()/2);
+        //cObj2->move(-150, -150);
+        cObj2->setPosition(wWidthH, wHeightH);
 
+        CollisionObject cObj2Stored = *cObj2;
+
+        Rect cameraArea{{{0, 0}, {wWidthH, 0}, {wWidthH, wHeightH}, {0, wHeightH}}};
+        Camera* camera = new Camera(wWidthH, wHeightH, cameraArea);
 
         uint32_t ctr = 0;
         int moveAmount = 5;
@@ -132,11 +149,34 @@ void windowTest()
                                                   << cObj2->getPosition().second << ")" << std::endl;
                                 } else {
                                         cObj2->move(dirX, dirY);
+                                        playerView->move(dirX, dirY);
                                         moveDir.first += dirX != 0 && dirX != moveDir.first ? dirX : 0;
                                         moveDir.second += dirY != 0 && dirY != moveDir.second ? dirY : 0;
                                 }
                                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
                                         requireCollision = !requireCollision;
+                                // Key 'R' stands for resize world coordinates to independent coordinates.
+                                if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
+                                    camera->project(*cObj2);
+                                }                               // Key 'T' stands for transpose from independent coordinates to SFMLcoordinates
+                                if (sf::Keyboard::isKeyPressed(sf::Keyboard::T)) {
+                                    const double centerY = (wHeight / 2.0) / 2.0;
+                                    const double topDistance = centerY - cObj2->getBoundingBox().at(3);
+                                    const double bottomDistance = centerY - cObj2->getBoundingBox().at(1);
+                                    cObj2->move(0, topDistance + bottomDistance);
+                                }
+                                // Copy the movable object.
+                                if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+                                    cObj2Stored = *cObj2;
+                                // Restore the movable object to the previous stored state
+                                if (sf::Keyboard::isKeyPressed(sf::Keyboard::V))
+                                    *cObj2 = cObj2Stored;
+                                // Swap the two player objects
+                                if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+                                    auto* temp = playerView;
+                                    playerView = player;
+                                    player = temp;
+                                }
                         }
                 }
 
@@ -182,12 +222,30 @@ void windowTest()
                 arrowHead.setPosition(lineStart.first + moveDir.first * 8.0, lineStart.second + moveDir.second * 8.0);
 
                 if (cObj1->checkCollision(*cObj2)) {
-                        // std::cout << "coll" << std::endl;
                         rect1.setOutlineThickness(10);
                         rect1.setOutlineColor(sf::Color(250, 150, 100));
-                } else {
-                        bool res = cObj1->checkCollision(*cObj2);
-                        // std::cout << "no coll" << std::endl;
+                }
+
+
+                sf::ConvexShape pvCollRect;
+                pvCollRect.setPointCount(4);
+                Rect s3 = playerView->getCollisionObject().getCollisionShape();
+                for (unsigned int i = 0; i < 4; ++i)
+                    pvCollRect.setPoint(i, sf::Vector2f(s3.at(i).first, s3.at(i).second));
+                pvCollRect.setFillColor(sf::Color(150, 0, 0));
+
+
+                sf::ConvexShape pvViewRect;
+                pvViewRect.setPointCount(4);
+                Rect s4 = playerView->getClipObject().getCollisionShape();
+                for (unsigned int i = 0; i < 4; ++i)
+                    pvViewRect.setPoint(i, sf::Vector2f(s4.at(i).first, s4.at(i).second));
+                pvViewRect.setFillColor(sf::Color(0, 0, 150));
+
+
+                if (camera->isVisible(playerView->getClipObject())) {
+                        pvCollRect.setOutlineThickness(5);
+                        pvCollRect.setOutlineColor(sf::Color(0, 150, 0));
                 }
 
                 // TODO  add a rotate function to CollisionObject
@@ -213,9 +271,14 @@ void windowTest()
 
                 window.draw(circle3);
 
-                //window.draw(sprite);
+
+                window.draw(pvCollRect);
+                window.draw(pvViewRect);
+
+                window.draw(sprite);
 
                 window.draw(text);
+
 
                 window.display();
         }
@@ -228,7 +291,7 @@ int main()
 
         // TODO
         // TODO
-        //windowTest();
+        windowTest();
         // TODO
         // TODO
 

@@ -13,10 +13,10 @@
 //  ==> Return unique ptrs from these methods (and AbstrEFact also) then.
 class SFMLEntityFactory : public AbstractEntityFactory {
     public:
-        explicit SFMLEntityFactory(Game& observer);
+        SFMLEntityFactory(Game& observer, const TexturesInfo& info);
 
         //! Create a ::Player object with the correct view attached.
-        std::shared_ptr<Player> createPlayer(Rect &collisionShape) override;
+        std::shared_ptr<Player> createPlayer() override;
 
         // TODO revise comment
         //! Create a ::StaticPlatform object with the correct view attached.

@@ -13,11 +13,17 @@
 
 //! Functions as the observer of the ::EntityView derived class objects.
 class Game;
+class TexturesInfo;
 
 class AbstractEntityFactory {
     public:
-        //! All concrete factories are required to implement a constructor that assigns the observer.
-        explicit AbstractEntityFactory(Game &observer);
+        //! All concrete factories are required to implement a constructor that assigns the observer and acquires texture info.
+        /*!
+         * The observer is necessary to retrieve the views to be drawn onto the window.
+         * The texture info is necessary to properly proportion entities according to their
+         * texture.
+         */
+        AbstractEntityFactory(Game &observer, const TexturesInfo& info);
 
     // TODO  contain the logic of entity spawning within the EntityFactory?
     //  ==> e.g. The EntityFactory keeps "totalCreated" and "lastCreatedPosition" members.
@@ -28,7 +34,7 @@ class AbstractEntityFactory {
     //  ==> IF THIS IS DONE, ONLY A CREATEENTITY() METHOD IS NEEDED!!!
 
         //! Create a ::Player object with the correct view attached.
-        virtual std::shared_ptr<Player> createPlayer(Rect &collisionShape) = 0;
+        virtual std::shared_ptr<Player> createPlayer() = 0;
 
         // TODO revise comment
         //! Create a ::StaticPlatform object with the correct view attached.
@@ -57,6 +63,7 @@ class AbstractEntityFactory {
 
     protected:
         Game& observer;
+        const TexturesInfo& info;
 };
 
 
