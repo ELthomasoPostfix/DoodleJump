@@ -7,6 +7,7 @@
 
 #include "../../Game/GameObject/Entity/Player/Player.h"
 #include "../../Game/GameObject/Entity/Platform/Platform.h" // TODO specific Platforms
+#include "../../Game/GameObject/Entity/Platform/StaticPlatform.h" // TODO specific Platforms
 #include "../../Game/GameObject/Entity/BGTile/BGTile.h"
 #include "../../Game/GameObject/Entity/Bonus/Jetpack.h"
 #include "../../Game/GameObject/Entity/Bonus/Spring.h"
@@ -38,7 +39,7 @@ class AbstractEntityFactory {
 
         // TODO revise comment
         //! Create a ::StaticPlatform object with the correct view attached.
-        virtual std::shared_ptr<Platform> createStaticPlatform(double positionX, double positionY) = 0;
+        virtual std::shared_ptr<Platform> createStaticPlatform() = 0;
 
         // TODO revise comment
         //! Create a ::HorizontalPlatform object with the correct view attached.
@@ -60,6 +61,14 @@ class AbstractEntityFactory {
 
         //! Create a ::BGTile object with the correct view attached.
         virtual std::shared_ptr<BGTile> createBGTile(double positionX, double positionY) = 0;
+
+    protected:
+        //! Create a non-rotated rectangle that contains the point (0, 0) based on the specified width and height..
+        /*!
+         * \param width The x-coordinate of the two points not located at x = 0.
+         * \param width The y-coordinate of the two points not located at y = 0.
+         */
+        Rect createRect(double width, double height);
 
     protected:
         Game& observer;

@@ -9,9 +9,9 @@
  *      PUBLIC methods
  */
 
-CollisionObject::CollisionObject(Rect shape, bool isPhysical)
+CollisionObject::CollisionObject(Rect shape, bool isPhysical, bool isSolid)
     : GameObject(0, 0), _collisionShape(std::move(shape)),
-    _updated(false), _isPhysical(isPhysical), _origin(0, 0)
+    _updated(false), _isPhysical(isPhysical), _isSolid(isSolid), _origin(0, 0)
 {
     auto& boundingBox = getBoundingBox();
     setPosition(boundingBox.at(0), boundingBox.at(1), false);
@@ -126,9 +126,9 @@ CollisionObject::determinePushback(const std::pair<double, double> &moveDir,
     }
 }
 
-void CollisionObject::setIsPhysical(const bool isPhysical) { _isPhysical = isPhysical; }
-
 bool CollisionObject::isPhysical() const { return _isPhysical; }
+
+bool CollisionObject::isSolid() const { return _isSolid; }
 
 Rect CollisionObject::getCollisionShape() const { return _collisionShape; }
 
@@ -198,10 +198,13 @@ void CollisionObject::setOrigin(const std::pair<double, double>& origin) {
     setOrigin(origin.first, origin.second);
 }
 
-bool CollisionObject::isAbove(CollisionObject &other) {
-    return getBoundingBox().at(1) >= other.getBoundingBox().at(3);
+bool CollisionObject::isAbove(CollisionObject &staticBody, double yPushback) {
+    return (this->getBoundingBox().at(1) + yPushback) > staticBody.getBoundingBox().at(3);
 }
 
+bool CollisionObject::isAsHighAs(CollisionObject &staticBody) {
+    return this->getBoundingBox().at(1) >= staticBody.getBoundingBox().at(1);
+}
 
 
 
@@ -319,6 +322,8 @@ void CollisionObject::updateBoundingBox() {
     _boundingBox = determineBoundingBox(_collisionShape);
     _updated = true;
 }
+
+
 
 
 

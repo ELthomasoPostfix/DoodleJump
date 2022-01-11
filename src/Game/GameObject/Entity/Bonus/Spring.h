@@ -8,12 +8,15 @@
 #include "Bonus.h"
 
 
-class Spring : Bonus {
+class Spring : public Bonus {
     public:
         explicit Spring(Rect& rect);
 
         ~Spring() override = default;
 
+        void process(double delta) override;
+
+        bool update(bool callerIsSupported) override;
 };
 
 

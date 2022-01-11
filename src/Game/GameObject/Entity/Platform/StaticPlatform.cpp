@@ -3,3 +3,7 @@
 //
 
 #include "StaticPlatform.h"
+
+StaticPlatform::StaticPlatform(Rect &rect) : Platform(rect) {
+
+}

@@ -100,12 +100,12 @@ void windowTest()
 
         Rect r1 = {{{100.0, 100.0}, {200.0, 100.0}, {200.0, 200.0}, {100.0, 200.0}}};
         std::pair<double, double> c1 = CollisionObject::determineAbsoluteCenterOfMass(r1);
-        CollisionObject* cObj1 = new CollisionObject(r1, true);
+        CollisionObject* cObj1 = new CollisionObject(r1, true, false);
         cObj1->setOrigin(cObj1->getBoundingWidth()/2, cObj1->getBoundingHeight()/2);
 
         Rect r2 = {{{150.0, 150.0}, {250.0, 150.0}, {250.0, 250.0}, {150.0, 250.0}}};
         std::pair<double, double> c2 = CollisionObject::determineAbsoluteCenterOfMass(r2);
-        CollisionObject* cObj2 = new CollisionObject(r2, true);
+        CollisionObject* cObj2 = new CollisionObject(r2, true, false);
         //cObj2->setOrigin(cObj2->getBoundingWidth()/2, cObj2->getBoundingHeight()/2);
         //cObj2->move(-150, -150);
         cObj2->setPosition(wWidthH, wHeightH);
@@ -288,10 +288,11 @@ int main()
 {
         const std::unique_ptr<Game>& game = std::make_unique<Game>(600, 800);
         game->setFrameRateLimit(60);
+        game->start();
 
         // TODO
         // TODO
-        windowTest();
+        //windowTest();
         // TODO
         // TODO
 

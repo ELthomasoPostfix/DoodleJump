@@ -5,11 +5,7 @@
 #include "PlayerView.h"
 
 PlayerView::PlayerView(Game &observer, Rect& collShape, Rect& viewArea)
-    : Player(collShape), EntityView(observer, viewArea) {
-    // TODO construct _viewArea
-    //_textureID = PLAYER
-
-}
+    : Player(collShape), EntityView(observer, viewArea) {}
 
 void PlayerView::display() {
     notify();

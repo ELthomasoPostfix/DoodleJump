@@ -8,7 +8,7 @@
 #include "../Entity.h"
 
 
-class Platform : Entity {
+class Platform : public Entity {
     public:
         explicit Platform(Rect& rect);
 

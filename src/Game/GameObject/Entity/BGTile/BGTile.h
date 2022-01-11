@@ -8,7 +8,7 @@
 #include "../Entity.h"
 
 
-class BGTile : Entity {
+class BGTile : public Entity {
     public:
         explicit BGTile(Rect& rect);
 

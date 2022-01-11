@@ -10,7 +10,7 @@
  */
 
 Camera::Camera(const double wWidth, const double wHeight, Rect& viewArea)
-    : _cameraArea(viewArea, true) {
+    : _cameraArea(viewArea, true, false) {
     recalibrateFocusY();
     setIndependentDimensions(wWidth, wHeight);
 }
@@ -68,7 +68,7 @@ void Camera::project(CollisionObject &viewArea) {
 }
 
 void Camera::replaceCameraArea(Rect &newArea) {
-    _cameraArea = CollisionObject(newArea, true);
+    _cameraArea = CollisionObject(newArea, true, false);
     recalibrateFocusY();
 }
 

@@ -52,14 +52,28 @@ namespace Utility {
         return std::sqrt(std::pow(vec.first, 2) + std::pow(vec.second, 2));
     }
 
-    unsigned int getLongestVectorIndex(const std::vector<std::pair<double, double>>& vectors) {
+    size_t getLongestVectorIndex(const std::vector<std::pair<double, double>>& vectors) {
         unsigned int index = -1;
-        double maxMagnitude = std::numeric_limits<double>::infinity();
+        double maxMagnitude = - std::numeric_limits<double>::infinity();
         for (unsigned int i = 0; i < vectors.size(); ++i) {
             const auto& vector = vectors.at(i);
             double magnitude = Utility::magnitude(vector);
             if (maxMagnitude < magnitude) {
                 maxMagnitude = magnitude;
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    size_t getShortestVectorIndex(const std::vector<std::pair<double, double>>& vectors) {
+        unsigned int index = -1;
+        double minMagnitude = std::numeric_limits<double>::infinity();
+        for (unsigned int i = 0; i < vectors.size(); ++i) {
+            const auto& vector = vectors.at(i);
+            double magnitude = Utility::magnitude(vector);
+            if (magnitude < minMagnitude) {
+                minMagnitude = magnitude;
                 index = i;
             }
         }

@@ -17,9 +17,7 @@
  */
 class Entity : public GameObject {
     public:
-        explicit Entity(Rect& rect);
-
-        Entity(double positionX, double positionY);
+        explicit Entity(Rect &rect, bool isPhysical, bool isSolid);
 
         ~Entity() override = default;
 
@@ -49,8 +47,6 @@ class Entity : public GameObject {
          */
         virtual CollisionObject& getClipObject();
 
-        // TODO  Extract this behaviour into a Spawnable superclass?
-        //  ==> GameObject --> Spawnable --> Entity  ???
         //! The entry point for the ::World class to let a ::GameObject influence the game state.
         /*!
          * If a derived class desires to influence the game world every frame, then these
@@ -61,14 +57,11 @@ class Entity : public GameObject {
          */
         virtual void process(double delta);
 
-        // TODO  Return a vector of collided with objects??
-        // TODO  If collision is detected, then a bonus should apply to an entity/Player
-        //  ==> Bonus checks collision, then asks the world is it is a player??
-        //  ==> observer like logic to register a Player& to each bonus??? And
-        //  ==> if the bonus finds collision with the player, then they can apply a boost
-        //  ==> Generalized for Bonus and Player classes
-        //! Check whether the entity has collided with anything in the world.
-        CollisionInfo checkCollision(const std::pair<double, double>& moveDir);
+        //! Return collision info on all collisions with solid objects in the world.
+        std::vector<SolidCollisionInfo> getSolidCollisions(const std::pair<double, double>& moveDir);
+
+        //! Return collision info on all collisions with non solid objects in the world.
+        std::vector<NonSolidCollisionInfo> getNonSolidCollisions();
 
         //! Signal the world that the round needs to end.
         void signalRoundEnd() const;

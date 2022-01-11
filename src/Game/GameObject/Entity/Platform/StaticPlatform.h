@@ -8,9 +8,17 @@
 #include "Platform.h"
 
 
-class StaticPlatform : Platform {
+class StaticPlatform : public Platform {
     public:
+        explicit StaticPlatform(Rect& rect);
+
         ~StaticPlatform() override = default;
+
+    private:
+        //! The world must be able to position a static platform
+        friend World;
+        using GameObject::move;
+        using GameObject::setPosition;
 };
 
 

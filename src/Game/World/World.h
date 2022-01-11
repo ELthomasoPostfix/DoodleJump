@@ -10,6 +10,7 @@
 #include "../../Event.h"
 
 class Entity;
+class Player;
 class AbstractEntityFactory;
 
 
@@ -18,6 +19,11 @@ class AbstractEntityFactory;
 class World {
     public:
         static std::unique_ptr<World>& getInstance();
+
+        // TODO  add some random public method to already test stuff pls !!!!!!!!!!!!!!!!!!!!!!
+        void test();
+        // TODO  add some random public method to already test stuff pls !!!!!!!!!!!!!!!!!!!!!!
+
 
         //! Call the process method of all registered ::Entity objects.
         /*!
@@ -60,8 +66,11 @@ class World {
         //! Removed a registered ::Entity. Its is effectively removed from the game world.
         bool removeBGEntity(const std::shared_ptr<Entity> &entity);
 
-        //! Check for collision between the passed entity and all other entities.
-        CollisionInfo checkCollision(Entity &movingBody, const std::pair<double, double> &moveDir);
+        //! Check for collision between the passed entity and all other solid entities.
+        std::vector<SolidCollisionInfo> getSolidCollisions(Entity &movingBody, const std::pair<double, double> &moveDir);
+
+        //! Check for collision between the passed entity and all other non solid entities.
+        std::vector<NonSolidCollisionInfo> getNonSolidCollisions(Entity &movingBody);
 
         //! The world gets notified that the current round needs to be ended.
         void signalRoundEnd();
@@ -104,7 +113,7 @@ class World {
         std::unique_ptr<Camera> _camera;
         std::vector<std::shared_ptr<Entity>> _entities;
         std::vector<std::shared_ptr<Entity>> _bgEntities;
-        // TODO  don't store this here, but in World??
+        std::shared_ptr<Player> _player;
         std::unique_ptr<AbstractEntityFactory> _entityFactory;
         bool _roundOver;
         bool _endAnimationFinished;   // Done scrolling down? // TODO  just keep calling clip until top of camera below prev top before game end

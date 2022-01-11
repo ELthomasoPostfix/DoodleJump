@@ -10,10 +10,17 @@
 
 class Jetpack : Bonus {
     public:
-        explicit Jetpack(Rect& rect);
+        Jetpack(Rect& rect, double totalBoost);
 
         ~Jetpack() override = default;
 
+        void process(double delta) override;
+
+        bool update(bool callerIsSupported) override;
+
+    private:
+        double _totalBoost;
+        double _currentBoost;
 };
 
 

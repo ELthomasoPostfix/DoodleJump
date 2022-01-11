@@ -3,7 +3,7 @@
 //
 
 #include "World.h"
-#include "../GameObject/Entity/Entity.h"
+#include "../GameObject/Entity/Player/Player.h"
 #include "../../View/AbstractEntityFactory/AbstractEntityFactory.h"
 
 
@@ -56,38 +56,53 @@ bool World::removeBGEntity(const std::shared_ptr<Entity> &entity) {
     return removeEntity(entity, _bgEntities);
 }
 
-CollisionInfo
-World::checkCollision(Entity& movingBody, const std::pair<double, double> &moveDir) {
+std::vector<SolidCollisionInfo>
+World::getSolidCollisions(Entity& movingBody, const std::pair<double, double> &moveDir) {
 
-    std::vector<std::pair<double, double>> pushbackVectors;
+    std::vector<SolidCollisionInfo> collisions;
     auto mbCollShape = movingBody.getCollisionObject();
 
-    // TODO Wrap checkCollision() and determinePushback() into a getCollisionInfo method?
-    //  Also think about difference between getCollisionInfo() and getCollisionsInfo().
-    for (const auto& other : _entities) {
-        CollisionObject& otherCollShape = other->getCollisionObject();
+    for (const auto& staticBody : _entities) {
+        CollisionObject& otherCollShape = staticBody->getCollisionObject();
+        if (!otherCollShape.isSolid())
+            continue;
         if (&mbCollShape != &otherCollShape && mbCollShape.checkCollision(otherCollShape)) {
             const auto pushback = mbCollShape.determinePushback(moveDir, otherCollShape);
 
             // Pushback is valid
-            if (pushback.first != 0.0 && pushback.second != 0.0)
-                pushbackVectors.emplace_back(pushback);
+            if (pushback.first != 0.0 && pushback.second != 0.0) {
+                SolidCollisionInfo info;
+                info.collidedWith = staticBody;
+                info.pushback = pushback;
+                info.topCollision = mbCollShape.isAbove(info.collidedWith->getCollisionObject(),
+                                                        info.pushback.second);
+                info.sideCollision = !info.topCollision;
+                collisions.emplace_back(std::move(info));
+            }
         }
     }
 
-    if (pushbackVectors.empty())
-        return CollisionInfo{};
+    return std::move(collisions);
+}
 
-    // All pushback vectors have the same direction,
-    // so the largest pushback will undo all collisions.
-    unsigned int index = Utility::getLongestVectorIndex(pushbackVectors);
+std::vector<NonSolidCollisionInfo>
+World::getNonSolidCollisions(Entity& movingBody) {
 
-    CollisionInfo result;
-    result.collidedWith = _entities.at(index);
-    result.pushback = pushbackVectors.at(index);
-    result.topCollision = mbCollShape.isAbove(result.collidedWith->getCollisionObject());
-    result.sideCollision = !result.topCollision;
-    return std::move(result);
+    std::vector<NonSolidCollisionInfo> collisions;
+    auto mbCollShape = movingBody.getCollisionObject();
+
+    for (const auto& staticBody : _entities) {
+        CollisionObject& otherCollShape = staticBody->getCollisionObject();
+        if (otherCollShape.isSolid())
+            continue;
+        if (&mbCollShape != &otherCollShape && mbCollShape.checkCollision(otherCollShape)) {
+                NonSolidCollisionInfo info;
+                info.collidedWith = staticBody;
+                collisions.emplace_back(std::move(info));
+        }
+    }
+
+    return std::move(collisions);
 }
 
 void World::signalRoundEnd() {
@@ -152,6 +167,14 @@ World::World() {
                                        tempCameraArea);
     _roundOver = false;
     _endAnimationFinished = true;
+}
+
+void World::test() {
+    std::shared_ptr<Platform> platform = _entityFactory->createStaticPlatform();
+    addEntity(platform);
+
+    std::shared_ptr<Player> player = _entityFactory->createPlayer();
+    addEntity(player);
 }
 
 

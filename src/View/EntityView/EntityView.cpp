@@ -13,7 +13,7 @@
 
 EntityView::EntityView(Game &observer, Rect& viewArea)
     : _observer(observer), _hasTexture(false), _rgbFillColor({0, 0, 0}),
-      _viewArea(viewArea, true) {}
+      _viewArea(viewArea, true, false) {}
 
 EntityView::~EntityView() {}
 

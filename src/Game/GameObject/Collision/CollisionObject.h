@@ -26,7 +26,7 @@ class CollisionObject : public GameObject {
              * \param shape The collision shape.
              * \param isPhysical Whether or not the ::CollisionObject participates in collision.
              */
-            explicit CollisionObject(Rect shape, bool isPhysical);
+            explicit CollisionObject(Rect shape, bool isPhysical, bool isSolid);
 
             ~CollisionObject() override = default;
 
@@ -69,11 +69,11 @@ class CollisionObject : public GameObject {
                                                         CollisionObject& container, double scaleFactor = 1.0,
                                                         bool requireCollision = true);
 
-            //! Set whether the ::CollisionObject participates in collision.
-            void setIsPhysical(bool isPhysical);
-
             //! Check whether the ::CollisionObject participates in collision.
             bool isPhysical() const;
+
+            //! Check whether the ::CollisionObject can be used to propel the player upwards.
+            bool isSolid() const;
 
             //! get a copy of the collision shape.
             Rect getCollisionShape() const;
@@ -133,10 +133,22 @@ class CollisionObject : public GameObject {
             //! Whether the bounding box of the ::CollisionObject is located higher than the bounding box of other.
             /*!
              * Returns whether the lower bound y-coordinate of the caller's bounding box is located
-             * at least as high as the upper bound y-coordinate of the bounding box of other.
-             * \param other The object whose bounding box the caller checks to be above or not.
+             * strictly higher than the upper bound y-coordinate of the bounding box of the other.
+             * A y-pushback value can be supplied. In that case, the lower bound y-coordinate
+             * of other is assumed to first have the pushback added to it before the check is
+             * performed.
+             * \param staticBody The object with whose bounding box the caller compares height.
+             * \param yPushback An offset to the lower bound y-coordinate of other.
              */
-            bool isAbove(CollisionObject& other);
+            bool isAbove(CollisionObject &staticBody, double yPushback);
+
+            //! Whether the bounding box of the ::CollisionObject is located higher at least as high as that of the other.
+            /*!
+             * Returns whether the lower bound y-coordinate of the caller's bounding box is located
+             * at least as high as the lower bound y-coordinate of the bounding box of the other.
+             * \param staticBody The object with whose bounding box the caller compares height.
+             */
+            bool isAsHighAs(CollisionObject &staticBody);
 
     protected:
         //! Move all points in the collision shape by the movement vector.
@@ -201,6 +213,8 @@ class CollisionObject : public GameObject {
 
         //! Whether the ::CollisionShape participates in collision.
         bool _isPhysical;
+        //! Whether or not the player can propel itself off this object.
+        bool _isSolid;
 
         //! The point relative to the bottom left corner of the bounding box based on which all transformations occur.
         std::pair<double, double> _origin;

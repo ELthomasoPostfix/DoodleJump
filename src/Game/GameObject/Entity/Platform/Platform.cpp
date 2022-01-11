@@ -8,6 +8,6 @@
  *      PUBLIC methods
  */
 
-Platform::Platform(Rect &rect) : Entity(rect) {
+Platform::Platform(Rect &rect) : Entity(rect, true, true) {
 
 }

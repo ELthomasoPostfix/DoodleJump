@@ -7,6 +7,7 @@
 
 #include "../AbstractEntityFactory.h"
 #include "../../EntityView/DerivedEntityViews.h"
+#include "../../EntityView/TemplateView.h"
 
 // TODO  If the Entity registration functionality is deleted,
 //  then the ::World must store unique_ptr instances instead???
@@ -20,7 +21,7 @@ class SFMLEntityFactory : public AbstractEntityFactory {
 
         // TODO revise comment
         //! Create a ::StaticPlatform object with the correct view attached.
-        std::shared_ptr<Platform> createStaticPlatform(double positionX, double positionY) override;
+        std::shared_ptr<Platform> createStaticPlatform() override;
 
         // TODO revise comment
         //! Create a ::HorizontalPlatform object with the correct view attached.

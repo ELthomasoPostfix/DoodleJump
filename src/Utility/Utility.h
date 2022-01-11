@@ -13,6 +13,8 @@
 #include <functional>
 #include <vector>
 #include <memory>
+#include <iostream> // TODO good idea?
+
 
 
 namespace Utility {
@@ -42,7 +44,10 @@ namespace Utility {
     double magnitude(const std::pair<double, double>& vec);
 
     //! Find the index of the vector with the largest magnitude. If the list is empty, returns -1.
-    unsigned int getLongestVectorIndex(const std::vector<std::pair<double, double>>& vectors);
+    size_t getLongestVectorIndex(const std::vector<std::pair<double, double>>& vectors);
+
+    //! Find the index of the vector with the lowest magnitude. If the list is empty, returns -1.
+    size_t getShortestVectorIndex(const std::vector<std::pair<double, double>>& vectors);
 
 };
 

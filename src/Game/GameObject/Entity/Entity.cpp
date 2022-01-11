@@ -9,16 +9,10 @@
  *      PUBLIC methods
  */
 
-Entity::Entity(Rect& rect)
-    : GameObject(0, 0), _collisionObject(rect, true) {
+Entity::Entity(Rect &rect, const bool isPhysical, const bool isSolid)
+    : GameObject(0, 0), _collisionObject(rect, isPhysical, isSolid) {
     auto& boundingBox = _collisionObject.getBoundingBox();
     setPosition(boundingBox.at(0), boundingBox.at(1), false);
-}
-
-Entity::Entity(double positionX, double positionY)
-    : GameObject(0, 0),
-    _collisionObject({{{0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}}}, true) {
-    setPosition(positionX, positionY);
 }
 
 void Entity::display() {}
@@ -33,8 +27,12 @@ CollisionObject &Entity::getClipObject() {
 
 void Entity::process(double delta) {}
 
-CollisionInfo Entity::checkCollision(const std::pair<double, double>& moveDir) {
-    return std::move(World::getInstance()->checkCollision(*this, moveDir));
+std::vector<SolidCollisionInfo> Entity::getSolidCollisions(const std::pair<double, double>& moveDir) {
+    return std::move(World::getInstance()->getSolidCollisions(*this, moveDir));
+}
+
+std::vector<NonSolidCollisionInfo> Entity::getNonSolidCollisions() {
+    return std::move(World::getInstance()->getNonSolidCollisions(*this));
 }
 
 void Entity::signalRoundEnd() const {

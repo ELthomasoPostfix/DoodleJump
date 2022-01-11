@@ -8,7 +8,7 @@
 #include "Platform.h"
 
 
-class KinematicPlatform : Platform {
+class KinematicPlatform : public Platform {
     public:
         ~KinematicPlatform() override;
 

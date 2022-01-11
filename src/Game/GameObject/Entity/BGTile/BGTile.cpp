@@ -8,6 +8,6 @@
  *      PUBLIC methods
  */
 
-BGTile::BGTile(Rect &rect) : Entity(rect) {
+BGTile::BGTile(Rect &rect) : Entity(rect, false, false) {
 
 }
