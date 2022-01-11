@@ -6,8 +6,10 @@
 #define DOODLEJUMP_ABSTRACTENTITYFACTORY_H
 
 #include "../../Game/GameObject/Entity/Player/Player.h"
-#include "../../Game/GameObject/Entity/Platform/Platform.h" // TODO specific Platforms
-#include "../../Game/GameObject/Entity/Platform/StaticPlatform.h" // TODO specific Platforms
+#include "../../Game/GameObject/Entity/Platform/StaticPlatform.h"
+#include "../../Game/GameObject/Entity/Platform/TemporaryPlatform.h"
+#include "../../Game/GameObject/Entity/Platform/HorizontalPlatform.h"
+#include "../../Game/GameObject/Entity/Platform/VerticalPlatform.h"
 #include "../../Game/GameObject/Entity/BGTile/BGTile.h"
 #include "../../Game/GameObject/Entity/Bonus/Jetpack.h"
 #include "../../Game/GameObject/Entity/Bonus/Spring.h"
@@ -37,30 +39,26 @@ class AbstractEntityFactory {
         //! Create a ::Player object with the correct view attached.
         virtual std::shared_ptr<Player> createPlayer() = 0;
 
-        // TODO revise comment
         //! Create a ::StaticPlatform object with the correct view attached.
         virtual std::shared_ptr<StaticPlatform> createStaticPlatform() = 0;
 
-        // TODO revise comment
         //! Create a ::HorizontalPlatform object with the correct view attached.
-        virtual std::shared_ptr<Platform> createHorizontalPlatform(double positionX, double positionY) = 0;
+        virtual std::shared_ptr<HorizontalPlatform> createHorizontalPlatform() = 0;
 
-        // TODO revise comment
         //! Create a ::VerticalPlatform object with the correct view attached.
-        virtual std::shared_ptr<Platform> createVerticalPlatform(double positionX, double positionY) = 0;
+        virtual std::shared_ptr<VerticalPlatform> createVerticalPlatform() = 0;
 
-        // TODO revise comment
         //! Create a ::TemporaryPlatform object with the correct view attached.
-        virtual std::shared_ptr<Platform> createTemporaryPlatform(double positionX, double positionY) = 0;
+        virtual std::shared_ptr<TemporaryPlatform> createTemporaryPlatform() = 0;
 
         //! Create a ::Jetpack object with the correct view attached.
-        virtual std::shared_ptr<Jetpack> createJetpack(double positionX, double positionY) = 0;
+        virtual std::shared_ptr<Jetpack> createJetpack() = 0;
 
         //! Create a ::Spring object with the correct view attached.
-        virtual std::shared_ptr<Spring> createSpring(double positionX, double positionY) = 0;
+        virtual std::shared_ptr<Spring> createSpring() = 0;
 
         //! Create a ::BGTile object with the correct view attached.
-        virtual std::shared_ptr<BGTile> createBGTile(double positionX, double positionY) = 0;
+        virtual std::shared_ptr<BGTile> createBGTile() = 0;
 
     protected:
         //! Create a non-rotated rectangle that contains the point (0, 0) based on the specified width and height..
@@ -73,6 +71,7 @@ class AbstractEntityFactory {
     protected:
         Game& observer;
         const TexturesInfo& info;
+        double platformWidthFactor;
 };
 
 

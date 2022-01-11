@@ -31,7 +31,7 @@ class Player : public Entity {
         void addDownwardPullScale(float scale, unsigned int height);
 
         //! Register a bonus that observes the player.
-        void registerObserver(std::weak_ptr<Bonus>& observer);
+        void registerObserver(std::weak_ptr<Bonus> observer);
 
         //! Get the default jump height of the player when they jump off of a solid object.
         double getJumpHeight() const;

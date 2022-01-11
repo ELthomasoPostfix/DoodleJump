@@ -55,5 +55,5 @@ void Entity::setBehaviour(double moveX, double moveY, double prevX, double prevY
 }
 
 void Entity::requestRemoval() {
-    World::getInstance()->requestRemoval(std::shared_ptr<Entity>(this));
+    World::getInstance()->requestRemoval(*this);
 }

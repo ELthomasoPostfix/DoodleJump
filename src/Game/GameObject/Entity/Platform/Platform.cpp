@@ -14,12 +14,7 @@ Platform::Platform(Rect &rect) : Entity(rect, true, true) {
 }
 
 void Platform::notifyCollision(Player &collidedWith, bool playerIsSupported) {
-    if (collidedWith.getCollisionObject().checkCollision(getCollisionObject()) &&
-        playerIsSupported) {
-        handleCollision(collidedWith, playerIsSupported);
-        // TODO  notify the Score that this platform has been jumped on
-    }
-
+    handleCollision(collidedWith, playerIsSupported);
 }
 
 void Platform::handleCollision(Player &collidedWith, bool playerIsSupported) {}

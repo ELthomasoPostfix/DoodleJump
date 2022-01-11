@@ -16,6 +16,7 @@ Player::Player(Rect &rect) : Entity(rect, true, false) {
     // { a = -2rf       { a  = -2rf
     // { v0 = -a        { v0 = 2rf
     _jumpHeight = 0.4 * static_cast<double>(World::getInstance()->getCameraDimensions().second);
+    _jumpHeight = 0.05 * static_cast<double>(World::getInstance()->getCameraDimensions().second);
     _terminalVelocity = 2 * _jumpHeight;
     _velocity = {0, 0};      // initially stand still
     resetDownwardPull();
@@ -33,6 +34,8 @@ void Player::process(double delta) {
     // Applies the movement vector of the player based on delta time.
     // Whether the player landed onto the top of a solid object.
     bool isSupported = handleMovement(delta);
+
+    std::cout << _velocity.second << std::endl;
 
     // TODO  if player jumps off platform, then notify the Score and send along the platform jumped on
 
@@ -71,7 +74,7 @@ void Player::addDownwardPullScale(float scale, unsigned int height) {
     _pullScalers.emplace_back(std::pair<float, unsigned int>{scale, height});
 }
 
-void Player::registerObserver(std::weak_ptr<Bonus> &observer) {
+void Player::registerObserver(std::weak_ptr<Bonus> observer) {
     _observers.emplace_back(observer);
 }
 
@@ -95,7 +98,7 @@ bool Player::handleMovement(double delta) {
     bool isSupported = false;
     auto solidCollisions = getSolidCollisions(moveVector);
 
-    // only keep top collisions
+    // Only keep top collisions
     auto it = solidCollisions.begin();
     while (it != solidCollisions.end()) {
         if (!it->topCollision)
@@ -105,7 +108,7 @@ bool Player::handleMovement(double delta) {
     }
 
 
-    // handle pushback
+    // Handle pushback
     if (!solidCollisions.empty()) {
         std::vector<std::pair<double, double>> pushbackVectors = {};
         for (auto& collision: solidCollisions) {
@@ -114,16 +117,25 @@ bool Player::handleMovement(double delta) {
 
         size_t longestIndex = Utility::getLongestVectorIndex(pushbackVectors);
         auto longestVector = pushbackVectors.at(longestIndex);
+        isSupported = true;
+        solidCollisions.at(longestIndex).collidedWith->notifyCollision(*this, isSupported);
+
         move(longestVector);
         moveVector.second += longestVector.second;
         resetYVelocity();
-        isSupported = true;
     }
 
-    for (auto scaleIt = _pullScalers.begin(); scaleIt != _pullScalers.end(); ++scaleIt) {
-        scaleIt->second -= std::min(scaleIt->second, static_cast<unsigned int>(std::ceil(moveVector.second)));
+    // TODO  Bonus doesn't last long enough
+    //  ==> WHY???
+
+    // After movement, remove spent boosts
+    auto scaleIt = _pullScalers.begin();
+    while (scaleIt != _pullScalers.end()) {
+        scaleIt->second -= std::min(scaleIt->second, static_cast<unsigned int>(std::abs(std::ceil(moveVector.second))));
         if (scaleIt->second == 0)
             scaleIt = _pullScalers.erase(scaleIt);
+        else
+            ++it;
     }
 
     return isSupported;

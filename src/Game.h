@@ -25,7 +25,6 @@ class Game {
         //  Images used found at https://github.com/shlapkoff/DoodleJump/tree/master/Doodle%20Jump/images
         //  ==> mention this in the doxygen documentation
 
-        // TODO     Set move/setBehaviour for EntityView objects properly ???
 
 
 

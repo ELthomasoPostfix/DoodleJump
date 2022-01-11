@@ -8,15 +8,18 @@
 #include "Bonus.h"
 
 
-class Jetpack : Bonus {
+class Jetpack : public Bonus {
     public:
-        Jetpack(Rect& rect, double totalBoost);
+        Jetpack(Rect& rect, double totalBoost = 2000);
 
         ~Jetpack() override = default;
 
         void process(double delta) override;
 
         virtual void notifyCollision(Player &collidedWith, bool playerIsSupported) override;
+
+        //! Set the total height traveled the jetpack boost will last.
+        void setTotalBoost(double totalBoost);
 
     private:
         double _totalBoost;

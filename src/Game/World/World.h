@@ -46,11 +46,8 @@ class World {
          */
         void clipEntities();
 
-        //! Destroy all objects that registered themselves for destruction.
-        void executeMurderBuffer();
-
         //! Request that the target be removed from the all world entity lists at the game's leisure.
-        void requestRemoval(const std::shared_ptr<Entity>& target);
+        void requestRemoval(Entity &target);
 
         // TODO  void receiveEvent();
         //  ==> Make an observable for events in World, with Entities being observers??
@@ -128,7 +125,6 @@ class World {
         std::vector<std::shared_ptr<Entity>> _bgEntities;
         std::shared_ptr<Player> _player;
         std::unique_ptr<AbstractEntityFactory> _entityFactory;
-        std::vector<std::shared_ptr<Entity>> _murderBuffer;
         bool _roundOver;
         bool _endAnimationFinished;   // Done scrolling down? // TODO  just keep calling clip until top of camera below prev top before game end
 

@@ -25,24 +25,24 @@ class SFMLEntityFactory : public AbstractEntityFactory {
 
         // TODO revise comment
         //! Create a ::HorizontalPlatform object with the correct view attached.
-        std::shared_ptr<Platform> createHorizontalPlatform(double positionX, double positionY) override;
+        std::shared_ptr<HorizontalPlatform> createHorizontalPlatform() override;
 
         // TODO revise comment
         //! Create a ::VerticalPlatform object with the correct view attached.
-        std::shared_ptr<Platform> createVerticalPlatform(double positionX, double positionY) override;
+        std::shared_ptr<VerticalPlatform> createVerticalPlatform() override;
 
         // TODO revise comment
         //! Create a ::TemporaryPlatform object with the correct view attached.
-        std::shared_ptr<Platform> createTemporaryPlatform(double positionX, double positionY) override;
+        std::shared_ptr<TemporaryPlatform> createTemporaryPlatform() override;
 
         //! Create a ::Jetpack object with the correct view attached.
-        std::shared_ptr<Jetpack> createJetpack(double positionX, double positionY) override;
+        std::shared_ptr<Jetpack> createJetpack() override;
 
         //! Create a ::Spring object with the correct view attached.
-        std::shared_ptr<Spring> createSpring(double positionX, double positionY) override;
+        std::shared_ptr<Spring> createSpring() override;
 
         //! Create a ::BGTile object with the correct view attached.
-        std::shared_ptr<BGTile> createBGTile(double positionX, double positionY) override;
+        std::shared_ptr<BGTile> createBGTile() override;
 
 };
 

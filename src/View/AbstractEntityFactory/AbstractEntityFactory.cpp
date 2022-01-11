@@ -9,7 +9,9 @@
  */
 
 AbstractEntityFactory::AbstractEntityFactory(Game &observer, const TexturesInfo& info)
-    : observer(observer), info(info) {}
+    : observer(observer), info(info) {
+    platformWidthFactor = 4;
+}
 
 Rect AbstractEntityFactory::createRect(double width, double height) {
     return {{{0, 0}, {width, 0}, {width, height}, {0, height}}};

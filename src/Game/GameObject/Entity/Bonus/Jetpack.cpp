@@ -18,11 +18,14 @@ void Jetpack::process(double delta) {
 
 void Jetpack::notifyCollision(Player &collidedWith, bool playerIsSupported) {
 
-    // The observable must have landed so that the spring would be stepped on.
     if (collidedWith.getCollisionObject().checkCollision(this->getCollisionObject())) {
         collidedWith.addDownwardPullScale(0, 2000);
         collidedWith.resetYVelocity();
         _active = true;
         requestRemoval();
     }
+}
+
+void Jetpack::setTotalBoost(double totalBoost) {
+    _totalBoost = totalBoost;
 }
