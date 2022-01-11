@@ -23,20 +23,18 @@ class Player : public Entity {
         //! Reset the y-velocity of the player to its original (maximum) value.
         void resetYVelocity();
 
-        //! Scale the downward pull by the specified amount.
+        //! Scale the downward pull by the specified amount until the player has traveled height in y-value.
         /*!
          * \param scale A scale with which the downward pull will be multiplied.
+         * \param height How much the player must travel until the scale effect wears off.
          */
-        void addDownwardPullScale(float scale);
-
-        //! Remove one of the scaling factors applicable to the downward pull.
-        /*!
-         * \param scale The scale with which the downward pull was being multiplied to be removed.
-         */
-        void removeDownwardPullScale(float scale);
+        void addDownwardPullScale(float scale, unsigned int height);
 
         //! Register a bonus that observes the player.
         void registerObserver(std::weak_ptr<Bonus>& observer);
+
+        //! Get the default jump height of the player when they jump off of a solid object.
+        double getJumpHeight() const;
 
     private:
         //! Move the player based on the delta time. Return whether the player ended up on top of a platform.
@@ -54,14 +52,12 @@ class Player : public Entity {
 
     private:
         double _downwardPull;
-        std::vector<float> _pullScalers;
+        std::vector<std::pair<float, unsigned int>> _pullScalers;
         std::pair<double, double> _velocity;
         double _terminalVelocity;
-
         double _jumpHeight;
 
-
-    std::vector<std::weak_ptr<Bonus>> _observers;
+        std::vector<std::weak_ptr<Entity>> _observers;       // TODO remove this ??? ==> No time for making jetpack follow user
 };
 
 

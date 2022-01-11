@@ -72,6 +72,9 @@ class CollisionObject : public GameObject {
             //! Check whether the ::CollisionObject participates in collision.
             bool isPhysical() const;
 
+            //! Set whether the ::CollisionObject participates in collision.
+            void setIsPhysical(bool isPhysical);
+
             //! Check whether the ::CollisionObject can be used to propel the player upwards.
             bool isSolid() const;
 

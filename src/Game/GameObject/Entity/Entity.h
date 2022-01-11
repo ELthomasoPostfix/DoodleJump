@@ -33,6 +33,9 @@ class Entity : public GameObject {
          */
         virtual void display();
 
+        //! Signal a collision between the player and the caller to the caller.
+        virtual void notifyCollision(Player& collidedWith, bool playerIsSupported);
+
         //! Get the collision object representing the collision shape of the entity.
         CollisionObject& getCollisionObject();
 

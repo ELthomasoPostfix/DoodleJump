@@ -15,19 +15,16 @@ Spring::Spring(Rect& rect) : Bonus(rect) {
 void Spring::process(double delta) {
 }
 
-bool Spring::update(bool callerIsSupported) {
-    if (!callerIsSupported)
-        return false;
-
-    auto observable = _observable.lock();
+void Spring::notifyCollision(Player &collidedWith, bool playerIsSupported) {
+    if (!playerIsSupported)
+        return;
 
     // The observable must have landed so that the spring would be stepped on.
-    if (observable->getCollisionObject().checkCollision(this->getCollisionObject()) &&
-        observable->getCollisionObject().isAsHighAs(this->getCollisionObject())) {
-        observable->addDownwardPullScale(.2f);
-        return true;
+    if (collidedWith.getCollisionObject().checkCollision(this->getCollisionObject()) &&
+        collidedWith.getCollisionObject().isAsHighAs(this->getCollisionObject())) {
+        collidedWith.addDownwardPullScale(.2f, collidedWith.getJumpHeight());
+        _active = true;
+        // TODO  somehow signal that spring should now die
     }
-    // TODO  somehow signal that spring should now die
 
-    return false;
 }

@@ -14,29 +14,15 @@ Jetpack::Jetpack(Rect& rect, double totalBoost) : Bonus(rect) {
 }
 
 void Jetpack::process(double delta) {
-    if (_active) {
-        auto pos = getPosition();
-        setPosition(CollisionObject::determineAbsoluteCenterOfMass(
-                _observable.lock()->getClipObject().getCollisionShape()));
-        double diffY = getPosition().second - pos.second;
-        _currentBoost += diffY;
-        if (_currentBoost >= _totalBoost) {
-            _active = false;      // TODO  signal that the jetpack is to die
-        }
-    // After boost is spent, jetpack falls off screen to despawn
-    } else if (_currentBoost >= _totalBoost) {
-        move(-delta/4.0, -delta);
-    }
 }
 
-bool Jetpack::update(bool callerIsSupported) {
-    auto observable = _observable.lock();
+void Jetpack::notifyCollision(Player &collidedWith, bool playerIsSupported) {
 
     // The observable must have landed so that the spring would be stepped on.
-    if (observable->getCollisionObject().checkCollision(this->getCollisionObject())) {
-        observable->addDownwardPullScale(0);
-        return true;
+    if (collidedWith.getCollisionObject().checkCollision(this->getCollisionObject())) {
+        collidedWith.addDownwardPullScale(0, 2000);
+        collidedWith.resetYVelocity();
+        _active = true;
     }
-    // TODO  somehow signal that spring should now die
-
-    return false;}
+    // TODO  somehow signal that jetpack should now die
+}

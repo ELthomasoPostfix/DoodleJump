@@ -16,7 +16,7 @@ class Jetpack : Bonus {
 
         void process(double delta) override;
 
-        bool update(bool callerIsSupported) override;
+        virtual void notifyCollision(Player &collidedWith, bool playerIsSupported) override;
 
     private:
         double _totalBoost;

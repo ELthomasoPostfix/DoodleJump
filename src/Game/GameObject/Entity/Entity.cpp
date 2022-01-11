@@ -17,6 +17,8 @@ Entity::Entity(Rect &rect, const bool isPhysical, const bool isSolid)
 
 void Entity::display() {}
 
+void Entity::notifyCollision(Player &collidedWith, bool playerIsSupported) {}
+
 CollisionObject &Entity::getCollisionObject() {
     return _collisionObject;
 }

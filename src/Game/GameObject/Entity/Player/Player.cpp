@@ -44,10 +44,8 @@ void Player::process(double delta) {
         else {
             // If the boost is activated, the player doesn't want to interact with it again
             // should it still exist.
-            if (it->lock()->update(isSupported))      // Returns confirmation bool
-                it = _observers.erase(it);
-            else
-                ++it;
+            it->lock()->notifyCollision(*this, isSupported);      // Returns confirmation bool
+            ++it;
         }
     }
 
@@ -55,8 +53,8 @@ void Player::process(double delta) {
 
 double Player::getDownwardPull() const {
     double dwp = _downwardPull;
-    for (float scaler : _pullScalers)
-        dwp *= scaler;
+    for (auto scaler : _pullScalers)
+        dwp *= scaler.first;
 
     return dwp;
 }
@@ -69,20 +67,16 @@ void Player::resetYVelocity() {
     _velocity.second =  2.0 * _jumpHeight;
 }
 
-void Player::addDownwardPullScale(float scale) {
-    _pullScalers.emplace_back(scale);
-}
-
-void Player::removeDownwardPullScale(float scale) {
-    try {
-        _pullScalers.erase(std::find(_pullScalers.begin(), _pullScalers.end(), scale));
-    } catch (std::runtime_error& e) {   // TODO  push exception to controller?
-        std::cout << "Error while removing scale from player : " << e.what() << std::endl;
-    }
+void Player::addDownwardPullScale(float scale, unsigned int height) {
+    _pullScalers.emplace_back(std::pair<float, unsigned int>{scale, height});
 }
 
 void Player::registerObserver(std::weak_ptr<Bonus> &observer) {
     _observers.emplace_back(observer);
+}
+
+double Player::getJumpHeight() const {
+    return _jumpHeight;
 }
 
 
@@ -121,8 +115,15 @@ bool Player::handleMovement(double delta) {
         size_t longestIndex = Utility::getLongestVectorIndex(pushbackVectors);
         auto longestVector = pushbackVectors.at(longestIndex);
         move(longestVector);
+        moveVector.second += longestVector.second;
         resetYVelocity();
         isSupported = true;
+    }
+
+    for (auto scaleIt = _pullScalers.begin(); scaleIt != _pullScalers.end(); ++scaleIt) {
+        scaleIt->second -= std::min(scaleIt->second, static_cast<unsigned int>(std::ceil(moveVector.second)));
+        if (scaleIt->second == 0)
+            scaleIt = _pullScalers.erase(scaleIt);
     }
 
     return isSupported;
@@ -153,7 +154,8 @@ std::pair<double, double> Player::findMoveVector(double delta) {
         delta -= terminalDelta;
     }
 
-    // Travel at terminal velocity until delta depleted.
+    // Travel at current velocity until delta depleted.
+    // This may or may not be terminal velocity
     if (delta > 0)
         moveVector.second += _velocity.second * delta;      // rf = r0 + vt
 

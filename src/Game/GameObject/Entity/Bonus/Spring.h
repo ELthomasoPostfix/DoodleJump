@@ -16,7 +16,7 @@ class Spring : public Bonus {
 
         void process(double delta) override;
 
-        bool update(bool callerIsSupported) override;
+        void notifyCollision(Player &collidedWith, bool playerIsSupported) override;
 };
 
 

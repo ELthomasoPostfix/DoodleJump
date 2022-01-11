@@ -127,6 +127,8 @@ CollisionObject::determinePushback(const std::pair<double, double> &moveDir,
 
 bool CollisionObject::isPhysical() const { return _isPhysical; }
 
+void CollisionObject::setIsPhysical(bool isPhysical) { _isPhysical = isPhysical; };
+
 bool CollisionObject::isSolid() const { return _isSolid; }
 
 Rect CollisionObject::getCollisionShape() const { return _collisionShape; }

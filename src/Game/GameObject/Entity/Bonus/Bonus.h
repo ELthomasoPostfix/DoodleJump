@@ -18,13 +18,9 @@ class Bonus : public Entity {
         void process(double delta) = 0;
 
         // TODO  do exception handling for locking the observable in implementations
-        //! Attempt to activate the bonus. If this succeeds, true is returned.
-        virtual bool update(bool callerIsSupported) = 0;
-
-        void setObservable(const std::weak_ptr<Player>& observable);
+        virtual void notifyCollision(Player &collidedWith, bool playerIsSupported) = 0;
 
     protected:
-        std::weak_ptr<Player> _observable;
         bool _active;
 };
 

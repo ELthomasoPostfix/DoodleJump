@@ -13,6 +13,12 @@ class Platform : public Entity {
         explicit Platform(Rect& rect);
 
         ~Platform() override = default;
+
+        void notifyCollision(Player& collidedWith, bool playerIsSupported) override;
+
+    protected:
+        virtual void handleCollision(Player& collidedWith, bool playerIsSupported);
+
 };
 
 
