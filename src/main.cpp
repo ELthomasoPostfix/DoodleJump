@@ -142,7 +142,7 @@ void windowTest()
                                         dirY += moveAmount;
                                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
                                         auto pushback =
-                                            cObj2->determinePushback(moveDir, *cObj1, 1.0, requireCollision);
+                                            cObj2->determinePushback(moveDir, *cObj1, 1.001, requireCollision);
 
                                         cObj2->move(pushback);
                                         std::cout << "(" << cObj2->getPosition().first << ", "

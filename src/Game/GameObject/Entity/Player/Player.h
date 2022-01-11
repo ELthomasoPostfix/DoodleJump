@@ -20,6 +20,9 @@ class Player : public Entity {
         //! Reset the downward pull to its original value.
         void resetDownwardPull();
 
+        //! Reset the y-velocity of the player to its original (maximum) value.
+        void resetYVelocity();
+
         //! Scale the downward pull by the specified amount.
         /*!
          * \param scale A scale with which the downward pull will be multiplied.
@@ -31,9 +34,6 @@ class Player : public Entity {
          * \param scale The scale with which the downward pull was being multiplied to be removed.
          */
         void removeDownwardPullScale(float scale);
-
-        //! Reset the y-velocity of the player to its original (maximum) value.
-        void resetYVelocity();
 
         //! Register a bonus that observes the player.
         void registerObserver(std::weak_ptr<Bonus>& observer);
@@ -58,7 +58,10 @@ class Player : public Entity {
         std::pair<double, double> _velocity;
         double _terminalVelocity;
 
-        std::vector<std::weak_ptr<Bonus>> _observers;
+        double _jumpHeight;
+
+
+    std::vector<std::weak_ptr<Bonus>> _observers;
 };
 
 

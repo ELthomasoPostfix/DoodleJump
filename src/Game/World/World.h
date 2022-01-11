@@ -90,6 +90,9 @@ class World {
          */
         void setIndependentDimensions(unsigned int wWidth, unsigned int wHeight);
 
+        //! Get the dimensions of the camera area over world space.
+        std::pair<unsigned int, unsigned int> getCameraDimensions() const;
+
         //! Assign the factory with which the world may create entities.
         void assignEntityFactory(std::unique_ptr<AbstractEntityFactory>& abstractEntityFactory);
 

@@ -10,7 +10,13 @@
  */
 
 Player::Player(Rect &rect) : Entity(rect, true, false) {
-    _terminalVelocity = 10;
+    // rf = r0 + vt + (1/2)at²
+    // vf = v0 + at
+    // Assume rf = (4/10) * windowHeight, vf = 0, t = 1s
+    // { a = -2rf       { a  = -2rf
+    // { v0 = -a        { v0 = 2rf
+    _jumpHeight = 4.0 /10.0 * static_cast<double>(World::getInstance()->getCameraDimensions().second);
+    _terminalVelocity = 2 * _jumpHeight;
     _velocity = {0, 0};      // initially stand still
     resetDownwardPull();
 }
@@ -27,6 +33,8 @@ void Player::process(double delta) {
     // Applies the movement vector of the player based on delta time.
     // Whether the player landed onto the top of a solid object.
     bool isSupported = handleMovement(delta);
+
+    // TODO  if player jumps off platform, then notify the Score and send along the platform jumped on
 
     // Let the bonuses apply their effects themselves.
     auto it = _observers.begin();
@@ -54,11 +62,11 @@ double Player::getDownwardPull() const {
 }
 
 void Player::resetDownwardPull() {
-    _downwardPull = - _terminalVelocity;
+    _downwardPull = - 2.0 * _jumpHeight;
 }
 
 void Player::resetYVelocity() {
-    _velocity.second = _terminalVelocity;
+    _velocity.second =  2.0 * _jumpHeight;
 }
 
 void Player::addDownwardPullScale(float scale) {
@@ -86,6 +94,10 @@ void Player::registerObserver(std::weak_ptr<Bonus> &observer) {
 bool Player::handleMovement(double delta) {
     std::pair<double, double> moveVector = findMoveVector(delta);
 
+    // Apply movement first
+    move(moveVector);
+
+
     bool isSupported = false;
     auto solidCollisions = getSolidCollisions(moveVector);
 
@@ -98,6 +110,7 @@ bool Player::handleMovement(double delta) {
             ++it;
     }
 
+
     // handle pushback
     if (!solidCollisions.empty()) {
         std::vector<std::pair<double, double>> pushbackVectors = {};
@@ -107,15 +120,10 @@ bool Player::handleMovement(double delta) {
 
         size_t longestIndex = Utility::getLongestVectorIndex(pushbackVectors);
         auto longestVector = pushbackVectors.at(longestIndex);
-        moveVector.first += longestVector.first;
-        moveVector.second += longestVector.second;
-        _velocity.second = _terminalVelocity;
+        move(longestVector);
+        resetYVelocity();
         isSupported = true;
     }
-
-    // Apply movement
-    move(moveVector);
-
 
     return isSupported;
 }

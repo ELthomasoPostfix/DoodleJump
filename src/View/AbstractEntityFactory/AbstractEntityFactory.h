@@ -39,7 +39,7 @@ class AbstractEntityFactory {
 
         // TODO revise comment
         //! Create a ::StaticPlatform object with the correct view attached.
-        virtual std::shared_ptr<Platform> createStaticPlatform() = 0;
+        virtual std::shared_ptr<StaticPlatform> createStaticPlatform() = 0;
 
         // TODO revise comment
         //! Create a ::HorizontalPlatform object with the correct view attached.

@@ -17,7 +17,7 @@ struct SFMLWindowManager : public WindowManager<sf::Texture, sf::Font, sf::Rende
 
         bool close() override;
 
-        void clear() override;
+        void clear(std::array<uint8_t, 3> clearColor) override;
 
         void display() override;
 
@@ -41,7 +41,10 @@ private:
          * we must add offset to the position of drawn entities so that
          * they appear in the correct position on the SFML windows.
          */
-        double determineSFMLYCoordinate(CollisionObject& viewArea) const;
+        double determineSFMLYOffset(CollisionObject& viewArea) const;
+
+        //! Determine the position to move the sfml view object to. This is in sfml window coordinates.
+        std::pair<double, double> determineSFMLPosition(CollisionObject& viewArea);
 };
 
 

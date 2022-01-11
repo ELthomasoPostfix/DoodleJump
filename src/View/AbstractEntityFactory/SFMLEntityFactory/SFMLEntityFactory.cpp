@@ -17,21 +17,20 @@ std::shared_ptr<Player> SFMLEntityFactory::createPlayer() {
     const unsigned int viewWidth  = TexturesInfo::determineWidth(viewHeight, info.playerTextureDims);
     Rect viewArea{createRect(viewWidth, viewHeight)};
     Rect collArea = viewArea;
-    std::shared_ptr<PlayerView> player =
-            std::make_shared<PlayerView>(observer, collArea, viewArea);
-    std::shared_ptr<TemplateView<Player>> playerr =
+    std::shared_ptr<TemplateView<Player>> player =
             std::make_shared<TemplateView<Player>>(observer, collArea, viewArea);
     player->setTextureID(PLAYER_TEXTURE_ID);
     return player;
 }
 
-std::shared_ptr<Platform> SFMLEntityFactory::createStaticPlatform() {
-    const unsigned int viewHeight = 50;
-    const unsigned int viewWidth  = 200;
+std::shared_ptr<StaticPlatform> SFMLEntityFactory::createStaticPlatform() {
+    const unsigned int viewHeight = 20;
+    const unsigned int viewWidth  = viewHeight * 4.0;
     Rect viewArea{createRect(viewWidth, viewHeight)};
     Rect collArea = viewArea;
     std::shared_ptr<TemplateView<StaticPlatform>> staticPlatform =
             std::make_shared<TemplateView<StaticPlatform>>(observer, collArea, viewArea);
+    staticPlatform->setFillColor(255, 255, 255);
     return staticPlatform;
 }
 

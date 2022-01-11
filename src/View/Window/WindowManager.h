@@ -44,7 +44,10 @@ struct WindowManager {
         virtual bool close() = 0;
 
         //! Clear the window of any drawn views.
-        virtual void clear() = 0;
+        /*!
+         * \param clearColor The color RGB of the screen after clearing.
+         */
+        virtual void clear(std::array<uint8_t, 3> clearColor) = 0;
 
         //! Display the current view buffer to the window.
         virtual void display() = 0;

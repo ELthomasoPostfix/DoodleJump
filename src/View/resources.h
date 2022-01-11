@@ -29,7 +29,8 @@
 struct TexturesInfo {
         //! Determine a width for a shape based on a texture's dimensions if the height of the shape is known.
         static unsigned int determineWidth(const unsigned int chosenY, const std::pair<unsigned int, unsigned int>& textureDims) {
-            return chosenY / textureDims.second * textureDims.first;
+            return static_cast<double>(chosenY) / static_cast<double>(textureDims.second) *
+                    static_cast<double>(textureDims.first);
         }
 
         std::pair<unsigned int, unsigned int> playerTextureDims;

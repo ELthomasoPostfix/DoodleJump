@@ -21,17 +21,6 @@ Game::Game(const unsigned int windowWidth, const unsigned int windowHeight)
     _texturesInfo.springTextureDims  = _windowManager->getTextureDimensions(SPRING_TEXTURE_ID);
     _texturesInfo.jetpackTextureDims = _windowManager->getTextureDimensions(JETPACK_TEXTURE_ID);
 
-
-
-    /*TODO
-     * 1) load textures
-     * 2) get texture dimensions
-     * 3) store dimensions in informational struct
-     * 4) assign struct to concrete factory
-     * 5) created entities should make use of texture dimensions as to
-     * be able to scale the sprite accordingly when drawing
-     */
-
     std::unique_ptr<AbstractEntityFactory> entityFactory = std::make_unique<SFMLEntityFactory>(*this, _texturesInfo);
 
     auto& world = World::getInstance();
@@ -45,6 +34,15 @@ Game::Game(const unsigned int windowWidth, const unsigned int windowHeight)
 void Game::start() {
     // Initial time passed set to essentially zero
     Stopwatch::getInstance()->update();
+    // TODO  ##########################################
+    World::getInstance()->test();      // TODO  apply the Bonus observer pattern to platforms as wel??
+    //  ==> generalize it into an Entity::notifyCollision(caller) method
+    //  so that a concrete entity can check whether the passed caller
+    //  matches its observable and can then work on its observable?
+    //  But in principle, the observer should register itself with
+    //  its observable, so their wouldn't be room for doubt if the
+    //  observer stores only a single observable. But a check never hurts.
+    // TODO  ##########################################
     doGameLoop();
     // TODO cleanup ???
 }
@@ -76,6 +74,7 @@ void Game::doGameLoop() {
 
         // POLL EVENTS
         dj::Event event = dj::NONE;
+
         while (_windowManager->pollEvent(event)) {
             switch (event) {
                 case dj::NONE:
@@ -90,36 +89,43 @@ void Game::doGameLoop() {
             }
         }
 
-
-        // TODO  ##########################################
-
-        continue;
-        // TODO  ##########################################
-
-
         // INCREMENT GAME STATE
         auto& world = World::getInstance();
 
         if (world->roundHasEnded()) {
-            // TODO  query (?) and draw round end text
+            _windowManager->clear({255, 0, 0});
+            _windowManager->draw("GAME OVER", ARIAL_FONT_ID);
         } else {
+
 
             // DRAW VIEWS
             const double delta = stopwatch->elapsedSeconds();
             stopwatch->update();
 
+            // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+            //goto piss;
+            // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+
             world->processEntities(delta);
+
+            // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+            piss:;
+            // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+
+
             world->clipEntities();
             world->requestViews();
 
-            _windowManager->clear();
+            _windowManager->clear({255, 0, 0});
             for (auto &view: _viewBuffer) {
                 _windowManager->draw(view);
             }
-            _windowManager->display();
+
 
             // TODO  query and draw current Score
         }
+
+        _windowManager->display();
     }
 }
 

@@ -21,7 +21,7 @@ class SFMLEntityFactory : public AbstractEntityFactory {
 
         // TODO revise comment
         //! Create a ::StaticPlatform object with the correct view attached.
-        std::shared_ptr<Platform> createStaticPlatform() override;
+        std::shared_ptr<StaticPlatform> createStaticPlatform() override;
 
         // TODO revise comment
         //! Create a ::HorizontalPlatform object with the correct view attached.

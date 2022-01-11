@@ -68,16 +68,14 @@ CollisionObject::determinePushback(const std::pair<double, double> &moveDir,
                                  cbb.at(0) - bb.at(2) : cbb.at(2) - bb.at(0);
         pushback = {xPushback, 0};
 
-        // Vertical movement
+    // Vertical movement
     } else if (Utility::isInf(moveSlope)) {
-        // move dir slope of +inf
-        if (moveDir.second > 0)
-            pushback = {0, cbb.at(1) - bb.at(3)};   // (0, cbb.minY - bb.maxY) : move this.maxY to other.minY
-            // move dir slope of -inf
-        else
-            pushback = {0, cbb.at(3) - bb.at(1)};  // (0, cbb.maxY - bb.minY) : move this.minY to other.maxY
+        const double yPushback = moveDir.second > 0 ?
+                                 cbb.at(1) - bb.at(3) : cbb.at(3) - bb.at(1);
 
-        // Angled movement
+        pushback = {0, yPushback};
+
+    // Angled movement
     } else {
         const double guessXPushback = moveDir.first > 0 ?
                                       cbb.at(0) - bb.at(2) : cbb.at(2) - bb.at(0);
@@ -122,6 +120,7 @@ CollisionObject::determinePushback(const std::pair<double, double> &moveDir,
                 (pbb.at(1) > cbb.at(3) + Utility::epsilon() && pbb.at(3) > cbb.at(3) + Utility::epsilon()))
                 return neutralPushback;
         }
+
         return {pushback.first * scaleFactor, pushback.second * scaleFactor};
     }
 }

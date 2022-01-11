@@ -34,9 +34,21 @@ void World::requestViews() {
 }
 
 void World::clipEntities() {
-    for (auto& entity : _entities) {
-        if (!_camera->isVisible(entity->getClipObject()))
-            removeEntity(entity);
+    auto it = _entities.begin();
+    while (it != _entities.end()) {
+        if (!_camera->isVisible((*it)->getClipObject()))
+            (*it)->move(0, 600);
+            //            it = _entities.erase(it);
+        else
+            ++it;
+    }
+
+    it = _bgEntities.begin();
+    while (it != _bgEntities.end()) {
+        if (!_camera->isVisible((*it)->getClipObject()))
+            it = _bgEntities.erase(it);
+        else
+            ++it;
     }
 }
 
@@ -67,10 +79,10 @@ World::getSolidCollisions(Entity& movingBody, const std::pair<double, double> &m
         if (!otherCollShape.isSolid())
             continue;
         if (&mbCollShape != &otherCollShape && mbCollShape.checkCollision(otherCollShape)) {
-            const auto pushback = mbCollShape.determinePushback(moveDir, otherCollShape);
+            const auto pushback = mbCollShape.determinePushback(moveDir, otherCollShape, 1.001);
 
             // Pushback is valid
-            if (pushback.first != 0.0 && pushback.second != 0.0) {
+            if (pushback.first != 0.0 || pushback.second != 0.0) {
                 SolidCollisionInfo info;
                 info.collidedWith = staticBody;
                 info.pushback = pushback;
@@ -115,6 +127,10 @@ bool World::roundHasEnded() {
 
 void World::setIndependentDimensions(unsigned int wWidth, unsigned int wHeight) {
     _camera->setIndependentDimensions(wWidth, wHeight);
+}
+
+std::pair<unsigned int, unsigned int> World::getCameraDimensions() const {
+    return _camera->getDimensions();
 }
 
 void World::assignEntityFactory(std::unique_ptr<AbstractEntityFactory>& abstractEntityFactory) {
@@ -170,10 +186,23 @@ World::World() {
 }
 
 void World::test() {
-    std::shared_ptr<Platform> platform = _entityFactory->createStaticPlatform();
-    addEntity(platform);
+    auto camDimensions = _camera->getDimensions();
+
+    // TODO Also change the origin of the clipObject to the same as that of the collisionObject
+    std::shared_ptr<StaticPlatform> platform = _entityFactory->createStaticPlatform();
+    auto rcm = CollisionObject::determineRelativeCenterOfMass(platform->getCollisionObject().getCollisionShape());
+    platform->getCollisionObject().setOrigin(platform->getCollisionObject().getBoundingWidth()/2.0,platform->getCollisionObject().getBoundingHeight());
+    platform->getClipObject().setOrigin(platform->getClipObject().getBoundingWidth()/2.0, platform->getClipObject().getBoundingHeight());
+    platform->setPosition(camDimensions.first/2.0, camDimensions.second/2.0);
+    //platform->setPosition(camDimensions.first/2.0, -1);
+    //addEntity(platform);
+    // TODO spawn the platform just in sight and check if it gets clipped.
+    //  If not, then move on !!
 
     std::shared_ptr<Player> player = _entityFactory->createPlayer();
+    player->getCollisionObject().setOrigin(player->getCollisionObject().getBoundingWidth()/2.0, 0);
+    player->getClipObject().setOrigin(player->getClipObject().getBoundingWidth()/2.0, 0);
+    player->setPosition(camDimensions.first/2.0, camDimensions.second/2.0);
     addEntity(player);
 }
 

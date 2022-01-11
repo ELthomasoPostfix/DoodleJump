@@ -57,8 +57,8 @@ void EntityView::setFillColor(const unsigned int red,
                               const unsigned int green,
                               const unsigned int blue) {
     _rgbFillColor.at(0) = std::max(0, std::min(255, (int) red));
-    _rgbFillColor.at(0) = std::max(0, std::min(255, (int) green));
-    _rgbFillColor.at(0) = std::max(0, std::min(255, (int) blue));
+    _rgbFillColor.at(1) = std::max(1, std::min(255, (int) green));
+    _rgbFillColor.at(2) = std::max(2, std::min(255, (int) blue));
 }
 
 

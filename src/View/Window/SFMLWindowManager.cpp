@@ -10,8 +10,7 @@
  */
 
 SFMLWindowManager::SFMLWindowManager(unsigned int width, unsigned int height) {
-    window = std::make_unique<sf::RenderWindow>();
-    window->setSize({width, height});
+    window = std::make_unique<sf::RenderWindow>(sf::VideoMode(width, height), "DoodleJump");
 }
 
 bool SFMLWindowManager::close() {
@@ -24,8 +23,8 @@ bool SFMLWindowManager::close() {
     }
 }
 
-void SFMLWindowManager::clear() {
-    window->clear();
+void SFMLWindowManager::clear(std::array<uint8_t, 3> clearColor) {
+    window->clear(sf::Color{clearColor.at(0), clearColor.at(1), clearColor.at(2)});
 }
 
 void SFMLWindowManager::display() {
@@ -33,6 +32,35 @@ void SFMLWindowManager::display() {
 }
 
 void SFMLWindowManager::draw(EntityView &view) {
+    // TODO delete
+    // TODO delete
+    // TODO delete
+    sf::RectangleShape r;
+    r.setSize({10, static_cast<float>(window->getSize().y)});
+    r.setOrigin(5, 0);
+    r.setPosition(window->getSize().x/2, 0);
+    r.setFillColor(sf::Color(0, 0, 0));
+    window->draw(r);
+
+    sf::RectangleShape rh;
+    rh.setSize({static_cast<float>(window->getSize().x), 10});
+    rh.setOrigin(0, 5);
+    rh.setPosition(0, window->getSize().y/2);
+    rh.setFillColor(sf::Color(0, 0, 0));
+    window->draw(rh);
+
+    sf::RectangleShape va;
+    va.setSize({static_cast<float>(view.getViewArea().getBoundingWidth()), static_cast<float>(view.getViewArea().getBoundingHeight())});
+    va.setOrigin(view.getViewArea().getBoundingWidth()/2.0, 0);
+    va.setPosition(window->getSize().x/2, window->getSize().y/2 - 100);
+    va.setFillColor(sf::Color(0, 255, 0));
+    //if (view.hasTexture())
+    //    window->draw(va);
+
+    // TODO delete
+    // TODO delete
+    // TODO delete
+
     try {
         auto& viewArea = view.getViewArea();
 
@@ -42,20 +70,20 @@ void SFMLWindowManager::draw(EntityView &view) {
             // The view and texture should have the same height-width ratios.
             const double scale = viewArea.getBoundingHeight() / sprite.getTexture()->getSize().y;
             sprite.setScale(scale, scale);
-            sprite.setOrigin(viewArea.getOrigin().first, viewArea.getOrigin().second);
-            sprite.setPosition(viewArea.getPosition().first,
-                             viewArea.getPosition().second + determineSFMLYCoordinate(viewArea));
+            auto sfmlPos = determineSFMLPosition(viewArea);
+            sprite.setPosition(sfmlPos.first, sfmlPos.second);
 
             window->draw(sprite);
         } else {
             const auto& fc = view.getRGBFillColor();
             sf::Color fillColor(fc.at(0), fc.at(1), fc.at(2));
 
+            // TODO  SFML uses top left as origin, compensate because we use bottom left???
+
             sf::RectangleShape rect({static_cast<float>(view.getViewArea().getBoundingWidth()),
                                      static_cast<float>(view.getViewArea().getBoundingHeight())});    // TODO set corners
-            rect.setOrigin(viewArea.getOrigin().first, viewArea.getOrigin().second);
-            rect.setPosition(viewArea.getPosition().first,
-                             viewArea.getPosition().second + determineSFMLYCoordinate(viewArea));
+            auto sfmlPos = determineSFMLPosition(viewArea);
+            rect.setPosition(sfmlPos.first, sfmlPos.second);
             rect.setFillColor(fillColor);
 
             window->draw(rect);
@@ -63,6 +91,7 @@ void SFMLWindowManager::draw(EntityView &view) {
     } catch (std::runtime_error& re) {
         printDrawError(re.what());
     }
+
 }
 
 void SFMLWindowManager::draw(const std::string &text, const size_t fontID) {
@@ -100,7 +129,7 @@ bool SFMLWindowManager::pollEvent(dj::Event& event) const {
     } else
         event = dj::Event::NONE;
 
-    return event == dj::Event::NONE;
+    return event != dj::Event::NONE;
 }
 
 void SFMLWindowManager::setFrameRateLimit(const unsigned int limit) {
@@ -121,12 +150,18 @@ std::pair<unsigned int, unsigned int> SFMLWindowManager::getTextureDimensions(si
  *      PRIVATE methods
  */
 
-double SFMLWindowManager::determineSFMLYCoordinate(CollisionObject& viewArea) const {
+double SFMLWindowManager::determineSFMLYOffset(CollisionObject& viewArea) const {
     // SFML chooses y = 0 at the top of the screen
     const double centerY = window->getSize().y / 2.0;
     const double topDistance = centerY - viewArea.getBoundingBox().at(3);
     const double bottomDistance = centerY - viewArea.getBoundingBox().at(1);
     return topDistance + bottomDistance;
+}
+
+std::pair<double, double> SFMLWindowManager::determineSFMLPosition(CollisionObject &viewArea) {
+    return {viewArea.getPosition().first  - viewArea.getOrigin().first,
+            viewArea.getPosition().second + determineSFMLYOffset(viewArea) - viewArea.getOrigin().second};
+
 }
 
 
