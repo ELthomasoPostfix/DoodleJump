@@ -52,6 +52,28 @@ void World::clipEntities() {
     }
 }
 
+void World::executeMurderBuffer() {
+    for (auto & target : _murderBuffer) {
+        auto entitiesIt = std::find_if(_entities.begin(), _entities.end(), [&](std::shared_ptr<Entity> const& p) {
+            return &*p == &*(target); // assumes MyType has operator==
+        });
+        if (entitiesIt != _entities.end())
+            _entities.erase(entitiesIt);
+
+        auto bgEntitiesIt = std::find_if(_bgEntities.begin(), _bgEntities.end(), [&](std::shared_ptr<Entity> const& p) {
+            return &*p == &*(target); // assumes MyType has operator==
+        });
+        if (entitiesIt != _entities.end())
+            _entities.erase(entitiesIt);
+    }
+
+    _murderBuffer.clear();
+}
+
+void World::requestRemoval(const std::shared_ptr<Entity>& target) {
+    _murderBuffer.emplace_back(target);
+}
+
 bool World::addEntity(const std::shared_ptr<Entity>& entity) {
     return addEntity(entity, _entities);
 }
@@ -131,6 +153,10 @@ void World::setIndependentDimensions(unsigned int wWidth, unsigned int wHeight) 
 
 std::pair<unsigned int, unsigned int> World::getCameraDimensions() const {
     return _camera->getDimensions();
+}
+
+const std::array<double, 4>& World::getCameraBoundingBox() const {
+    return _camera->getBoundingBox();
 }
 
 void World::assignEntityFactory(std::unique_ptr<AbstractEntityFactory>& abstractEntityFactory) {

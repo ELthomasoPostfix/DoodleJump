@@ -16,15 +16,14 @@ typedef std::mt19937 RNG;
  * This class is instantiated through the assignment of a seed for the purpose
  * of seeding a pseudo random number generator and a mean and standard deviation
  * for defining a normal distribution based on which to generate the random numbers.
- * \note The random numbers generated are clamped to the continuous range [0, 1].
+ * \note The random numbers generated are clamped to the specified continuous range.
  * \note Credit to <a href="https://stackoverflow.com/questions/7114043/random-number-generation-in-c11-how-to-generate-how-does-it-work">
  * this stackoverflow post</a> on which this class was based.
  */
 class Random {
     public:
         //! Retrieve the single instance of the ::Random singleton.
-        static std::unique_ptr<Random>& getInstance(uint32_t seed, double mean, double stddev,
-                                                    double clampMin = 0.0, double clampMax = 1.0);
+        static std::unique_ptr<Random>& getInstance();
 
         //! Random value based on a normal distribution, clamped to the continuous range [_clampMin, _clampMax]
         double random();

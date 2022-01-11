@@ -69,6 +69,9 @@ class Entity : public GameObject {
         //! Signal the world that the round needs to end.
         void signalRoundEnd() const;
 
+        //! Request that the target be removed from the all world entity lists at the game's leisure.
+        void requestRemoval();
+
     protected:
 
         //! Augment the move of the entity itself by also moving its collision shape.

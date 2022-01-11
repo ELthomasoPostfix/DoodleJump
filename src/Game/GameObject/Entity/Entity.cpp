@@ -53,3 +53,7 @@ void Entity::moveBehaviour(double moveX, double moveY) {
 void Entity::setBehaviour(double moveX, double moveY, double prevX, double prevY) {
     _collisionObject.move(moveX, moveY);
 }
+
+void Entity::requestRemoval() {
+    World::getInstance()->requestRemoval(std::shared_ptr<Entity>(this));
+}

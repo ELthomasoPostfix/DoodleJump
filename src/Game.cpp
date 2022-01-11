@@ -29,6 +29,11 @@ Game::Game(const unsigned int windowWidth, const unsigned int windowHeight)
     world->setIndependentDimensions(windowWidth, windowHeight);
     world->setCameraArea(cameraArea);
     world->assignEntityFactory(entityFactory);
+
+    // TODO  seed random
+    Random::getInstance()->reseed(std::rand());
+    Random::getInstance()->redistribute(0.6, 0.15);
+    Random::getInstance()->reClamp(0.0, 1.0);
 }
 
 void Game::start() {
@@ -114,6 +119,7 @@ void Game::doGameLoop() {
 
 
             world->clipEntities();
+            world->executeMurderBuffer();
             world->requestViews();
 
             _windowManager->clear({255, 0, 0});

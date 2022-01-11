@@ -24,7 +24,7 @@ void Spring::notifyCollision(Player &collidedWith, bool playerIsSupported) {
         collidedWith.getCollisionObject().isAsHighAs(this->getCollisionObject())) {
         collidedWith.addDownwardPullScale(.2f, collidedWith.getJumpHeight());
         _active = true;
-        // TODO  somehow signal that spring should now die
+        requestRemoval();
     }
 
 }

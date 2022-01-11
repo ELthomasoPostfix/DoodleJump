@@ -1,5 +1,5 @@
 //
-// Created by elthomaso on 11/01/2022.
+// Created by Thomas Gueutal on 11/01/2022.
 //
 
 #ifndef DOODLEJUMP_TEMPORARYPLATFORM_H

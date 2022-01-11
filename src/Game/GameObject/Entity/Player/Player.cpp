@@ -15,7 +15,7 @@ Player::Player(Rect &rect) : Entity(rect, true, false) {
     // Assume rf = (4/10) * windowHeight, vf = 0, t = 1s
     // { a = -2rf       { a  = -2rf
     // { v0 = -a        { v0 = 2rf
-    _jumpHeight = 4.0 /10.0 * static_cast<double>(World::getInstance()->getCameraDimensions().second);
+    _jumpHeight = 0.4 * static_cast<double>(World::getInstance()->getCameraDimensions().second);
     _terminalVelocity = 2 * _jumpHeight;
     _velocity = {0, 0};      // initially stand still
     resetDownwardPull();

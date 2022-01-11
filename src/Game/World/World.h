@@ -8,6 +8,7 @@
 #include "../World/Camera.h"
 #include "CollisionInfo.h"
 #include "../../Event.h"
+#include "../../Utility/Random.h"
 
 class Entity;
 class Player;
@@ -44,6 +45,12 @@ class World {
          * of the observer pattern.
          */
         void clipEntities();
+
+        //! Destroy all objects that registered themselves for destruction.
+        void executeMurderBuffer();
+
+        //! Request that the target be removed from the all world entity lists at the game's leisure.
+        void requestRemoval(const std::shared_ptr<Entity>& target);
 
         // TODO  void receiveEvent();
         //  ==> Make an observable for events in World, with Entities being observers??
@@ -93,6 +100,9 @@ class World {
         //! Get the dimensions of the camera area over world space.
         std::pair<unsigned int, unsigned int> getCameraDimensions() const;
 
+        //! Get the bounding box of the camera area over world space.
+        const std::array<double, 4>& getCameraBoundingBox() const;
+
         //! Assign the factory with which the world may create entities.
         void assignEntityFactory(std::unique_ptr<AbstractEntityFactory>& abstractEntityFactory);
 
@@ -118,6 +128,7 @@ class World {
         std::vector<std::shared_ptr<Entity>> _bgEntities;
         std::shared_ptr<Player> _player;
         std::unique_ptr<AbstractEntityFactory> _entityFactory;
+        std::vector<std::shared_ptr<Entity>> _murderBuffer;
         bool _roundOver;
         bool _endAnimationFinished;   // Done scrolling down? // TODO  just keep calling clip until top of camera below prev top before game end
 

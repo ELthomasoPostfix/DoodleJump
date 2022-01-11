@@ -23,6 +23,6 @@ void Jetpack::notifyCollision(Player &collidedWith, bool playerIsSupported) {
         collidedWith.addDownwardPullScale(0, 2000);
         collidedWith.resetYVelocity();
         _active = true;
+        requestRemoval();
     }
-    // TODO  somehow signal that jetpack should now die
 }

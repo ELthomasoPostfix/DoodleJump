@@ -14,7 +14,7 @@ class Platform : public Entity {
 
         ~Platform() override = default;
 
-        void notifyCollision(Player& collidedWith, bool playerIsSupported) override;
+        void notifyCollision(Player& collidedWith, bool playerIsSupported) final;
 
     protected:
         virtual void handleCollision(Player& collidedWith, bool playerIsSupported);
