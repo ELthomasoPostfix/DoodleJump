@@ -35,7 +35,7 @@ namespace Utility {
     double epsilon();
 
     //! Check whether the two values lie withing Utility::epsilon() of each other.
-    bool approximate(double value1, double value2);
+    bool approximates(double value1, double value2);
 
     //! Compute the dot product of two 2D vectors.
     double dot2(const std::pair<double, double>& vec1, const std::pair<double, double>& vec2);

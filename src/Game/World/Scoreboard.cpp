@@ -1,0 +1,21 @@
+//
+// Created by Thomas Gueutal on 12/01/2022.
+//
+
+#include "Scoreboard.h"
+#include "Camera.h"
+
+Scoreboard::Scoreboard() {
+    _score = 0;
+
+}
+
+void Scoreboard::update(int score) {
+    _score += score;
+}
+
+int Scoreboard::getScore() const {
+    return _score;
+}
+
+

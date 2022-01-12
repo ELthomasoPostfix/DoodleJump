@@ -17,7 +17,7 @@
  */
 class Entity : public GameObject {
     public:
-        explicit Entity(Rect &rect, bool isPhysical, bool isSolid);
+        explicit Entity(Rect &collRect, bool isPhysical, bool isSolid);
 
         ~Entity() override = default;
 
@@ -54,11 +54,40 @@ class Entity : public GameObject {
         /*!
          * If a derived class desires to influence the game world every frame, then these
          * interactions should be implemented through deriving the process() method.
-         * The ::World class will call the process() method of all registered ::GameObject objects.
+         * The ::World class will call the process() method of all ::Entity objects registered
+         * using the ::World::registerEntity() method.
          * \param delta How many seconds have passed since the previous frame was ready.
          * \todo Extract the ::Entity process behaviour into a 'Processable' object for extensibility.
          */
         virtual void process(double delta);
+
+        //! Register the scoreboard observer for the entity to update.
+        /*!
+         * \note The entity supports only a <b>single</b> observer.
+         * registering an observer overwrites the previous one.
+         */
+        void registerScoreboardObserver(const std::shared_ptr<Scoreboard>& scoreboard);
+
+        //! Unregister the scoreboard observer of the entity.
+        /*!
+         * \note The entity supports only a <b>single</b> observer.
+         * The observer is uninitialized by default.
+         */
+        void unregisterScoreboardObserver();
+
+        //! Set the base score an entity is worth in a collision with the player.
+        /*!
+         * If the score is not set explicitly, then it defaults to 100.
+         */
+        void setBaseScore(int score);
+
+        //! Get the base score an entity is worth in a collision with the player.
+        virtual int getBaseScore() const;
+
+        //! Request that the target be removed from the all world entity lists at the game's leisure.
+        void requestRemoval();
+
+    protected:
 
         //! Return collision info on all collisions with solid objects in the world.
         std::vector<SolidCollisionInfo> getSolidCollisions(const std::pair<double, double>& moveDir);
@@ -69,10 +98,8 @@ class Entity : public GameObject {
         //! Signal the world that the round needs to end.
         void signalRoundEnd() const;
 
-        //! Request that the target be removed from the all world entity lists at the game's leisure.
-        void requestRemoval();
-
-    protected:
+        //! Notify the scoreboard of a change in score.
+        void updateScoreboard(int score) const;
 
         //! Augment the move of the entity itself by also moving its collision shape.
         void moveBehaviour(double moveX, double moveY) override;
@@ -87,6 +114,8 @@ class Entity : public GameObject {
          * \todo Extract the ::Entity collision behaviour into a 'Collideable' object for extensibility.
          */
         CollisionObject _collisionObject;
+        int _baseScore;
+        std::shared_ptr<Scoreboard> observer;
 };
 
 

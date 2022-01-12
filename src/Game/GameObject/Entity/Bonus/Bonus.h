@@ -17,7 +17,6 @@ class Bonus : public Entity {
 
         void process(double delta) = 0;
 
-        // TODO  do exception handling for locking the observable in implementations
         virtual void notifyCollision(Player &collidedWith, bool playerIsSupported) = 0;
 
     protected:

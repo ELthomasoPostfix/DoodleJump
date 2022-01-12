@@ -9,8 +9,9 @@
  *      PUBLIC methods
  */
 
-Camera::Camera(const double wWidth, const double wHeight, Rect& viewArea)
-    : _cameraArea(viewArea, true, false) {
+Camera::Camera(const std::shared_ptr<Scoreboard>& observer,
+               const double wWidth, const double wHeight, Rect& viewArea)
+    : _cameraArea(viewArea, true, false), _observer(observer) {
     recalibrateFocusY();
     setIndependentDimensions(wWidth, wHeight);
 }
@@ -32,9 +33,14 @@ void Camera::setIndependentDimensions(const double width, const double height) {
         _wHeight = std::ceil(height);
 }
 
+void Camera::move(const double moveX, const double moveY) {
+    _cameraArea.move(moveX, moveY);
+    moveYFocus(moveY);
+}
+
 void Camera::move(const std::pair<double, double> &moveVector) {
     _cameraArea.move(moveVector);
-    _focusY += moveVector.second;
+    moveYFocus(moveVector.second);
 }
 
 void Camera::setPosition(const std::pair<double, double> &destination) {
@@ -43,7 +49,7 @@ void Camera::setPosition(const std::pair<double, double> &destination) {
 }
 
 bool Camera::isVisible(CollisionObject &viewArea) {
-    return _cameraArea.checkCollision(viewArea);
+    return _cameraArea.checkCollision(viewArea, true);
 }
 
 const std::array<double, 4> & Camera::getBoundingBox() {
@@ -73,6 +79,11 @@ void Camera::replaceCameraArea(Rect &newArea) {
 }
 
 
+double Camera::getFocusY() const {
+    return _focusY;
+}
+
+
 
 /*
  *      PRIVATE methods
@@ -82,6 +93,21 @@ void Camera::replaceCameraArea(Rect &newArea) {
 void Camera::recalibrateFocusY() {
     _focusY = CollisionObject::determineAbsoluteCenterOfMass(_cameraArea.getCollisionShape()).second;
 }
+
+void Camera::printCameraError(const std::string &what) {
+    std::cout << "Error concerning a camera : " << what << std::endl;
+}
+
+void Camera::moveYFocus(double moveY) {
+    _focusY += moveY;
+    try {
+        if (moveY > 0)
+            _observer->update(moveY);
+    } catch (std::runtime_error& e) {
+        printCameraError(e.what());
+    }
+}
+
 
 
 

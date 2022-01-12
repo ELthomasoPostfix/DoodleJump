@@ -9,10 +9,11 @@
  *      PUBLIC methods
  */
 
-Entity::Entity(Rect &rect, const bool isPhysical, const bool isSolid)
-    : GameObject(0, 0), _collisionObject(rect, isPhysical, isSolid) {
+Entity::Entity(Rect &collRect, bool isPhysical, bool isSolid)
+    : GameObject(0, 0), _collisionObject(collRect, isPhysical, isSolid) {
     auto& boundingBox = _collisionObject.getBoundingBox();
     setPosition(boundingBox.at(0), boundingBox.at(1), false);
+    _baseScore = 100;
 }
 
 void Entity::display() {}
@@ -29,6 +30,30 @@ CollisionObject &Entity::getClipObject() {
 
 void Entity::process(double delta) {}
 
+void Entity::registerScoreboardObserver(const std::shared_ptr<Scoreboard>& scoreboard) {
+    observer = scoreboard;
+}
+
+void Entity::unregisterScoreboardObserver() {
+    observer.reset();
+}
+
+void Entity::setBaseScore(int score) {
+    _baseScore = score;
+}
+
+int Entity::getBaseScore() const {
+    return _baseScore;
+}
+
+void Entity::requestRemoval() {
+    World::getInstance()->requestRemoval(*this);
+}
+
+/*
+ *      PROTECTED methods
+ */
+
 std::vector<SolidCollisionInfo> Entity::getSolidCollisions(const std::pair<double, double>& moveDir) {
     return std::move(World::getInstance()->getSolidCollisions(*this, moveDir));
 }
@@ -41,10 +66,12 @@ void Entity::signalRoundEnd() const {
     World::getInstance()->signalRoundEnd();
 }
 
-
-/*
- *      PROTECTED methods
- */
+void Entity::updateScoreboard(const int score) const {
+    if (observer == nullptr)
+        std::cout << "Scoreboard observer of entity is unassigned" << std::endl;
+    else
+        observer->update(score);
+}
 
 void Entity::moveBehaviour(double moveX, double moveY) {
     _collisionObject.move(moveX, moveY);
@@ -54,6 +81,6 @@ void Entity::setBehaviour(double moveX, double moveY, double prevX, double prevY
     _collisionObject.move(moveX, moveY);
 }
 
-void Entity::requestRemoval() {
-    World::getInstance()->requestRemoval(*this);
-}
+
+
+

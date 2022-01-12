@@ -33,7 +33,7 @@ Game::Game(const unsigned int windowWidth, const unsigned int windowHeight)
     world->assignEntityFactory(entityFactory);
 
     // TODO  seed random
-    Random::getInstance()->reseed(std::rand());
+    Random::getInstance()->reseed(random());
     Random::getInstance()->redistribute(0.6, 0.15);
     Random::getInstance()->reClamp(0.0, 1.0);
 }
@@ -109,18 +109,10 @@ void Game::doGameLoop() {
             const double delta = stopwatch->elapsedSeconds();
             stopwatch->update();
 
-            // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-            //goto piss;
-            // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-
             world->processEntities(delta);
-
-            // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-            piss:;
-            // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-
+            world->refocusCamera();     // MUST happen before clipping and requesting views
             world->clipEntities();
-            world->requestViews();
+            world->requestViews();    //! \todo This results in memory leaks? Check Valgrind (let it run a few minutes)
 
             _windowManager->clear({255, 0, 0});
             for (auto &view: _viewBuffer) {
@@ -129,6 +121,7 @@ void Game::doGameLoop() {
 
 
             // TODO  query and draw current Score
+            _windowManager->draw(std::to_string(world->pollScore()), ARIAL_FONT_ID);
         }
 
         _windowManager->display();

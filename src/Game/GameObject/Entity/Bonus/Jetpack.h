@@ -23,7 +23,6 @@ class Jetpack : public Bonus {
 
     private:
         double _totalBoost;
-        double _currentBoost;
 };
 
 

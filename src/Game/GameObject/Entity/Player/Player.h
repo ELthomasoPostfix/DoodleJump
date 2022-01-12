@@ -27,8 +27,9 @@ class Player : public Entity {
         /*!
          * \param scale A scale with which the downward pull will be multiplied.
          * \param height How much the player must travel until the scale effect wears off.
+         * The absolute value of it will be used.
          */
-        void addDownwardPullScale(float scale, unsigned int height);
+        void addDownwardPullScale(float scale, double height);
 
         //! Register a bonus that observes the player.
         void registerObserver(std::weak_ptr<Bonus> observer);
@@ -52,7 +53,7 @@ class Player : public Entity {
 
     private:
         double _downwardPull;
-        std::vector<std::pair<float, unsigned int>> _pullScalers;
+        std::vector<std::pair<float, double>> _pullScalers;
         std::pair<double, double> _velocity;
         double _terminalVelocity;
         double _jumpHeight;

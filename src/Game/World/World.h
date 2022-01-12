@@ -35,8 +35,8 @@ class World {
          */
         void processEntities(double delta);
 
-        //! Request all entity views to register themselves with the controller for displaying.
-        void requestViews();
+        //! Signals the world that it needs to reevaluate the camera focus, or in other words, scroll the camera up or down.
+        void refocusCamera();
 
         //! Clip all the entities that are not within the camera's view area in world space.
         /*!
@@ -45,6 +45,12 @@ class World {
          * of the observer pattern.
          */
         void clipEntities();
+
+        //! Request all entity views to register themselves with the controller for displaying.
+        void requestViews();
+
+        //! Poll the score of the scoreboard.
+        int pollScore() const;
 
         //! Request that the target be removed from the all world entity lists at the game's leisure.
         void requestRemoval(Entity &target);
@@ -120,13 +126,27 @@ class World {
         bool removeEntity(const std::shared_ptr<Entity> &entity, std::vector<std::shared_ptr<Entity>>& vec);
 
     private:
+        /*!
+         * The camera provides a service to all ::EntityView objects,
+         * but it is not implemented as an observer. It is accessible
+         * to the entity views through the world singleton's public
+         * interface, so under normal circumstances it should exist
+         * as long as world does.
+         */
         std::unique_ptr<Camera> _camera;
+        /*!
+         * The scoreboard is an observer to entities, so it has the obligation
+         * to exist while any of its observers do.
+         */
+        std::shared_ptr<Scoreboard> _scoreboard;
+
         std::vector<std::shared_ptr<Entity>> _entities;
         std::vector<std::shared_ptr<Entity>> _bgEntities;
         std::shared_ptr<Player> _player;
         std::unique_ptr<AbstractEntityFactory> _entityFactory;
         bool _roundOver;
         bool _endAnimationFinished;   // Done scrolling down? // TODO  just keep calling clip until top of camera below prev top before game end
+        double _endScrollProgress;
 
         // TODO  do something with window dimensions
         World();

@@ -19,6 +19,11 @@ class Platform : public Entity {
     protected:
         virtual void handleCollision(Player& collidedWith, bool playerIsSupported);
 
+        //! Increment and return the old number of times the platform has been jumped on.
+        unsigned int jumpOn();
+
+    protected:
+        unsigned int jumpCount;
 };
 
 

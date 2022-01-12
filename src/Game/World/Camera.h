@@ -5,6 +5,7 @@
 #ifndef DOODLEJUMP_CAMERA_H
 #define DOODLEJUMP_CAMERA_H
 
+#include "Scoreboard.h"
 #include "../GameObject/Collision/CollisionObject.h"
 
 #define DEFAULT_CAMERA_WIDTH    600
@@ -15,8 +16,8 @@
 
 class Camera {
     public:
-        //! Define the independent coordinate system and the absolute view area onto the world space.
-        Camera(double wWidth, double wHeight, Rect& viewArea);
+        //! Define the independent coordinate system and the absolute view area onto the world space. Also supply a scoreboard observer
+        Camera(const std::shared_ptr<Scoreboard>& observer, double wWidth, double wHeight, Rect& viewArea);
 
         //! Get the dimensions, (width, height), of the rectangle onto which the ::Camera object will project the ::World.
         std::pair<unsigned int, unsigned int> getDimensions();
@@ -28,6 +29,7 @@ class Camera {
         void setIndependentDimensions(double width, double height);
 
         //! Move the ::Camera by the moveVector.
+        void move(double moveX, double moveY);
         void move(const std::pair<double, double>& moveVector);
 
         //! Move the ::Camera's position to the destination.
@@ -63,16 +65,30 @@ class Camera {
         //! Replace the camera area.
         void replaceCameraArea(Rect& newArea);
 
+        //! Get the y-coordinate that the camera thinks should be exceeded before a move should happen.
+        double getFocusY() const;
+
     private:
         //! Set the focus point y-value to where it should be based upon the camera view area.
         void recalibrateFocusY();
 
+        //! Move the focus of the camera.
+        /*!
+         * \note If the focus is manually adjusted, the scoreboard
+         * must also manually be alerted if the change in the focus.
+         */
+        void moveYFocus(double moveY);
+
+        //! Print out a generic error message about moving the camera, plus the cause.
+        static void printCameraError(const std::string& what);
 
     private:
         double _wWidth;
         double _wHeight;
         CollisionObject _cameraArea;
         double _focusY;
+
+        std::shared_ptr<Scoreboard> _observer;
 };
 
 

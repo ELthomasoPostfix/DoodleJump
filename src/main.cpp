@@ -112,8 +112,10 @@ void windowTest()
 
         CollisionObject cObj2Stored = *cObj2;
 
+        std::shared_ptr<Scoreboard> scoreboard = std::make_shared<Scoreboard>();
+
         Rect cameraArea{{{0, 0}, {wWidthH, 0}, {wWidthH, wHeightH}, {0, wHeightH}}};
-        Camera* camera = new Camera(wWidthH, wHeightH, cameraArea);
+        Camera* camera = new Camera(scoreboard, wWidthH, wHeightH, cameraArea);
 
         uint32_t ctr = 0;
         int moveAmount = 5;

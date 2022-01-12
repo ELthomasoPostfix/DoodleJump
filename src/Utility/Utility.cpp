@@ -40,8 +40,8 @@ namespace Utility {
         return eps;
     }
 
-    bool approximate(const double value1, const double value2) {
-        return std::abs(value2 - value1) < epsilon();
+    bool approximates(const double value1, const double value2) {
+        return std::abs(value2 - value1) < Utility::epsilon();
     }
 
     double dot2(const std::pair<double, double>& vec1, const std::pair<double, double>& vec2) {

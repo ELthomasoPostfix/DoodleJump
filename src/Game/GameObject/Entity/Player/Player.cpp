@@ -16,7 +16,6 @@ Player::Player(Rect &rect) : Entity(rect, true, false) {
     // { a = -2rf       { a  = -2rf
     // { v0 = -a        { v0 = 2rf
     _jumpHeight = 0.4 * static_cast<double>(World::getInstance()->getCameraDimensions().second);
-    _jumpHeight = 0.05 * static_cast<double>(World::getInstance()->getCameraDimensions().second);
     _terminalVelocity = 2 * _jumpHeight;
     _velocity = {0, 0};      // initially stand still
     resetDownwardPull();
@@ -34,8 +33,6 @@ void Player::process(double delta) {
     // Applies the movement vector of the player based on delta time.
     // Whether the player landed onto the top of a solid object.
     bool isSupported = handleMovement(delta);
-
-    std::cout << _velocity.second << std::endl;
 
     // TODO  if player jumps off platform, then notify the Score and send along the platform jumped on
 
@@ -70,8 +67,8 @@ void Player::resetYVelocity() {
     _velocity.second =  2.0 * _jumpHeight;
 }
 
-void Player::addDownwardPullScale(float scale, unsigned int height) {
-    _pullScalers.emplace_back(std::pair<float, unsigned int>{scale, height});
+void Player::addDownwardPullScale(float scale, double height) {
+    _pullScalers.emplace_back(std::pair<float, double>{scale, height});
 }
 
 void Player::registerObserver(std::weak_ptr<Bonus> observer) {
@@ -125,18 +122,17 @@ bool Player::handleMovement(double delta) {
         resetYVelocity();
     }
 
-    // TODO  Bonus doesn't last long enough
-    //  ==> WHY???
 
-    // After movement, remove spent boosts
-    auto scaleIt = _pullScalers.begin();
-    while (scaleIt != _pullScalers.end()) {
-        scaleIt->second -= std::min(scaleIt->second, static_cast<unsigned int>(std::abs(std::ceil(moveVector.second))));
-        if (scaleIt->second == 0)
-            scaleIt = _pullScalers.erase(scaleIt);
-        else
-            ++it;
+    // Process bonus effects
+    // The to remove indexes are specified back to front in the list of scalers,
+    // so erasure is completed correctly.
+    for (size_t idx = _pullScalers.size(); idx > 0; --idx) {
+        auto& scaler = _pullScalers.at(idx - 1);
+        scaler.second -= std::min(scaler.second, std::abs(moveVector.second));
+        if (Utility::approximates(scaler.second, 0))
+            _pullScalers.erase(_pullScalers.begin() + idx - 1);
     }
+
 
     return isSupported;
 }

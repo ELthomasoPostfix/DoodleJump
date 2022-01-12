@@ -10,18 +10,20 @@
 
 Jetpack::Jetpack(Rect& rect, double totalBoost) : Bonus(rect) {
     _totalBoost = totalBoost;
-    _currentBoost = 0;
 }
 
-void Jetpack::process(double delta) {
-}
+void Jetpack::process(double delta) {}
 
 void Jetpack::notifyCollision(Player &collidedWith, bool playerIsSupported) {
 
     if (collidedWith.getCollisionObject().checkCollision(this->getCollisionObject())) {
-        collidedWith.addDownwardPullScale(0, 2000);
+        getCollisionObject().setIsPhysical(false);      // Disable collisions generally
+
+        collidedWith.addDownwardPullScale(0, _totalBoost);
         collidedWith.resetYVelocity();
+
         _active = true;
+        updateScoreboard(getBaseScore());
         requestRemoval();
     }
 }
