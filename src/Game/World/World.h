@@ -5,7 +5,8 @@
 #ifndef DOODLEJUMP_WORLD_H
 #define DOODLEJUMP_WORLD_H
 
-#include "../World/Camera.h"
+#include "Camera.h"
+#include "Spawner.h"
 #include "CollisionInfo.h"
 #include "../../Event.h"
 #include "../../Utility/Random.h"
@@ -140,6 +141,7 @@ class World {
         bool removeEntity(const std::shared_ptr<Entity> &entity, std::vector<std::shared_ptr<Entity>>& vec);
 
     private:
+        friend Spawner;
         /*!
          * The camera provides a service to all ::EntityView objects,
          * but it is not implemented as an observer. It is accessible

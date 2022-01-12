@@ -54,10 +54,10 @@ add_executable(DoodleJump
 
         src/View/resources.h
         src/View/EntityView/DerivedEntityViews.h
-        src/View/AbstractEntityFactory/AbstractEntityFactory.cpp
-        src/View/AbstractEntityFactory/AbstractEntityFactory.h
-        src/View/AbstractEntityFactory/SFMLEntityFactory/SFMLEntityFactory.cpp
-        src/View/AbstractEntityFactory/SFMLEntityFactory/SFMLEntityFactory.h
+        src/Game/AbstractEntityFactory/AbstractEntityFactory.cpp
+        src/Game/AbstractEntityFactory/AbstractEntityFactory.h
+        src/View/ConcreteEntityFactory/SFMLEntityFactory.cpp
+        src/View/ConcreteEntityFactory/SFMLEntityFactory.h
 
         src/View/ResourceManager/ResourceManager.h
         src/View/Window/WindowManager.h

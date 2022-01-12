@@ -5,14 +5,14 @@
 #ifndef DOODLEJUMP_ABSTRACTENTITYFACTORY_H
 #define DOODLEJUMP_ABSTRACTENTITYFACTORY_H
 
-#include "../../Game/GameObject/Entity/Player/Player.h"
-#include "../../Game/GameObject/Entity/Platform/StaticPlatform.h"
-#include "../../Game/GameObject/Entity/Platform/TemporaryPlatform.h"
-#include "../../Game/GameObject/Entity/Platform/HorizontalPlatform.h"
-#include "../../Game/GameObject/Entity/Platform/VerticalPlatform.h"
-#include "../../Game/GameObject/Entity/BGTile/BGTile.h"
-#include "../../Game/GameObject/Entity/Bonus/Jetpack.h"
-#include "../../Game/GameObject/Entity/Bonus/Spring.h"
+#include "../GameObject/Entity/Player/Player.h"
+#include "../GameObject/Entity/Platform/StaticPlatform.h"
+#include "../GameObject/Entity/Platform/TemporaryPlatform.h"
+#include "../GameObject/Entity/Platform/HorizontalPlatform.h"
+#include "../GameObject/Entity/Platform/VerticalPlatform.h"
+#include "../GameObject/Entity/BGTile/BGTile.h"
+#include "../GameObject/Entity/Bonus/Jetpack.h"
+#include "../GameObject/Entity/Bonus/Spring.h"
 
 //! Functions as the observer of the ::EntityView derived class objects.
 class Game;

@@ -7,7 +7,7 @@
 
 #include "Utility/Stopwatch.h"
 #include "View/Window/SFMLWindowManager.h"
-#include "View/AbstractEntityFactory/SFMLEntityFactory/SFMLEntityFactory.h"
+#include "View/ConcreteEntityFactory/SFMLEntityFactory.h"
 
 
 
