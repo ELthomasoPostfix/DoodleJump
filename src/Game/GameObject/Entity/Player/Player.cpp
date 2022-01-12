@@ -22,12 +22,7 @@ Player::Player(Rect &rect) : Entity(rect, true, false) {
     _xMovementSpeed = 0.5 * static_cast<double>(World::getInstance()->getCameraDimensions().first);
 }
 
-Player::~Player() {
-    signalRoundEnd();
-    // TODO Doesn't the player need to live during the end animation???
-    //  ==> Wouldn't keeping a weak_ptr work better?
-    //  ==> transformable into shared_ptr for operations
-}
+Player::~Player() {}
 
 void Player::process(double delta) {
 

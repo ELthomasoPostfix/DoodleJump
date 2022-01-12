@@ -55,7 +55,7 @@ class Entity : public GameObject {
          * If a derived class desires to influence the game world every frame, then these
          * interactions should be implemented through deriving the process() method.
          * The ::World class will call the process() method of all ::Entity objects registered
-         * using the ::World::registerEntity() method.
+         * using the ::World::addEntity() method.
          * \param delta How many seconds have passed since the previous frame was ready.
          * \todo Extract the ::Entity process behaviour into a 'Processable' object for extensibility.
          */

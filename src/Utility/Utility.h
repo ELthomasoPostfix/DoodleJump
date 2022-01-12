@@ -49,6 +49,8 @@ namespace Utility {
     //! Find the index of the vector with the lowest magnitude. If the list is empty, returns -1.
     size_t getShortestVectorIndex(const std::vector<std::pair<double, double>>& vectors);
 
+    //! Clamp the value.
+    double clamp(double value, double clampMin, double clampMax);
 };
 
 

@@ -21,6 +21,9 @@ class Scoreboard {
         //! Get the current score.
         int getScore() const;
 
+        //! Reset the score to zero.
+        void resetScore();
+
     private:
         int _score;
 };

@@ -53,6 +53,9 @@ class World {
         //! Signals the world that it needs to reevaluate the camera focus, or in other words, scroll the camera up or down.
         void refocusCamera();
 
+        //! Signal the world that it needs to spawn new entities.
+        void handleSpawning();
+
         //! Clip all the entities that are not within the camera's view area in world space.
         /*!
          * If the actual objects are entityViews, then they will register themselves with
@@ -70,8 +73,14 @@ class World {
         //! Request that the target be removed from the all world entity lists at the game's leisure.
         void requestRemoval(Entity &target);
 
-        // TODO  void receiveEvent();
-        //  ==> Make an observable for events in World, with Entities being observers??
+        //! Reset the world back to default state.
+        /*!
+         * \todo Implement this properly
+         */
+        void resetWorld();
+
+        //! Set up the world for a new round.
+        void setupWorld();
 
         //! Register any ::Entity derived class object, such that its ::Entity::process(double) method will be called.
         /*!
@@ -99,6 +108,9 @@ class World {
 
         //! The world gets notified that the current round needs to be ended.
         void signalRoundEnd();
+
+        //! The world gets notified that a new round needs to be started.
+        void signalRoundBegin();
 
         //! Whether the current round has ended.
         bool roundHasEnded();
@@ -155,6 +167,7 @@ class World {
          * to exist while any of its observers do.
          */
         std::shared_ptr<Scoreboard> _scoreboard;
+        std::unique_ptr<Spawner> _spawner;
 
         std::map<dj::Event, bool> _receivedEvents;
         std::vector<std::shared_ptr<Entity>> _entities;
@@ -163,8 +176,6 @@ class World {
         std::unique_ptr<AbstractEntityFactory> _entityFactory;
 
         bool _roundOver;
-        bool _endAnimationFinished;   // Done scrolling down? // TODO  just keep calling clip until top of camera below prev top before game end
-        double _endScrollProgress;
 
         // TODO  do something with window dimensions
         World();

@@ -32,8 +32,7 @@ Game::Game(const unsigned int windowWidth, const unsigned int windowHeight)
     world->setCameraArea(cameraArea);
     world->assignEntityFactory(entityFactory);
 
-    // TODO  seed random
-    Random::getInstance()->reseed(random());
+    Random::getInstance()->reseed(random());        // TODO seed properly random????
     Random::getInstance()->redistribute(0.6, 0.15);
     Random::getInstance()->reClamp(0.0, 1.0);
 }
@@ -42,7 +41,7 @@ void Game::start() {
     // Initial time passed set to essentially zero
     Stopwatch::getInstance()->update();
     // TODO  ##########################################
-    World::getInstance()->test();      // TODO  apply the Bonus observer pattern to platforms as wel??
+    //World::getInstance()->test();      // TODO  apply the Bonus observer pattern to platforms as wel??
     //  ==> generalize it into an Entity::notifyCollision(caller) method
     //  so that a concrete entity can check whether the passed caller
     //  matches its observable and can then work on its observable?
@@ -90,7 +89,7 @@ void Game::doGameLoop() {
                     break;
                 case (dj::Event::EXIT):
                     _windowManager->close();
-                    // TODO Make world clean up its entities ??
+                    world->resetWorld();
                     return;
                 default:
                     World::getInstance()->pushEvent(event);
@@ -98,18 +97,19 @@ void Game::doGameLoop() {
             }
         }
 
+        const double delta = stopwatch->elapsedSeconds();
+        stopwatch->update();
+
         if (world->roundHasEnded()) {
             _windowManager->clear({255, 0, 0});
-            _windowManager->draw("GAME OVER", ARIAL_FONT_ID);
+            _windowManager->draw("GAME OVER : SPACE to continue", ARIAL_FONT_ID);
         } else {
 
 
             // DRAW VIEWS
-            const double delta = stopwatch->elapsedSeconds();
-            stopwatch->update();
-
             world->processEntities(delta);
             world->refocusCamera();     // MUST happen before clipping and requesting views
+            world->handleSpawning();
             world->clipEntities();
             world->requestViews();    //! \todo This results in memory leaks? Check Valgrind (let it run a few minutes)
 

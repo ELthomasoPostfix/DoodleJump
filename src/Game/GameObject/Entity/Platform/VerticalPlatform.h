@@ -19,6 +19,9 @@ class VerticalPlatform : public Platform {
         //! Set the top and bottom bounds of the vertical platform, in that order.
         void setBounds(const std::pair<double, double>& bounds);
 
+        //! get the top and bottom bounds of the vertical platform, in that order.
+        std::pair<double, double> getBounds();
+
     private:
         //! Recalculate the movement speed of the platform based on the bounds.
         void recalculateMovementSpeed();

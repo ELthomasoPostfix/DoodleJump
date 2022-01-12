@@ -16,7 +16,8 @@ class StaticPlatform : public Platform {
 
     private:
         //! The world must be able to position a static platform
-        friend World;
+        friend World;       // TODO  remove
+        friend Spawner;
         using GameObject::move;
         using GameObject::setPosition;
 };

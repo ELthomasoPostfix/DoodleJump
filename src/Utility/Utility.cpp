@@ -80,4 +80,11 @@ namespace Utility {
         return index;
     }
 
+    double clamp(const double value, double clampMin, double clampMax) {
+        if (clampMax < clampMin)
+            std::swap(clampMin, clampMax);
+        return std::max(clampMin, std::min(value, clampMax));
+    }
+
+
 }

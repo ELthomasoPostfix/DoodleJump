@@ -28,6 +28,10 @@ void VerticalPlatform::setBounds(const std::pair<double, double> &bounds) {
         _bounds = bounds;
 }
 
+std::pair<double, double> VerticalPlatform::getBounds() {
+    return _bounds;
+}
+
 void VerticalPlatform::recalculateMovementSpeed() {
     // (top - bottom) / 5s
     _movementPerSecond = 0.2 * (_bounds.first - _bounds.second);

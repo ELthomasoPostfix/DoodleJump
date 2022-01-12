@@ -3,7 +3,6 @@
 //
 
 #include "Scoreboard.h"
-#include "Camera.h"
 
 Scoreboard::Scoreboard() {
     _score = 0;
@@ -18,4 +17,7 @@ int Scoreboard::getScore() const {
     return _score;
 }
 
+void Scoreboard::resetScore() {
+    _score = 0;
+}
 
