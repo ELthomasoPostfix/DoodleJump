@@ -74,12 +74,14 @@ void Game::update(EntityView &changed) {
 
 void Game::doGameLoop() {
     auto& stopwatch = Stopwatch::getInstance();
+    auto& world = World::getInstance();
 
     while (true) {
         // CLEAR VIEW BUFFER
         _viewBuffer.clear();
 
         // POLL EVENTS
+        world->clearEvents();
         dj::Event event = dj::NONE;
 
         while (_windowManager->pollEvent(event)) {
@@ -88,16 +90,13 @@ void Game::doGameLoop() {
                     break;
                 case (dj::Event::EXIT):
                     _windowManager->close();
-                    // TODO Make world clean up ??
+                    // TODO Make world clean up its entities ??
                     return;
                 default:
-                    // TODO  notify world of LEFT/RIGHT/SPACE_BAR event
+                    World::getInstance()->pushEvent(event);
                     break;
             }
         }
-
-        // INCREMENT GAME STATE
-        auto& world = World::getInstance();
 
         if (world->roundHasEnded()) {
             _windowManager->clear({255, 0, 0});

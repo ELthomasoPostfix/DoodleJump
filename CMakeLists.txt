@@ -65,7 +65,7 @@ add_executable(DoodleJump
         src/View/Window/SFMLWindowManager.h
 
         src/Utility/Utility.cpp
-        src/Utility/Utility.h src/Event.h src/View/EntityView/PlatformView/StaticPlatformView.cpp src/View/EntityView/PlatformView/StaticPlatformView.h src/View/EntityView/TemplateView.cpp src/View/EntityView/TemplateView.h src/Game/GameObject/Entity/Platform/TemporaryPlatform.cpp src/Game/GameObject/Entity/Platform/TemporaryPlatform.h src/Game/GameObject/Entity/Platform/HorizontalPlatform.cpp src/Game/GameObject/Entity/Platform/HorizontalPlatform.h src/Game/GameObject/Entity/Platform/VerticalPlatform.cpp src/Game/GameObject/Entity/Platform/VerticalPlatform.h src/Game/World/Scoreboard.cpp src/Game/World/Scoreboard.h)
+        src/Utility/Utility.h src/Event.h src/View/EntityView/PlatformView/StaticPlatformView.cpp src/View/EntityView/PlatformView/StaticPlatformView.h src/View/EntityView/TemplateView.cpp src/View/EntityView/TemplateView.h src/Game/GameObject/Entity/Platform/TemporaryPlatform.cpp src/Game/GameObject/Entity/Platform/TemporaryPlatform.h src/Game/GameObject/Entity/Platform/HorizontalPlatform.cpp src/Game/GameObject/Entity/Platform/HorizontalPlatform.h src/Game/GameObject/Entity/Platform/VerticalPlatform.cpp src/Game/GameObject/Entity/Platform/VerticalPlatform.h src/Game/World/Scoreboard.cpp src/Game/World/Scoreboard.h src/Game/World/Spawner.cpp src/Game/World/Spawner.h)
 
 target_link_libraries(DoodleJump sfml-system sfml-window sfml-graphics sfml-audio)
 

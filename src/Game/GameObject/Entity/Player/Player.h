@@ -57,6 +57,7 @@ class Player : public Entity {
         std::pair<double, double> _velocity;
         double _terminalVelocity;
         double _jumpHeight;
+        double _xMovementSpeed;
 
         std::vector<std::weak_ptr<Entity>> _observers;       // TODO remove this ??? ==> No time for making jetpack follow user
 };

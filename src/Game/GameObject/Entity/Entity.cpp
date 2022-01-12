@@ -46,13 +46,23 @@ int Entity::getBaseScore() const {
     return _baseScore;
 }
 
-void Entity::requestRemoval() {
-    World::getInstance()->requestRemoval(*this);
-}
+
 
 /*
  *      PROTECTED methods
  */
+
+bool Entity::pollEvent(dj::Event event) {
+    return World::getInstance()->pollEvent(event);
+}
+
+void Entity::signalRoundEnd() {
+    World::getInstance()->signalRoundEnd();
+}
+
+void Entity::requestRemoval() {
+    World::getInstance()->requestRemoval(*this);
+}
 
 std::vector<SolidCollisionInfo> Entity::getSolidCollisions(const std::pair<double, double>& moveDir) {
     return std::move(World::getInstance()->getSolidCollisions(*this, moveDir));
@@ -60,10 +70,6 @@ std::vector<SolidCollisionInfo> Entity::getSolidCollisions(const std::pair<doubl
 
 std::vector<NonSolidCollisionInfo> Entity::getNonSolidCollisions() {
     return std::move(World::getInstance()->getNonSolidCollisions(*this));
-}
-
-void Entity::signalRoundEnd() const {
-    World::getInstance()->signalRoundEnd();
 }
 
 void Entity::updateScoreboard(const int score) const {

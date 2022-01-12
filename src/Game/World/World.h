@@ -10,6 +10,9 @@
 #include "../../Event.h"
 #include "../../Utility/Random.h"
 
+#include <map>
+
+
 class Entity;
 class Player;
 class AbstractEntityFactory;
@@ -25,7 +28,6 @@ class World {
         void test();
         // TODO  add some random public method to already test stuff pls !!!!!!!!!!!!!!!!!!!!!!
 
-
         //! Call the process method of all registered ::Entity objects.
         /*!
          * Each ::Entity may define a ::Entity::process(double) method,
@@ -34,6 +36,18 @@ class World {
          * ::World::addEntity().
          */
         void processEntities(double delta);
+
+        //! Register the event with the world so that it can integrate it with its entities.
+        void pushEvent(dj::Event event);
+
+        //! Check whether the desired event has been received this frame.
+        /*!
+         * \see clearEvents
+         */
+        bool pollEvent(dj::Event event) const;
+
+        //! Signal the world to forget all received events.
+        void clearEvents();
 
         //! Signals the world that it needs to reevaluate the camera focus, or in other words, scroll the camera up or down.
         void refocusCamera();
@@ -140,10 +154,12 @@ class World {
          */
         std::shared_ptr<Scoreboard> _scoreboard;
 
+        std::map<dj::Event, bool> _receivedEvents;
         std::vector<std::shared_ptr<Entity>> _entities;
         std::vector<std::shared_ptr<Entity>> _bgEntities;
         std::shared_ptr<Player> _player;
         std::unique_ptr<AbstractEntityFactory> _entityFactory;
+
         bool _roundOver;
         bool _endAnimationFinished;   // Done scrolling down? // TODO  just keep calling clip until top of camera below prev top before game end
         double _endScrollProgress;

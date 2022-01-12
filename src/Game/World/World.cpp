@@ -32,6 +32,20 @@ void World::refocusCamera() {
     _camera->move(0, scrollY);
 }
 
+void World::pushEvent(dj::Event event) {
+    _receivedEvents[event] = true;
+}
+
+bool World::pollEvent(dj::Event event) const {
+    return _receivedEvents.count(event) && _receivedEvents.find(event)->second;
+}
+
+void World::clearEvents() {
+    for (auto& event : _receivedEvents) {
+        event.second = false;
+    }
+}
+
 void World::clipEntities() {
     auto it = _entities.begin();
     while (it != _entities.end()) {
@@ -287,6 +301,8 @@ void World::test() {
     addEntity(s2platform);
 
 }
+
+
 
 
 

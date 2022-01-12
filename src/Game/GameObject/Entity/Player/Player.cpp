@@ -19,6 +19,7 @@ Player::Player(Rect &rect) : Entity(rect, true, false) {
     _terminalVelocity = 2 * _jumpHeight;
     _velocity = {0, 0};      // initially stand still
     resetDownwardPull();
+    _xMovementSpeed = 0.5 * static_cast<double>(World::getInstance()->getCameraDimensions().first);
 }
 
 Player::~Player() {
@@ -30,8 +31,15 @@ Player::~Player() {
 
 void Player::process(double delta) {
 
+    double additionalXVelocity = 0;
+    if (pollEvent(dj::Event::LEFT))
+        additionalXVelocity -= _xMovementSpeed;
+    else if (pollEvent(dj::Event::RIGHT))
+        additionalXVelocity += _xMovementSpeed;
+    _velocity.first = additionalXVelocity;
+
     // Applies the movement vector of the player based on delta time.
-    // Whether the player landed onto the top of a solid object.
+    // Returns whether the player landed onto the top of a solid object.
     bool isSupported = handleMovement(delta);
 
     // TODO  if player jumps off platform, then notify the Score and send along the platform jumped on
@@ -117,8 +125,15 @@ bool Player::handleMovement(double delta) {
         isSupported = true;
         solidCollisions.at(longestIndex).collidedWith->notifyCollision(*this, isSupported);
 
-        move(longestVector);
-        moveVector.second += longestVector.second;
+        auto solidBB = solidCollisions.at(longestIndex).collidedWith->getCollisionObject().getBoundingBox();
+        auto playerBB = getCollisionObject().getBoundingBox();
+
+        // Only do pushback if foot of player inside solid object
+        if (solidBB.at(1) <= playerBB.at(1) && playerBB.at(1) <= solidBB.at(3)) {
+            move(longestVector);
+            moveVector.second += longestVector.second;
+        }
+
         resetYVelocity();
     }
 
@@ -142,11 +157,13 @@ std::pair<double, double> Player::findMoveVector(double delta) {
     // vf = v0 + at
     // 0  = v0 + -1t
     // t  = -v0 / -1 = v0
-    double stopDelta = _velocity.first;
+    double stopDelta = std::abs(_velocity.first);
     if (delta < stopDelta) stopDelta = delta;
     moveVector.first = _velocity.first * stopDelta;
-    _velocity.first = std::max(0.0, _velocity.first - stopDelta);    // TODO  poll world for RIGHT event     ==> _velocity.first = pollRightEvent() == true
-    // _velocity.first = std::min(_velocity.first + pollEvent(dj::Event::RIGHT), 1.0);  // TODO this??
+    if (_velocity.first < 0)
+        _velocity.first += stopDelta;
+    if (_velocity.first > 0)
+        _velocity.first -= stopDelta;
 
     const double downwardPull = getDownwardPull();
 

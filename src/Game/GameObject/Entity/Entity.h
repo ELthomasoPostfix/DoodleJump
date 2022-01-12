@@ -84,19 +84,22 @@ class Entity : public GameObject {
         //! Get the base score an entity is worth in a collision with the player.
         virtual int getBaseScore() const;
 
+    protected:
+
+        //! Check whether the world has received the requested event.
+        static bool pollEvent(dj::Event event);
+
+        //! Signal the world that the round needs to end.
+        static void signalRoundEnd();
+
         //! Request that the target be removed from the all world entity lists at the game's leisure.
         void requestRemoval();
-
-    protected:
 
         //! Return collision info on all collisions with solid objects in the world.
         std::vector<SolidCollisionInfo> getSolidCollisions(const std::pair<double, double>& moveDir);
 
         //! Return collision info on all collisions with non solid objects in the world.
         std::vector<NonSolidCollisionInfo> getNonSolidCollisions();
-
-        //! Signal the world that the round needs to end.
-        void signalRoundEnd() const;
 
         //! Notify the scoreboard of a change in score.
         void updateScoreboard(int score) const;
