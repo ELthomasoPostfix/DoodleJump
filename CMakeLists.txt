@@ -7,9 +7,7 @@ find_package(SFML 2.5
         COMPONENTS
         system window graphics audio REQUIRED)
 
-add_executable(DoodleJump
-        src/main.cpp
-
+add_library(DoodleLogic
         src/Utility/Utility.cpp
         src/Utility/Utility.h
         src/Utility/Stopwatch.cpp
@@ -59,25 +57,29 @@ add_executable(DoodleJump
         src/Game/GameObject/Entity/Bonus/Spring.cpp
         src/Game/GameObject/Entity/Bonus/Spring.h
         src/Game/GameObject/Entity/BGTile/BGTile.cpp
-        src/Game/GameObject/Entity/BGTile/BGTile.h
+        src/Game/GameObject/Entity/BGTile/BGTile.h)
 
+add_library(DoodleView
+        src/View/ResourceManager/ResourceManager.h
+        src/View/Window/WindowManager.h
+
+        src/View/resources.h
+        src/View/EntityView/EntityView.cpp
+        src/View/EntityView/EntityView.h
+        src/View/EntityView/TemplateView.cpp
+        src/View/EntityView/TemplateView.h)
+
+add_executable(DoodleJump
+        src/main.cpp
 
         src/Game.cpp
         src/Game.h
 
-        src/View/EntityView/EntityView.cpp
-        src/View/EntityView/EntityView.h
-        src/View/EntityView/TemplateView.cpp
-        src/View/EntityView/TemplateView.h
-
-        src/View/resources.h
         src/View/ConcreteEntityFactory/SFMLEntityFactory.cpp
         src/View/ConcreteEntityFactory/SFMLEntityFactory.h
 
-        src/View/ResourceManager/ResourceManager.h
-        src/View/Window/WindowManager.h
         src/View/Window/SFMLWindowManager.cpp
         src/View/Window/SFMLWindowManager.h)
 
-target_link_libraries(DoodleJump sfml-system sfml-window sfml-graphics sfml-audio)
+target_link_libraries(DoodleJump DoodleView DoodleLogic sfml-system sfml-window sfml-graphics sfml-audio)
 
