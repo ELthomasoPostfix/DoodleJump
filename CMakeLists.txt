@@ -10,19 +10,27 @@ find_package(SFML 2.5
 add_executable(DoodleJump
         src/main.cpp
 
+        src/Utility/Utility.cpp
+        src/Utility/Utility.h
         src/Utility/Stopwatch.cpp
         src/Utility/Stopwatch.h
         src/Utility/Random.cpp
         src/Utility/Random.h
 
-        src/Game.cpp
-        src/Game.h
+        src/Game/AbstractEntityFactory/AbstractEntityFactory.cpp
+        src/Game/AbstractEntityFactory/AbstractEntityFactory.h
+
+        src/Event.h
 
         src/Game/World/World.cpp
         src/Game/World/World.h
         src/Game/World/CollisionInfo.h
         src/Game/World/Camera.cpp
         src/Game/World/Camera.h
+        src/Game/World/Scoreboard.cpp
+        src/Game/World/Scoreboard.h
+        src/Game/World/Spawner.cpp
+        src/Game/World/Spawner.h
 
         src/Game/GameObject/GameObject.cpp
         src/Game/GameObject/GameObject.h
@@ -38,6 +46,12 @@ add_executable(DoodleJump
         src/Game/GameObject/Entity/Platform/Platform.h
         src/Game/GameObject/Entity/Platform/StaticPlatform.cpp
         src/Game/GameObject/Entity/Platform/StaticPlatform.h
+        src/Game/GameObject/Entity/Platform/TemporaryPlatform.cpp
+        src/Game/GameObject/Entity/Platform/TemporaryPlatform.h
+        src/Game/GameObject/Entity/Platform/HorizontalPlatform.cpp
+        src/Game/GameObject/Entity/Platform/HorizontalPlatform.h
+        src/Game/GameObject/Entity/Platform/VerticalPlatform.cpp
+        src/Game/GameObject/Entity/Platform/VerticalPlatform.h
         src/Game/GameObject/Entity/Bonus/Bonus.cpp
         src/Game/GameObject/Entity/Bonus/Bonus.h
         src/Game/GameObject/Entity/Bonus/Jetpack.cpp
@@ -47,25 +61,23 @@ add_executable(DoodleJump
         src/Game/GameObject/Entity/BGTile/BGTile.cpp
         src/Game/GameObject/Entity/BGTile/BGTile.h
 
+
+        src/Game.cpp
+        src/Game.h
+
         src/View/EntityView/EntityView.cpp
         src/View/EntityView/EntityView.h
-        src/View/EntityView/PlayerView/PlayerView.cpp
-        src/View/EntityView/PlayerView/PlayerView.h
+        src/View/EntityView/TemplateView.cpp
+        src/View/EntityView/TemplateView.h
 
         src/View/resources.h
-        src/View/EntityView/DerivedEntityViews.h
-        src/Game/AbstractEntityFactory/AbstractEntityFactory.cpp
-        src/Game/AbstractEntityFactory/AbstractEntityFactory.h
         src/View/ConcreteEntityFactory/SFMLEntityFactory.cpp
         src/View/ConcreteEntityFactory/SFMLEntityFactory.h
 
         src/View/ResourceManager/ResourceManager.h
         src/View/Window/WindowManager.h
         src/View/Window/SFMLWindowManager.cpp
-        src/View/Window/SFMLWindowManager.h
-
-        src/Utility/Utility.cpp
-        src/Utility/Utility.h src/Event.h src/View/EntityView/PlatformView/StaticPlatformView.cpp src/View/EntityView/PlatformView/StaticPlatformView.h src/View/EntityView/TemplateView.cpp src/View/EntityView/TemplateView.h src/Game/GameObject/Entity/Platform/TemporaryPlatform.cpp src/Game/GameObject/Entity/Platform/TemporaryPlatform.h src/Game/GameObject/Entity/Platform/HorizontalPlatform.cpp src/Game/GameObject/Entity/Platform/HorizontalPlatform.h src/Game/GameObject/Entity/Platform/VerticalPlatform.cpp src/Game/GameObject/Entity/Platform/VerticalPlatform.h src/Game/World/Scoreboard.cpp src/Game/World/Scoreboard.h src/Game/World/Spawner.cpp src/Game/World/Spawner.h)
+        src/View/Window/SFMLWindowManager.h)
 
 target_link_libraries(DoodleJump sfml-system sfml-window sfml-graphics sfml-audio)
 

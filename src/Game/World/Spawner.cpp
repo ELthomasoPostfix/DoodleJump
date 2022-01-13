@@ -85,23 +85,23 @@ void Spawner::handleSpawning(World& world) {
             if (platformFactor < mean - stddev)
                 platform = ef->createHorizontalPlatform();
             // +/- 35% chance
-            else if (platformFactor < mean)
+            else if (platformFactor < mean) {
                 platform = ef->createStaticPlatform();
-            // +/- 15% chance
-            else if (platformFactor > mean + stddev) {
-                platform = ef->createTemporaryPlatform();
                 double bonusFactor = ran->random();
                 // +/- 10.5% chance
-                if (bonusFactor < mean - 1.25 * stddev)
+                if (bonusFactor < mean - stddev)
                     bonus = ef->createSpring();
-                else if (mean + 1.25 * stddev < bonusFactor)
+                else if (mean + stddev < bonusFactor)
                     bonus = ef->createJetpack();
+            // +/- 15% chance
+            } else if (platformFactor > mean + stddev) {
+                platform = ef->createTemporaryPlatform();
             // +/- 35% chance
             } else if (!spawnedVertical && platformFactor > mean) {
                 spawnedVertical = true;
                 auto vplatform = ef->createVerticalPlatform();
                 auto bounds = vplatform->getBounds();
-                bounds.second = 0.5 * (camDimensions.second) + 0.25 * camDimensions.second * ran->randomNormalized();
+                bounds.second = 0.5 * (camDimensions.second) + 0.375 * camDimensions.second * ran->randomNormalized();
                 vplatform->setBounds(bounds);
                 platform = vplatform;
             } else {

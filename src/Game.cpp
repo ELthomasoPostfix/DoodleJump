@@ -102,7 +102,7 @@ void Game::doGameLoop() {
 
         if (world->roundHasEnded()) {
             _windowManager->clear({255, 0, 0});
-            _windowManager->draw("GAME OVER : SPACE to continue", ARIAL_FONT_ID);
+            _windowManager->draw("GAME OVER\n\n\n(or not, this is also the title screen ...)\n\n\n\npress SPACE to continue", ARIAL_FONT_ID);
         } else {
 
 

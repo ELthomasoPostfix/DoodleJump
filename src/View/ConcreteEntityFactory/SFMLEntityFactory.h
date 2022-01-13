@@ -6,7 +6,6 @@
 #define DOODLEJUMP_SFMLENTITYFACTORY_H
 
 #include "../../Game/AbstractEntityFactory/AbstractEntityFactory.h"
-#include "../EntityView/DerivedEntityViews.h"
 #include "../EntityView/TemplateView.h"
 
 // TODO  If the Entity registration functionality is deleted,

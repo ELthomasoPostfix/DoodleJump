@@ -178,6 +178,7 @@ World::getNonSolidCollisions(Entity& movingBody) {
 
 void World::signalRoundEnd() {
     _roundOver = true;
+    resetWorld();
 }
 
 void World::signalRoundBegin() {

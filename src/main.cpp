@@ -69,7 +69,7 @@ void windowTest()
                          {wWidthH+100-margin, wHeightH+100-margin}, {wWidthH+margin, wHeightH+100-margin}}};
         Rect pCollShape{{{wWidthH, wHeightH}, {wWidthH + 100, wHeightH},
                          {wWidthH+100, wHeightH+100}, {wWidthH, wHeightH+100}}};
-        Player* playerView = new PlayerView(*game, pCollShape, pViewShape);
+        Player* playerView = new TemplateView<Player>(*game, pCollShape, pViewShape);
 
         Player* player = new Player(pCollShape);
         player->process(2);
