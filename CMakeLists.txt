@@ -7,7 +7,7 @@ find_package(SFML 2.5
         COMPONENTS
         system window graphics audio REQUIRED)
 
-add_library(DoodleLogic
+add_library(DoodleLogic STATIC
         src/Utility/Utility.cpp
         src/Utility/Utility.h
         src/Utility/Stopwatch.cpp
@@ -59,7 +59,7 @@ add_library(DoodleLogic
         src/Game/GameObject/Entity/BGTile/BGTile.cpp
         src/Game/GameObject/Entity/BGTile/BGTile.h)
 
-add_library(DoodleView
+add_library(DoodleView STATIC
         src/View/ResourceManager/ResourceManager.h
         src/View/Window/WindowManager.h
 
