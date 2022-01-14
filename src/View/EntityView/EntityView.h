@@ -6,7 +6,7 @@
 #define DOODLEJUMP_ENTITYVIEW_H
 
 #include "../resources.h"
-#include "../../Event.h"
+#include "../../Game/World/Event.h"
 #include "../../Game/GameObject/Collision/CollisionObject.h"
 
 class Game;

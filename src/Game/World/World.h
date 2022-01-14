@@ -8,7 +8,7 @@
 #include "Camera.h"
 #include "Spawner.h"
 #include "CollisionInfo.h"
-#include "../../Event.h"
+#include "Event.h"
 #include "../../Utility/Random.h"
 
 #include <map>

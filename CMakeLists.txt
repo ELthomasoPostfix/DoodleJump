@@ -18,7 +18,7 @@ add_library(DoodleLogic STATIC
         src/Game/AbstractEntityFactory/AbstractEntityFactory.cpp
         src/Game/AbstractEntityFactory/AbstractEntityFactory.h
 
-        src/Event.h
+        src/Game/World/Event.h
 
         src/Game/World/World.cpp
         src/Game/World/World.h
