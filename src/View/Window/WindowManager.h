@@ -10,11 +10,11 @@
 #include "../EntityView/EntityView.h"
 
 
-//! A common interface for all window managers.
+//! A common interface for all window managers. A concrete implementation must combined with the ::Game class.
 /*!
  * To minimize the interface of the ::Game class, a ::WindowManager object
  * is defined instead. A class template is used to define the strictly
- * needed common functionality. A concrete window manager may then define its
+ * needed common functionality. A concrete window manager may then define
  * specific and helper methods at its own discretion without cluttering the
  * common interface. To change the used graphics library, a new window manager
  * can be defined. A texture, font and window class type must be supplied.

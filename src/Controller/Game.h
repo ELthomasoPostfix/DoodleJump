@@ -13,9 +13,14 @@
 
 //! A class used to run the DoodleJump game. Its setup determines which graphics implementation is utilized.
 /*!
+ * This class functions as the controller of an MVC pattern between the DoodleJump logic
+ * and view static libraries. It instantiates its world and defines the main game loop
+ * by making use of the ::World interface. It also communicates with the View component
+ * to then visualize the current state of the world. As the MVC controller, it is bundles the
+ * independent logic and view libraries together into a coherent game.
  * \note The ::Game class uses the ::Stopwatch class, which is a singleton.
- * If the used stopwatch were to be utilized by another object besides the
- * game object, then erroneous behaviour would occur.
+ * If the used stopwatch were to be utilized by another object besides a
+ * unique game object, then erroneous behaviour would occur.
  */
 class Game {
     public:
@@ -27,18 +32,20 @@ class Game {
 
 
 
-
-
-
         Game(unsigned int windowWidth, unsigned int windowHeight);
 
         //! Start the game.
         void start();
 
-        //! Limit the framerate of the window, if this is supported.
+        //! Limit the framerate of the window.
+        /*!
+         * This functionality must be explicitly supported in the concrete implementation
+         * of the window manager.
+         */
         void setFrameRateLimit(unsigned int limit);
 
     protected:
+        //! The ::Game object functions as the observer of the views in its world.
         friend void EntityView::notify();
 
         //! Register an entity's view with the game, the MVC controller, to be drawn next frame.

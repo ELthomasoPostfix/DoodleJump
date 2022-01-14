@@ -14,8 +14,9 @@ using Rect = std::array<std::pair<double, double>, 4>;
 /*!
  * A collision object consists of a position, so that the collision shape
  * may be somewhat separate from the ::Entity itself, and a collision shape.
- * A bounding box is determined based on the defined collision shape.
- * Currently, a collision shape is only supported in the form of a rectangle.
+ * A bounding box is determined based on the defined collision shape and is
+ * expressed in world coordinates.
+ * \note Currently, a collision shape is only supported in the form of a rectangle.
  */
 class CollisionObject : public GameObject {
     public:

@@ -16,7 +16,7 @@
 #include <iostream> // TODO good idea?
 
 
-
+//! A set of utility functions to aid the logic library.
 namespace Utility {
 
     //! Convert \param degrees to radians.

@@ -18,6 +18,13 @@
 class Game;
 class TexturesInfo;
 
+//! The interface with which the world constructs its entities.
+/*!
+ * The abstract entity factory provides the world with an interface to construct the specific
+ * entity types defined in the logic library.
+ * \note As the ::World class is a singleton, it is possible for limited logic for manipulating the
+ * internals of a constructed entity through its interface by querying the world object.
+ */
 class AbstractEntityFactory {
     public:
         //! All concrete factories are required to implement a constructor that assigns the observer and acquires texture info.
@@ -27,14 +34,6 @@ class AbstractEntityFactory {
          * texture.
          */
         AbstractEntityFactory(Game &observer, const TexturesInfo& info);
-
-    // TODO  contain the logic of entity spawning within the EntityFactory?
-    //  ==> e.g. The EntityFactory keeps "totalCreated" and "lastCreatedPosition" members.
-    //  If it "tC" is < 1, then spawn a platform. If "tC" == 1, then spawn the player on that
-    //  platform. If it is > 1, then do whatever. Boost spawns must always follow a platform
-    //  spawn and may alter the difficulty (distance to) the next platforms (e.g. by
-    //  increasing/taking min(flat value, normal distr chance)) for platform spawn location.
-    //  ==> IF THIS IS DONE, ONLY A CREATEENTITY() METHOD IS NEEDED!!!
 
         //! Create a ::Player object with the correct view attached.
         virtual std::shared_ptr<Player> createPlayer() = 0;

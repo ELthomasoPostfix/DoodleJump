@@ -11,18 +11,23 @@
 
 class Game;
 
-
+//! The sub class of entity that provides support for introducing a visualisation of the gale state.
+/*!
+ * To make the distinction between the collision shape and view shape of and entity,
+ * a view entity view contains its own collision object. This can then be used by the
+ * ::TemplateView to substitute collision clipping for view clipping.
+ */
 class EntityView {
     public:
-        explicit EntityView(Game& observer, Rect& viewArea);
+        //! The bare minimum constructor to support a separated visual representation of an entity.
+        /*!
+         * \param observer The game functioning as the controller.
+         * \param viewArea The collision shape to be used for clipping.
+         */
+        EntityView(Game& observer, Rect& viewArea);
 
         virtual ~EntityView();
 
-        // TODO  Add a override notify() implementation of the PlayerView to signal
-        //  that the game is over because the player is dead???
-        //  Why would we update() the Game that a view location has changed when stuff is drawn
-        //  all the time? --> Instead, call a notify to add an entity to a list of ViewEntities inside of
-        //  Game, or when some other state similar to player death changes???
         //! Notify all observers that the view is ready to be drawn.
         void notify();
 

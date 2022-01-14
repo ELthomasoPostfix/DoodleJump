@@ -9,7 +9,7 @@
 #include <chrono>
 #include <memory>
 
-//! A singleton class that uses the <a href="https://en.cppreference.com/w/cpp/chrono/steady_clock">std::chrono::steady_clock.</a> to simulate time intervals.
+//! A singleton class that uses the <a href="https://en.cppreference.com/w/cpp/chrono/steady_clock">std::chrono::steady_clock.</a> to keep track of time intervals.
 /*!
  * This class allows the user to store a point in time using the update() method. A call to elapsedSeconds()
  * will then return the number of seconds that have passed since the previous update() call.
