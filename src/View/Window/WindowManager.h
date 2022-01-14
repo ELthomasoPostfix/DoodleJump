@@ -8,6 +8,8 @@
 #include <iostream>
 #include "../ResourceManager/ResourceManager.h"
 #include "../EntityView/EntityView.h"
+#include "../../Model/World/Event.h"
+
 
 
 //! A common interface for all window managers. A concrete implementation must combined with the ::Game class.
