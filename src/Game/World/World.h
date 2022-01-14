@@ -25,10 +25,6 @@ class World {
     public:
         static std::unique_ptr<World>& getInstance();
 
-        // TODO  add some random public method to already test stuff pls !!!!!!!!!!!!!!!!!!!!!!
-        void test();
-        // TODO  add some random public method to already test stuff pls !!!!!!!!!!!!!!!!!!!!!!
-
         //! Call the process method of all registered ::Entity objects.
         /*!
          * Each ::Entity may define a ::Entity::process(double) method,

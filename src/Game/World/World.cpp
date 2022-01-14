@@ -6,6 +6,9 @@
 #include "../GameObject/Entity/Player/Player.h"
 #include "../AbstractEntityFactory/AbstractEntityFactory.h"
 
+#include "Camera.h"
+#include "Spawner.h"
+
 
 /*
  *      PUBLIC methods
@@ -250,62 +253,6 @@ World::World() {
                                        tempCameraArea);
     _spawner = std::make_unique<Spawner>(*this);
     _roundOver = true;
-}
-
-void World::test() {
-    auto camDimensions = _camera->getDimensions();
-
-    std::shared_ptr<Player> player = _entityFactory->createPlayer();
-    player->setPosition(camDimensions.first/2.0, camDimensions.second/2.0 + 200);
-    player->registerScoreboardObserver(_scoreboard);
-    addEntity(player);
-
-    _player = player;
-
-    // TODO Also change the origin of the clipObject to the same as that of the collisionObject
-    std::shared_ptr<TemporaryPlatform> tempplatform = _entityFactory->createTemporaryPlatform();
-    tempplatform->setPosition(camDimensions.first / 2.0, camDimensions.second / 2.0);
-    tempplatform->registerScoreboardObserver(_scoreboard);
-    addEntity(tempplatform);
-
-    // TODO Also change the origin of the clipObject to the same as that of the collisionObject
-    std::shared_ptr<StaticPlatform> splatform = _entityFactory->createStaticPlatform();
-    splatform->setPosition(camDimensions.first/2.0, camDimensions.second/2.0 - 100);
-    splatform->registerScoreboardObserver(_scoreboard);
-    addEntity(splatform);
-
-    // TODO Also change the origin of the clipObject to the same as that of the collisionObject
-    std::shared_ptr<VerticalPlatform> vplatform = _entityFactory->createVerticalPlatform();
-    vplatform->setPosition(camDimensions.first/2.0, camDimensions.second/2.0 - 200);
-    vplatform->registerScoreboardObserver(_scoreboard);
-    //addEntity(vplatform);
-
-    // TODO Also change the origin of the clipObject to the same as that of the collisionObject
-    std::shared_ptr<HorizontalPlatform> hplatform = _entityFactory->createHorizontalPlatform();
-    hplatform->setPosition(camDimensions.first/2.0, camDimensions.second/2.0 - 300);
-    hplatform->registerScoreboardObserver(_scoreboard);
-    addEntity(hplatform);
-
-    // TODO Also change the origin of the clipObject to the same as that of the collisionObject
-    std::shared_ptr<Spring> spring = _entityFactory->createSpring();
-    spring->setPosition(splatform->getPosition());
-    spring->registerScoreboardObserver(_scoreboard);
-    addEntity(spring);
-    _player->registerObserver(std::weak_ptr<Bonus>(spring));
-
-    // TODO Also change the origin of the clipObject to the same as that of the collisionObject
-    std::shared_ptr<Jetpack> jetpack = _entityFactory->createJetpack();
-    jetpack->setPosition(splatform->getPosition());
-    jetpack->registerScoreboardObserver(_scoreboard);
-    addEntity(jetpack);
-    _player->registerObserver(std::weak_ptr<Bonus>(jetpack));
-
-    std::shared_ptr<StaticPlatform> s2platform = _entityFactory->createStaticPlatform();
-    s2platform->setPosition(splatform->getPosition());
-    s2platform->move(200, +300 + 100);
-    s2platform->registerScoreboardObserver(_scoreboard);
-    addEntity(s2platform);
-
 }
 
 
