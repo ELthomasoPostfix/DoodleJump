@@ -31,7 +31,7 @@ class AbstractEntityFactory {
         /*!
          * The observer is necessary to retrieve the views to be drawn onto the window.
          * The texture info is necessary to properly proportion entities according to their
-         * texture.
+         * texture file.
          */
         AbstractEntityFactory(Game &observer, const TexturesInfo& info);
 

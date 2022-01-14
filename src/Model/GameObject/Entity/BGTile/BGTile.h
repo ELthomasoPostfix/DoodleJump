@@ -7,7 +7,12 @@
 
 #include "../Entity.h"
 
-
+//! A background tile for the game.
+/*!
+ * This class provides not interface and only exists to provide an
+ * easy and parameterless way to create a background tile entity.
+ * The relevant view must still be assigned in the concrete factory.
+ */
 class BGTile : public Entity {
     public:
         explicit BGTile(Rect& rect);

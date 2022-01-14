@@ -9,10 +9,13 @@
 #include <memory>
 
 
-//! The base class for all movable objects and for all subcomponents of movable objects.
-/*! The ::GameObject class functions as an abstract base class for all objects that require
- * some form of xy-position. It provides a move() method that allows a different movement
- * implementation for different types of movable objects.
+//! The base class for all objects that require a position and are movable as a result.
+/*!
+ * The ::GameObject class functions as an abstract base class for all objects that require
+ * some form of xy-position. To this end it provides the move() and setPosition(à methods.
+ * Should moving the game object require additional behaviour to be executed after a movement,
+ * then the moveBehaviour() and setBehaviour() methods may be derived. These methods are by
+ * executed immediately after the movement has taken place.
  */
 class GameObject {
     public:
@@ -46,6 +49,7 @@ class GameObject {
          * \param destinationX The x-coordinate to move to.
          * \param destinationY The y-coordinate to move to.
          * \param doSetBehaviour Whether to invoke the setBehaviour() method.
+         * \see ::CollisionObject::getOrigin(), ::CollisionObject::setOrigin()
          */
         void setPosition(double destinationX, double destinationY, bool doSetBehaviour = true);
         void setPosition(const std::pair<double, double>& destination, bool doSetBehaviour = true);

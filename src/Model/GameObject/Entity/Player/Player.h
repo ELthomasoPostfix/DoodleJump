@@ -9,12 +9,31 @@
 
 class Bonus;
 
+//! The player character of the DoodleJump game.
+/*!
+ * The player class is central in the functioning of the ::World logic library.
+ * This class implements its own movement functionality. It also provides an
+ * interface to its movement components for bonuses and platforms to exert
+ * influence onto the player's movement. This influence comes down to resetting
+ * the player's upward velocity to terminal velocity and scaling the players
+ * downward pull for a set amount of height.
+ * The player implements the observable behaviour of the observer pattern. It
+ * notifies its observers, ::Bonus objects, of collisions and the
+ * circumstances concerning them. The observers can then decide if and how
+ * to influence the player by themselves.
+ * \note Currently, ::Platform objects are not explicitly part of this
+ * observer behaviour as they are not addable to the observer list. However,
+ * they are notified of collisions with the player by the player through the
+ * ::Entity::notifyCollision() method.
+ * system.
+ */
 class Player : public Entity {
     public:
         explicit Player(Rect& rect);
 
         ~Player() override;
 
+        //! Implements player movement and collision detection and handling.
         void process(double delta) final;
 
         //! Reset the downward pull to its original value.

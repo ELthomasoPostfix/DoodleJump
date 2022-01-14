@@ -15,9 +15,16 @@
 /*!
  * This class functions as the controller of an MVC pattern between the DoodleJump logic
  * and view static libraries. It instantiates its world and defines the main game loop
- * by making use of the ::World interface. It also communicates with the View component
- * to then visualize the current state of the world. As the MVC controller, it is bundles the
- * independent logic and view libraries together into a coherent game.
+ * by making use of the ::World interface. It also facilitates communication between the
+ * View and Model components to visualize the current state of the world.
+ * As the MVC controller, it is bundles the independent logic and view libraries together
+ * into a coherent game.
+ * Should the use of another graphics library be desired, then at the very least a new
+ * window manager implementation is required. This can be augmented by additionally
+ * providing a concrete factory implementation that assigns the collision and view shapes
+ * according to the collision and clipping needs of the user. A new factory also allows
+ * the specification of what values the attributes of the created entities possess.
+ * \see ::WindowManager, ::AbstractEntityFactory
  * \note The ::Game class uses the ::Stopwatch class, which is a singleton.
  * If the used stopwatch were to be utilized by another object besides a
  * unique game object, then erroneous behaviour would occur.

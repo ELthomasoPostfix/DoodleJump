@@ -12,8 +12,12 @@
 //! The base class for all displayable objects.
 /*!
  * The ::Entity class functions as an abstract base class for all objects that require
- * some form of view. It provides a display() method that allows a different display
- * implementation for different types of displayable objects.
+ * some form of view. It provides a display() method whose implementation can be found
+ * in the ::TemplateView class of the MVC View component.
+ *
+ * \note The display() method forms a wrapper for the actual Observer notify call;
+ * an entity view notifies the game through the game's display method.
+ * \see ::TemplateView::display(), ::EntityView::notify(), ::Game::update
  */
 class Entity : public GameObject {
     public:
@@ -33,20 +37,24 @@ class Entity : public GameObject {
          */
         virtual void display();
 
-        //! Signal a collision between the player and the caller to the caller.
+        //! Notify the caller of a collision between the passed player and the caller.
         virtual void notifyCollision(Player& collidedWith, bool playerIsSupported);
 
         //! Get the collision object representing the collision shape of the entity.
+        /*!
+         * Used for clipping if the entity has no view attached.
+         * \see getClipObject(), ::TemplateView
+         */
         CollisionObject& getCollisionObject();
 
         //! Get the collisionObject used to check whether or not the entity is visible to a ::Camera object.
         /*!
          * By default the collision object representing the collision shape will be used to
-         * check visibility. However, if the object's actual class type is a ::EntityView
-         * derivative, then this method can be overridden explicitly in that derived class
-         * definition to utilize its view area instead. This behaviour is not included by default,
-         * but must be expressed in the derived view classes.
-         * Still, this allows a degree of combustibility of when the ::Entity is actually removed from the world by the associated camera.
+         * check visibility. However, if the object's actual class type is a ::TemplateView
+         * specialization, then this method is overridden explicitly. This method will then
+         * return its view area instead. This allows a clear separation between the manipulation
+         * of the view shape and collision shape, which improves extensibility.
+         * \see
          */
         virtual CollisionObject& getClipObject();
 
@@ -75,7 +83,7 @@ class Entity : public GameObject {
          */
         void unregisterScoreboardObserver();
 
-        //! Set the base score an entity is worth in a collision with the player.
+        //! Set the base score an entity is worth in a point generating activity.
         /*!
          * If the score is not set explicitly, then it defaults to 100.
          */
@@ -87,27 +95,42 @@ class Entity : public GameObject {
     protected:
 
         //! Check whether the world has received the requested event.
+        /*!
+        * This is a wrapper method for a public ::World method
+        */
         static bool pollEvent(dj::Event event);
 
         //! Signal the world that the round needs to end.
+        /*!
+         * This is a wrapper method for a public ::World method.
+         */
         static void signalRoundEnd();
 
         //! Request that the target be removed from the all world entity lists at the game's leisure.
+        /*!
+        * This is a wrapper method for a public ::World method.
+        */
         void requestRemoval();
 
         //! Return collision info on all collisions with solid objects in the world.
+        /*!
+        * This is a wrapper method for a public ::World method.
+        */
         std::vector<SolidCollisionInfo> getSolidCollisions(const std::pair<double, double>& moveDir);
 
         //! Return collision info on all collisions with non solid objects in the world.
+        /*!
+        * This is a wrapper method for a public ::World method.
+        */
         std::vector<NonSolidCollisionInfo> getNonSolidCollisions();
 
         //! Notify the scoreboard of a change in score.
         void updateScoreboard(int score) const;
 
-        //! Augment the move of the entity itself by also moving its collision shape.
+        //! Extend the move of the entity itself by also moving its collision shape.
         void moveBehaviour(double moveX, double moveY) override;
 
-        //! Augment the move of the entity itself by also moving its collision shape.
+        //! Extend the position setting of the entity itself by also setting the position of its collision shape.
         void setBehaviour(double moveX, double moveY, double prevX, double prevY) override;
 
 

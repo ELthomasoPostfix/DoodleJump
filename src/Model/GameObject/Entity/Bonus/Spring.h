@@ -7,15 +7,14 @@
 
 #include "Bonus.h"
 
-
+//! A bonus that carries the player up five times the normal jump height without them needing to jump.
 class Spring : public Bonus {
     public:
         explicit Spring(Rect& rect);
 
         ~Spring() override = default;
 
-        void process(double delta) override;
-
+        //! Handle collision with the player and possibly activate.
         void notifyCollision(Player &collidedWith, bool playerIsSupported) override;
 };
 

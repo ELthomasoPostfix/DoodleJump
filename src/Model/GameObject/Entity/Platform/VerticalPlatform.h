@@ -7,13 +7,14 @@
 
 #include "Platform.h"
 
-
+//! A platform that moves up and down between two bounding values.
 class VerticalPlatform : public Platform {
     public:
         explicit VerticalPlatform(Rect& rect);
 
         ~VerticalPlatform() override = default;
 
+        //! Handle the platform's up-and-down movement.
         void process(double delta) override;
 
         //! Set the top and bottom bounds of the vertical platform, in that order.

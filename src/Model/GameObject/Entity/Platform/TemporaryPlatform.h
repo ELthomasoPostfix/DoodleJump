@@ -7,6 +7,7 @@
 
 #include "Platform.h"
 
+//! A platform that disappears after being jumped on once.
 class TemporaryPlatform : public Platform {
     public:
         explicit TemporaryPlatform(Rect& rect);
@@ -14,6 +15,7 @@ class TemporaryPlatform : public Platform {
         ~TemporaryPlatform() override = default;
 
     protected:
+        //! Handle destruction of self after collision with the player.
         void handleCollision(Player &collidedWith, bool playerIsSupported) override;
 
 };

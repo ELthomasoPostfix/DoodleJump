@@ -12,8 +12,6 @@ Jetpack::Jetpack(Rect& rect, double totalBoost) : Bonus(rect) {
     _totalBoost = totalBoost;
 }
 
-void Jetpack::process(double delta) {}
-
 void Jetpack::notifyCollision(Player &collidedWith, bool playerIsSupported) {
 
     if (collidedWith.getCollisionObject().checkCollision(this->getCollisionObject())) {

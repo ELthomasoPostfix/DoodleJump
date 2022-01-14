@@ -8,6 +8,7 @@
 #include "../../../Utility/Utility.h"
 #include "../GameObject.h"
 
+//! A substitute for more elaborate collision shapes.
 using Rect = std::array<std::pair<double, double>, 4>;
 
 //! A class that provides collision functionality between ::CollisionObject objects.
@@ -77,6 +78,10 @@ class CollisionObject : public GameObject {
             void setIsPhysical(bool isPhysical);
 
             //! Check whether the ::CollisionObject can be used to propel the player upwards.
+            /*!
+             * \todo Currently the player makes the decision whether to jump off of something,
+             *      so this method only helps the player decide and does <b>NOT</b> decide that for it.
+             */
             bool isSolid() const;
 
             //! get a copy of the collision shape.

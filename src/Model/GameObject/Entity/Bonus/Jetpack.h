@@ -7,15 +7,14 @@
 
 #include "Bonus.h"
 
-
+//! A bonus that carries the player variable distance up without them needing to jump.
 class Jetpack : public Bonus {
     public:
         Jetpack(Rect& rect, double totalBoost = 2000);
 
         ~Jetpack() override = default;
 
-        void process(double delta) override;
-
+        //! Handle collision with the player and possibly activate.
         virtual void notifyCollision(Player &collidedWith, bool playerIsSupported) override;
 
         //! Set the total height traveled the jetpack boost will last.

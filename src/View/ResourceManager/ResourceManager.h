@@ -15,6 +15,11 @@
 
 //! A resource manager to generally handle textures and fonts.
 /*!
+ * The texture manager provides an easy and fast definition of a storage object for any
+ * texture, font or other resource. The definition of this class template is essential
+ * in the construction of the window manager, facilitating switching to different graphics
+ * implementation of the DoodleJump game.
+ * \see ::WindowManager
  * \note The code for this ResourceManager was taken from
  * <a href="https://github.com/SFML/SFML-Game-Development-Book/tree/master/02_Resources/Include/Book">
  * this github page</a> and merged into this one file (initially separate .hpp and .ini files). Small

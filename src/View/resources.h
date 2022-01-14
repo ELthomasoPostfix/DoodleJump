@@ -1,7 +1,6 @@
 //
 // Created by Thomas Gueutal on 08/01/2022.
 //
-
 #ifndef DOODLEJUMP_RESOURCES_H
 #define DOODLEJUMP_RESOURCES_H
 
@@ -23,15 +22,16 @@
 #define ARIAL_FONT_PATH      "Resources/Fonts/arial.ttf"
 #define ARIAL_FONT_ID        0
 
-//! A struct used for generating entities that apply a texture.
+//! A struct used when generating entities that apply a texture.
 /*!
  * When displaying an entity using a texture, the visual and collision
  * rectangles should have the same proportions. This requires knowledge
  * of the dimensions of the stored textures. When generating the collision
  * and view shapes of an entity, texture dimension information is provided
- * to the ::AbstractFactory created in ::Game by attaching an objects of
+ * to the ::AbstractFactory created in ::Game by attaching an object of
  * this type to the entity factory.
  * \note The units are in pixels.
+ * \see ::AbstractEntityFactory::AbstractEntityFactory(Game&, const TexturesInfo&)
  */
 struct TexturesInfo {
         //! Determine a width for a shape based on a texture's dimensions if the height of the shape is known.

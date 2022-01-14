@@ -7,7 +7,7 @@
 
 #include "Platform.h"
 
-
+//! A platform whose position may not change after instantiation.
 class StaticPlatform : public Platform {
     public:
         explicit StaticPlatform(Rect& rect);
@@ -15,8 +15,7 @@ class StaticPlatform : public Platform {
         ~StaticPlatform() override = default;
 
     private:
-        //! The world must be able to position a static platform
-        friend World;       // TODO  remove
+        //! The spawner must be able to position a static platform
         friend Spawner;
         using GameObject::move;
         using GameObject::setPosition;

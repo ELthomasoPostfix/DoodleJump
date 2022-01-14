@@ -12,9 +12,6 @@ Spring::Spring(Rect& rect) : Bonus(rect) {
 
 }
 
-void Spring::process(double delta) {
-}
-
 void Spring::notifyCollision(Player &collidedWith, bool playerIsSupported) {
     if (!playerIsSupported)
         return;

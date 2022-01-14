@@ -7,6 +7,7 @@
 
 namespace dj {
     //! The events accepted by the game.
+    /*! \include */
     enum Event {
         EXIT = -1, NONE = 0, LEFT, RIGHT, SPACE_BAR
     };

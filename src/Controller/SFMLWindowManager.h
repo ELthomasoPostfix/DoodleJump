@@ -11,9 +11,9 @@
 
 //! An implementation of the ::WindowManager abstract interface.
 /*!
- * The SFML window manager implements the general interface.
+ * The SFML window manager implements the general ::WindowManager interface.
  * It additionally provides support for limiting the framerate of the window.
- * This class implements the necessary conversions from View component
+ * Lastly, it implements the necessary conversions from View component
  * ::TemplateView views to their respective SFML counterparts.
  */
 struct SFMLWindowManager : public WindowManager<sf::Texture, sf::Font, sf::RenderWindow> {
