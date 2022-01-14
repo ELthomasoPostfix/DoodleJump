@@ -70,16 +70,16 @@ add_library(DoodleView STATIC
         src/View/EntityView/TemplateView.h)
 
 add_executable(DoodleJump
-        src/main.cpp
+        src/Controller/main.cpp
 
-        src/Game.cpp
-        src/Game.h
+        src/Controller/Game.cpp
+        src/Controller/Game.h
 
-        src/View/ConcreteEntityFactory/SFMLEntityFactory.cpp
-        src/View/ConcreteEntityFactory/SFMLEntityFactory.h
+        src/Controller/SFMLEntityFactory.cpp
+        src/Controller/SFMLEntityFactory.h
 
-        src/View/Window/SFMLWindowManager.cpp
-        src/View/Window/SFMLWindowManager.h)
+        src/Controller/SFMLWindowManager.cpp
+        src/Controller/SFMLWindowManager.h)
 
 target_link_libraries(DoodleJump DoodleView DoodleLogic sfml-system sfml-window sfml-graphics sfml-audio)
 

@@ -5,8 +5,8 @@
 #ifndef DOODLEJUMP_SFMLENTITYFACTORY_H
 #define DOODLEJUMP_SFMLENTITYFACTORY_H
 
-#include "../../Game/AbstractEntityFactory/AbstractEntityFactory.h"
-#include "../EntityView/TemplateView.h"
+#include "../Game/AbstractEntityFactory/AbstractEntityFactory.h"
+#include "../View/EntityView/TemplateView.h"
 
 // TODO  If the Entity registration functionality is deleted,
 //  then the ::World must store unique_ptr instances instead???

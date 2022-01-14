@@ -5,9 +5,9 @@
 #ifndef DOODLEJUMP_GAME_H
 #define DOODLEJUMP_GAME_H
 
-#include "Utility/Stopwatch.h"
-#include "View/Window/SFMLWindowManager.h"
-#include "View/ConcreteEntityFactory/SFMLEntityFactory.h"
+#include "../Utility/Stopwatch.h"
+#include "SFMLWindowManager.h"
+#include "SFMLEntityFactory.h"
 
 
 

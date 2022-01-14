@@ -6,7 +6,7 @@
 #define DOODLEJUMP_SFMLWINDOWMANAGER_H
 
 #include <SFML/Graphics.hpp>
-#include "WindowManager.h"
+#include "../View/Window/WindowManager.h"
 
 //! An SFML implementation of the ::WindowManager abstract interface.
 struct SFMLWindowManager : public WindowManager<sf::Texture, sf::Font, sf::RenderWindow> {
