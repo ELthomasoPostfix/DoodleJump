@@ -13,6 +13,9 @@ for the SFML instructional book <em>SFML %Game Development</em>.
 
 The Spring, Jetpack and BGTile textures utilized in this project were found on
 <a href="https://github.com/shlapkoff/DoodleJump/tree/master/Doodle%20Jump/images">this github page</a>.
+These resources are found in the Resources folder on
+<a href="https://github.com/ELthomasoPostfix/DoodleJump">the github page of this project</a>. This also includes the
+arial font downloaded from some free site on the internet.
 
 
 <h3>Stopwatch</h3>
