@@ -15,49 +15,49 @@ add_library(DoodleLogic STATIC
         src/Utility/Random.cpp
         src/Utility/Random.h
 
-        src/Game/AbstractEntityFactory/AbstractEntityFactory.cpp
-        src/Game/AbstractEntityFactory/AbstractEntityFactory.h
+        src/Model/AbstractEntityFactory/AbstractEntityFactory.cpp
+        src/Model/AbstractEntityFactory/AbstractEntityFactory.h
 
-        src/Game/World/Event.h
+        src/Model/World/Event.h
 
-        src/Game/World/World.cpp
-        src/Game/World/World.h
-        src/Game/World/CollisionInfo.h
-        src/Game/World/Camera.cpp
-        src/Game/World/Camera.h
-        src/Game/World/Scoreboard.cpp
-        src/Game/World/Scoreboard.h
-        src/Game/World/Spawner.cpp
-        src/Game/World/Spawner.h
+        src/Model/World/World.cpp
+        src/Model/World/World.h
+        src/Model/World/CollisionInfo.h
+        src/Model/World/Camera.cpp
+        src/Model/World/Camera.h
+        src/Model/World/Scoreboard.cpp
+        src/Model/World/Scoreboard.h
+        src/Model/World/Spawner.cpp
+        src/Model/World/Spawner.h
 
-        src/Game/GameObject/GameObject.cpp
-        src/Game/GameObject/GameObject.h
+        src/Model/GameObject/GameObject.cpp
+        src/Model/GameObject/GameObject.h
 
-        src/Game/GameObject/Collision/CollisionObject.cpp
-        src/Game/GameObject/Collision/CollisionObject.h
+        src/Model/GameObject/Collision/CollisionObject.cpp
+        src/Model/GameObject/Collision/CollisionObject.h
 
-        src/Game/GameObject/Entity/Entity.cpp
-        src/Game/GameObject/Entity/Entity.h
-        src/Game/GameObject/Entity/Player/Player.cpp
-        src/Game/GameObject/Entity/Player/Player.h
-        src/Game/GameObject/Entity/Platform/Platform.cpp
-        src/Game/GameObject/Entity/Platform/Platform.h
-        src/Game/GameObject/Entity/Platform/StaticPlatform.cpp
-        src/Game/GameObject/Entity/Platform/StaticPlatform.h
-        src/Game/GameObject/Entity/Platform/TemporaryPlatform.cpp
-        src/Game/GameObject/Entity/Platform/TemporaryPlatform.h
-        src/Game/GameObject/Entity/Platform/HorizontalPlatform.cpp
-        src/Game/GameObject/Entity/Platform/HorizontalPlatform.h
-        src/Game/GameObject/Entity/Platform/VerticalPlatform.cpp
-        src/Game/GameObject/Entity/Platform/VerticalPlatform.h
-        src/Game/GameObject/Entity/Bonus/Bonus.cpp
-        src/Game/GameObject/Entity/Bonus/Bonus.h
-        src/Game/GameObject/Entity/Bonus/Jetpack.cpp
-        src/Game/GameObject/Entity/Bonus/Jetpack.h
-        src/Game/GameObject/Entity/Bonus/Spring.cpp
-        src/Game/GameObject/Entity/Bonus/Spring.h
-        src/Game/GameObject/Entity/BGTile/BGTile.cpp
-        src/Game/GameObject/Entity/BGTile/BGTile.h)
+        src/Model/GameObject/Entity/Entity.cpp
+        src/Model/GameObject/Entity/Entity.h
+        src/Model/GameObject/Entity/Player/Player.cpp
+        src/Model/GameObject/Entity/Player/Player.h
+        src/Model/GameObject/Entity/Platform/Platform.cpp
+        src/Model/GameObject/Entity/Platform/Platform.h
+        src/Model/GameObject/Entity/Platform/StaticPlatform.cpp
+        src/Model/GameObject/Entity/Platform/StaticPlatform.h
+        src/Model/GameObject/Entity/Platform/TemporaryPlatform.cpp
+        src/Model/GameObject/Entity/Platform/TemporaryPlatform.h
+        src/Model/GameObject/Entity/Platform/HorizontalPlatform.cpp
+        src/Model/GameObject/Entity/Platform/HorizontalPlatform.h
+        src/Model/GameObject/Entity/Platform/VerticalPlatform.cpp
+        src/Model/GameObject/Entity/Platform/VerticalPlatform.h
+        src/Model/GameObject/Entity/Bonus/Bonus.cpp
+        src/Model/GameObject/Entity/Bonus/Bonus.h
+        src/Model/GameObject/Entity/Bonus/Jetpack.cpp
+        src/Model/GameObject/Entity/Bonus/Jetpack.h
+        src/Model/GameObject/Entity/Bonus/Spring.cpp
+        src/Model/GameObject/Entity/Bonus/Spring.h
+        src/Model/GameObject/Entity/BGTile/BGTile.cpp
+        src/Model/GameObject/Entity/BGTile/BGTile.h)
 
 add_library(DoodleView STATIC
         src/View/ResourceManager/ResourceManager.h

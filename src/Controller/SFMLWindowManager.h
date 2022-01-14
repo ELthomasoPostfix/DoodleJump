@@ -11,9 +11,10 @@
 
 //! An implementation of the ::WindowManager abstract interface.
 /*!
- * The naming of this concrete entity factory is perhaps misleading, as it does not
- * utilize and SFML provided functionality. It simply makes use of the doodle jump logic
- * and view libraries to construct ::TemplateView view entities with specific attributes.
+ * The SFML window manager implements the general interface.
+ * It additionally provides support for limiting the framerate of the window.
+ * This class implements the necessary conversions from View component
+ * ::TemplateView views to their respective SFML counterparts.
  */
 struct SFMLWindowManager : public WindowManager<sf::Texture, sf::Font, sf::RenderWindow> {
     public:

@@ -6,8 +6,8 @@
 #define DOODLEJUMP_ENTITYVIEW_H
 
 #include "../resources.h"
-#include "../../Game/World/Event.h"
-#include "../../Game/GameObject/Collision/CollisionObject.h"
+#include "../../Model/World/Event.h"
+#include "../../Model/GameObject/Collision/CollisionObject.h"
 
 class Game;
 
