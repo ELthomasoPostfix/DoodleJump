@@ -7,3 +7,9 @@ The executable will then be run.
 
 Note that the file paths specified in resources.h require the executable to be run in a directory whose super directory
 contains the Resources folder provided together with this project.
+
+# Extra
+
+Upon running the run.sh script, doxygen documentation will be generated into html/ and latex/ folders, created within the same directory as where the run.sh script is run.
+
+Note that the documentation contains a Credits page to credit the sources of inspiration and images/non-essential code.
