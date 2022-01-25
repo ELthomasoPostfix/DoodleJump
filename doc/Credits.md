@@ -1,7 +1,7 @@
 Non-essential parts of this project make use of code or resource found online. This page is dedicated to documenting
 which parts were found where. This information is also present in the documentation of the relevant code itself.
 
-<h3>ResourceManager class</h3>
+<h3>ResourceManager</h3>
 
 The ::ResourceManager class is made use of in the ::WindowManager class template. It provides general storage of
 textures, fonts and other resources. The code for it was found on

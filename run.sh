@@ -3,5 +3,5 @@ cd build
 cmake ..
 make
 cd ../doc
-doxygen ../doxygen_config_file
+doxygen doxygen_config_file
 ./DoodleJump
