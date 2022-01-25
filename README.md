@@ -10,6 +10,7 @@ contains the Resources folder provided together with this project.
 
 # Extra
 
-Upon running the run.sh script, doxygen documentation will be generated into html/ and latex/ folders, created within the same directory as where the run.sh script is run.
+Upon running the run.sh script, doxygen documentation will be generated into html/ and latex/ folders, created within
+the doc folder, which is located at the same level as the Resources and src folders.
 
-Note that the documentation contains a Credits page to credit the sources of inspiration and images/non-essential code.
+Note that the documentation contains a Credits page to credit the sources of inspiration/non-essential code and images.
